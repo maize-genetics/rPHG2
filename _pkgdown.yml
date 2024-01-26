@@ -1,0 +1,14 @@
+url: ~
+template:
+  bootstrap: 5
+
+footer:
+  structure:
+    left: acknowledgment
+  components:
+    acknowledgment: <b>rPHG2</b> is an R package developed by <a href="https://www.maizegenetics.net/">The Buckler Lab</a>
+
+home:
+  links:
+  - text: Report a bug
+    href: https://github.com/maize-genetics/rPHG2/issues
