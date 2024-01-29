@@ -27,20 +27,6 @@ setGeneric("brapiVersion", function(object, ...) standardGeneric("brapiVersion")
 
 
 ## ----
-#' @title Return name of DB
-#'
-#' @description
-#' Returns the name for a given PHG database
-#'
-#' @param object an \code{rPHG} local or server connection object
-#' @param ... Additional arguments, for use in specific methods
-#'
-#' @rdname dbName
-#' @export
-setGeneric("dbName", function(object, ...) standardGeneric("dbName"))
-
-
-## ----
 #' @title Return host data
 #'
 #' @description
@@ -66,20 +52,6 @@ setGeneric("host", function(object, ...) standardGeneric("host"))
 #' @rdname httProtocol
 #' @export
 setGeneric("httProtocol", function(object, ...) standardGeneric("httProtocol"))
-
-
-## ----
-#' @title Return a PHG connection object
-#'
-#' @description
-#' Returns an \code{rPHG} connection object
-#'
-#' @param object an \code{rPHG} method object
-#' @param ... Additional arguments, for use in specific methods
-#'
-#' @rdname phgConObj
-#' @export
-setGeneric("phgConObj", function(object, ...) standardGeneric("phgConObj"))
 
 
 ## ----
@@ -150,4 +122,5 @@ setGeneric("readSamples", function(object, ...) standardGeneric("readSamples"))
 #' @rdname serverInfo
 #' @export
 setGeneric("serverInfo", function(object, ...) standardGeneric("serverInfo"))
+
 

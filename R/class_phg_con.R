@@ -64,6 +64,7 @@ setMethod(
     }
 )
 
+
 ## ----
 #' @rdname phgType
 #' @export
