@@ -7,7 +7,7 @@
 \usage{
 readSamples(object, ...)
 
-\S4method{readSamples}{PHGServerCon}(object, readSamples)
+\S4method{readSamples}{PHGServerCon}(object)
 }
 \arguments{
 \item{object}{an \code{rPHG} local or server connection object}

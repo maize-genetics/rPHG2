@@ -261,7 +261,7 @@ setMethod(
 setMethod(
     f = "readSamples",
     signature = signature(object = "PHGServerCon"),
-    definition = function(object, readSamples) {
+    definition = function(object) {
         samplesFromServer(object)
     }
 )
