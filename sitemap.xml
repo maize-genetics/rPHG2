@@ -13,6 +13,48 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/PHGCon-class.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGCon-validity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGServerCon-class.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGServerCon-validity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGServerCon.html</loc>
+  </url>
+  <url>
+    <loc>/reference/brapiURL.html</loc>
+  </url>
+  <url>
+    <loc>/reference/brapiVersion.html</loc>
+  </url>
+  <url>
+    <loc>/reference/host.html</loc>
+  </url>
+  <url>
+    <loc>/reference/httProtocol.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/phgType.html</loc>
+  </url>
+  <url>
+    <loc>/reference/port.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readRefRanges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readSamples.html</loc>
+  </url>
+  <url>
+    <loc>/reference/serverInfo.html</loc>
   </url>
 </urlset>
