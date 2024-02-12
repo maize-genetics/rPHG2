@@ -28,6 +28,7 @@ Depends:
 Imports:
     cli,
     curl,
+    GenomicRanges,
     httr,
     jsonlite,
     methods,

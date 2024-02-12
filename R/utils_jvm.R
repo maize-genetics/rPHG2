@@ -12,7 +12,7 @@ initPhg <- function(phgPath) {
 ## ----
 # Convert hash map to list object in R
 #
-# j A Java HashMap object
+# @param j A Java HashMap object
 hashMapToList <- function(j) {
     jvmHashMap <- list()
     entry_set  <- j$entrySet()
@@ -32,13 +32,13 @@ hashMapToList <- function(j) {
 ## ----
 # Constructor for instantiating a JVM HaplotypeGraph object
 #
-# l A list of hVCF files
+# @param l A list of hVCF files
 rjGraphConstructor <- function(l) {
     hvcfJList <- rJava::.jnew("java.util.ArrayList")
     lapply(l, function(i) hvcfJList$add(i))
     hvcfJList <- rJava::.jcast(hvcfJList, "java/util/List")
 
-    jvmGraph <- .jnew(hgSrc, hvcfJList)
+    jvmGraph <- rJava::.jnew(hgSrc, hvcfJList)
 
     return(jvmGraph)
 }
