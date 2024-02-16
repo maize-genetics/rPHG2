@@ -5,9 +5,8 @@
 #' A \code{PHGLocalCon} class defines a \code{rPHG} class for storing
 #' local config file data.
 #'
-#' @slot dbName Name of database
-#' @slot dbType Type of database
-#' @slot configFilePath Path to configuration file
+#' @slot dbUri URI path to PHGv2 database
+#' @slot hVcfFiles A list of hVCF files
 #'
 #' @name PHGLocalCon-class
 #' @rdname PHGLocalCon-class
@@ -16,14 +15,12 @@ setClass(
     Class    = "PHGLocalCon",
     contains = "PHGCon",
     representation = representation(
-        dbName         = "character",
-        dbType         = "character",
-        configFilePath = "character"
+        dbUri     = "character",
+        hVcfFiles = "character"
     ),
     prototype = prototype(
-        dbName         = NA_character_,
-        dbType         = NA_character_,
-        configFilePath = NA_character_
+        dbUri     = NA_character_,
+        hVcfFiles = NA_character_
     )
 )
 
@@ -40,9 +37,12 @@ setClass(
 setValidity("PHGLocalCon", function(object) {
     errors <- character()
 
-    if (!file.exists(object@configFilePath)) {
-        msg <- "Path to config file does not exist"
-        errors <- c(errors, msg)
+    if (!is.list(object@hVcfFiles)) {
+        errors <- c("hVcfFiles are not of type list", errors)
+    }
+
+    if (!dir.exists(object@dbUri)) {
+        errors <- c("TileDB URI path does not exist", errors)
     }
 
     if (length(errors) == 0) {
@@ -60,21 +60,15 @@ setValidity("PHGLocalCon", function(object) {
 #' Creates a \code{\linkS4class{PHGLocalCon}} object to be used to read PHG
 #' DB data for a given set of PHG-related methods.
 #'
-#' @param file A path to a PHG configuration file
+#' @param dbUri A path to a PHG configuration file
 #'
 #' @export
-PHGLocalCon <- function(file) {
-    configCatcher(file)
-
-    configProperties <- parseConfigFile(file)
-
+PHGLocalCon <- function(dbUri = NULL, hVcfFiles = NULL) {
     methods::new(
-        Class          = "PHGLocalCon",
-        phgType        = "local",
-        host           = configProperties$host,
-        dbName         = basename(configProperties$DB),
-        dbType         = configProperties$DBtype,
-        configFilePath = normalizePath(file)
+        Class     = "PHGLocalCon",
+        phgType   = "local",
+        dbUri     = if (!is.null(dbUri)) dbUri,
+        hVcfFiles = if (!is.null(hVcfFiles)) hVcfFiles
     )
 }
 
@@ -99,13 +93,18 @@ setMethod(
     signature = "PHGLocalCon",
     definition = function(object) {
         pointerSymbol <- cli::col_green(cli::symbol$pointer)
+        present <- cli::col_green(cli::symbol$radio_on)
+        absent  <- cli::col_grey(cli::symbol$radio_off)
+
+        dbUriStatus <- ifelse(is.na(object@dbUri), absent, present)
+        hVcfStatus  <- ifelse(is.na(object@hVcfFiles), absent, present)
+
         msg <- c(
             paste0("A ", cli::style_bold("PHGLocalCon"), " connection object"),
-            paste0(" ", pointerSymbol, " Host......: ", object@host),
-            paste0(" ", pointerSymbol, " DB Name...: ", object@dbName),
-            paste0(" ", pointerSymbol, " DB Type...: ", object@dbType)
+            paste0(" ", pointerSymbol, " DB URI....   : ", dbUriStatus),
+            paste0(" ", pointerSymbol, " hVCF Files...: ", hVcfStatus)
         )
-        
+
         cat(msg, sep = "\n")
     }
 )
