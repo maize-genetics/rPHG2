@@ -31,3 +31,13 @@ BRAPI_PARAMS <- list(
 )
 
 
+## ----
+# Commonly used JVM and PHG API classes
+PHG_JVM <- list(
+    "ARRAY_LIST" = "java.util.ArrayList",
+    "HAP_GRAPH"  = "net.maizegenetics.phgv2.api.HaplotypeGraph",
+    "LIST"       = "java/util/List",
+    "R_METHODS"  = "net.maizegenetics.phgv2.rphg.RMethods"
+)
+
+
