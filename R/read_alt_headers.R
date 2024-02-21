@@ -3,9 +3,20 @@
 #
 # @param jvmGraph A JVM graph object
 altHeadersFromJvmGraph <- function(jvmGraph) {
-    interface <- createRMethodInterface()
+    interface <- rPHG2:::createRMethodInterface()
 
-    interface$getAltHeadersFromGraph(jvmGraph) |>
-        kotlinListToRDataFrame()
+    ahDf <- interface$getAltHeadersFromGraph(jvmGraph) |>
+        rPHG2:::kotlinListToRDataFrame()
+
+    ahDf$positions <- ahDf$positions |>
+        lapply(\(it) {
+            GenomicRanges::makeGRangesFromDataFrame(
+                df = rPHG2:::kotlinListToRDataFrame(it),
+                keep.extra.columns = TRUE,
+                seqnames.field = "contig_start"
+            )
+        })
+
+    return(ahDf[order])
 }
 
