@@ -21,10 +21,6 @@ class to the console
 \section{Slots}{
 
 \describe{
-\item{\code{methodID}}{A \code{\linkS4class{PHGMethod}} object}
-
-\item{\code{methodType}}{The method type (e.g. PATHS, CONSENSUS, etc.)}
-
 \item{\code{nChrom}}{Number of chromosomes}
 
 \item{\code{nNodes}}{Number of nodes}

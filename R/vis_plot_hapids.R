@@ -20,7 +20,7 @@ plotHapIds <- function(m, sampleId = "F1_test_G1") {
                 y
             )
         ) |>
-        ungroup()
+        dplyr::ungroup()
 
     coreColors <- c(
         "#e6cf45",
@@ -29,22 +29,22 @@ plotHapIds <- function(m, sampleId = "F1_test_G1") {
         "grey"
     )
     coreColors <- setNames(coreColors, c("LineA_G1", "LineB_G1", "Ref_G1", sampleId))
-    scaleColor <- scale_fill_manual(values = coreColors)
+    scaleColor <- ggplot2::scale_fill_manual(values = coreColors)
 
     nMDf$x <- factor(nMDf$x, levels = unique(nMDf$x))
 
-    p <- ggplot(nMDf, aes(x = x, y = y, fill = source)) +
-        geom_tile(color = "white", lwd = 0.5) +
+    p <- ggplot2::ggplot(nMDf, ggplot2::aes(x = x, y = y, fill = source)) +
+        ggplot2::geom_tile(color = "white", lwd = 0.5) +
         scaleColor +
-        coord_fixed() +
-        scale_x_discrete(
-            guide = guide_axis(angle = 90),
+        ggplot2::coord_fixed() +
+        ggplot2::scale_x_discrete(
+            guide = ggplot2::guide_axis(angle = 90),
             position = "top"
         ) +
-        theme_minimal() +
-        theme(
+        ggplot2::theme_minimal() +
+        ggplot2::theme(
             legend.position = "none",
-            axis.title = element_blank()
+            axis.title = ggplot2::element_blank()
         )
 
     return(p)

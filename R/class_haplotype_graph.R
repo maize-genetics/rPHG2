@@ -5,8 +5,6 @@
 #' Class \code{HaplotypeGraph} defines a \code{rPHG} Class for storing
 #' a \code{HaplotypeGraph} object defined in the PHG API
 #'
-#' @slot methodID A \code{\linkS4class{PHGMethod}} object
-#' @slot methodType The method type (e.g. PATHS, CONSENSUS, etc.)
 #' @slot nChrom Number of chromosomes
 #' @slot nNodes Number of nodes
 #' @slot nRefRanges Number of reference ranges
