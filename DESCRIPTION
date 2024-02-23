@@ -29,6 +29,7 @@ Imports:
     cli,
     curl,
     GenomicRanges,
+    ggplot2,
     httr,
     jsonlite,
     methods,

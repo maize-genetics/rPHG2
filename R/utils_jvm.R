@@ -44,10 +44,12 @@ hashMapToList <- function(j) {
 
 
 ## ----
-# Initialize JVM and add class path (for R&D purposes only)
-#
-# @param phgPath path to PHGv2 lib folder
-# @param verbose Display all JARs added classpath? Defaults to FALSE.
+#' Initialize JVM and add class path (for R&D purposes only)
+#'
+#' @param phgPath path to PHGv2 lib folder
+#' @param verbose Display all JARs added classpath? Defaults to FALSE.
+#'
+#' @export
 initPhg <- function(phgPath, verbose = FALSE) {
     rJava::.jinit()
     rJava::.jaddClassPath(dir(phgPath, full.names = TRUE))

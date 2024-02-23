@@ -21,20 +21,14 @@
 setClass(
     Class = "HaplotypeGraph",
     slots = c(
-        methodID    = "character",
-        methodType  = "character",
         nChrom      = "integer",
-        nNodes      = "integer",
         nRefRanges  = "integer",
         nTaxa       = "integer",
         jHapGraph   = "jobjRef",
         jMemAddress = "character"
     ),
     prototype = list(
-        methodID    = NA_character_,
-        methodType  = NA_character_,
         nChrom      = NA_integer_,
-        nNodes      = NA_integer_,
         nRefRanges  = NA_integer_,
         nTaxa       = NA_integer_,
         jHapGraph   = rJava::.jnull(),
@@ -64,7 +58,7 @@ setValidity("HaplotypeGraph", function(object) {
     }
 
     jObjRefClass <- jObjRef$getClass()$getName()
-    if (jObjRefClass != "net.maizegenetics.pangenome.api.HaplotypeGraph") {
+    if (jObjRefClass != PHG_JVM$HAP_GRAPH) {
         msg <- "Reference object is not of type `HaplotypeGraph`"
         errors <- c(errors, msg)
     }
@@ -81,65 +75,38 @@ setValidity("HaplotypeGraph", function(object) {
 #' an \code{rJava} reference object pointing to a \code{HaplotypeGraph} object
 #' from the PHG API.
 #'
-#' @param phgMethodObj A \code{\linkS4class{PHGMethod}} object.
-#' @param chrom A vector of chromosomes to include in graph. If NULL, defaults
-#'   to all. To specify multiple chromosome, pass as a vector of strings (i.e.
-#'   \code{c("1", "2", "3")}). Is currently only used for haplotypes.
-#' @param includeSequence Whether to include sequences in haplotype nodes.
-#'   Is currently only used for haplotypes. NOTE: this will greatly increase
-#'   memory consumption!
-#' @param includeVariants Whether to include variant contexts in haplotype
-#'   nodes. Is currently only used for haplotypes. NOTE: this will greatly
-#'   increase memory consumption!
+#' @param phgLocalCon A \code{\linkS4class{PHGLocalCon}} object.
 #'
 #' @export
 buildHaplotypeGraph <- function(
-    phgMethodObj,
-    chrom = NULL,
-    includeSequence = FALSE,
-    includeVariants = FALSE
+    phgLocalCon
 ) {
-    conMethod <- phgMethodId(phgMethodObj)
-    conObj    <- phgConObj(phgMethodObj)
-    conType   <- phgType(conObj)
+    if (!is(phgLocalCon, "PHGLocalCon")) {
+        stop("phgLocalCon object is not of type PHGLocalCon")
+    }
 
-    if (conType != "local") {
+    if (phgType(localCon) != "local") {
         stop(
             "Graphs can only be built using local PHG connection (`PHGLocalCon`) objects",
             call. = FALSE
         )
     }
 
-    methMeta   <- showPHGMethods(conObj, showAdvancedMethods = TRUE)
-    methodType <- methMeta[methMeta$method_name == conMethod, ]$type_name
-
-    # NOTE - unresolved issues with ifelse, using conventional if/else instead
-    if (methodType == "PATHS") {
-        phgObj <- graphFromPaths(
-            configFilePath(conObj),
-            conMethod
-        )
+    if (!is.na(host(phgLocalCon))) {
+        message("TileDB retrieval methods currently not implemented")
+        return(0L)
     } else {
-        phgObj <- graphFromHaplotypes(
-            configFilePath(conObj),
-            conMethod,
-            chrom,
-            includeSequence,
-            includeVariants
-        )
+        jvmGraph <- hapGraphConstructor(hVcfFiles(phgLocalCon))
     }
 
-    pointer <- gsub(".*@", "", rJava::.jstrVal(phgObj))
+    pointer <- gsub(".*@", "", rJava::.jstrVal(jvmGraph))
 
     methods::new(
         Class       = "HaplotypeGraph",
-        methodID    = conMethod,
-        methodType  = methodType,
-        nChrom      = phgObj$numberOfChromosomes(),
-        nNodes      = phgObj$numberOfNodes(),
-        nRefRanges  = phgObj$numberOfRanges(),
-        nTaxa       = phgObj$totalNumberTaxa(),
-        jHapGraph   = phgObj,
+        nChrom      = jvmGraph$getContigs()$size(),
+        nRefRanges  = jvmGraph$numberOfRanges(),
+        nTaxa       = jvmGraph$numberOfSamples(),
+        jHapGraph   = jvmGraph,
         jMemAddress = pointer
     )
 }
@@ -171,8 +138,6 @@ setMethod(
                 "A ", cli::style_bold("HaplotypeGraph"), " object @ ",
                 cli::style_bold(cli::col_blue(javaMemoryAddress(object)))
             ),
-            paste0(" ", pointerSymbol, " Method.............: ", cli::style_bold(phgMethodId(object))),
-            paste0(" ", pointerSymbol, " # of nodes.........: ", numberOfNodes(object)),
             paste0(" ", pointerSymbol, " # of ref ranges....: ", numberOfRefRanges(object)),
             paste0(" ", pointerSymbol, " # of taxa..........: ", numberOfTaxa(object)),
             paste0(" ", pointerSymbol, " # of chromosomes...: ", numberOfChromosomes(object))
@@ -223,18 +188,6 @@ setMethod(
 
 
 ## ----
-#' @rdname numberOfNodes
-#' @export
-setMethod(
-    f = "numberOfNodes",
-    signature = signature(object = "HaplotypeGraph"),
-    definition = function(object) {
-        return(object@nNodes)
-    }
-)
-
-
-## ----
 #' @rdname numberOfRefRanges
 #' @export
 setMethod(
@@ -259,49 +212,25 @@ setMethod(
 
 
 ## ----
-#' @rdname phgMethodId
+#' @rdname readHapIds
 #' @export
 setMethod(
-    f = "phgMethodId",
+    f = "readHapIds",
     signature = signature(object = "HaplotypeGraph"),
     definition = function(object) {
-        return(object@methodID)
+        return(hapIdsFromJvmGraph(javaRefObj(object)))
     }
 )
 
 
 ## ----
-#' @rdname phgMethodType
+#' @rdname readHapIdMetaData
 #' @export
 setMethod(
-    f = "phgMethodType",
+    f = "readHapIdMetaData",
     signature = signature(object = "HaplotypeGraph"),
     definition = function(object) {
-        return(object@methodType)
-    }
-)
-
-
-## ----
-#' @rdname readHaplotypeIds
-#' @export
-setMethod(
-    f = "readHaplotypeIds",
-    signature = signature(object = "HaplotypeGraph"),
-    definition = function(object) {
-        return(hapIdsFromGraphObj(javaRefObj(object)))
-    }
-)
-
-
-## ----
-#' @rdname readPHGDataSet
-#' @export
-setMethod(
-    f = "readPHGDataSet",
-    signature = signature(object = "HaplotypeGraph"),
-    definition = function(object) {
-        return(phgDataSetFromGraphObj(javaRefObj(object), verbose = TRUE))
+        return(altHeadersFromJvmGraph(javaRefObj(object)))
     }
 )
 
@@ -313,7 +242,7 @@ setMethod(
     f = "readRefRanges",
     signature = signature(object = "HaplotypeGraph"),
     definition = function(object) {
-        return(refRangesFromGraphObj(javaRefObj(object)))
+        return(refRangesFromJvmGraph(javaRefObj(object)))
     }
 )
 
@@ -325,7 +254,7 @@ setMethod(
     f = "readSamples",
     signature = signature(object = "HaplotypeGraph"),
     definition = function(object) {
-        return(samplesFromGraphObj(javaRefObj(object)))
+        return(samplesFromJvmGraph(javaRefObj(object)))
     }
 )
 

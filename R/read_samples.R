@@ -20,7 +20,7 @@ samplesFromServer <- function(conObj, conMethod, conDemo) {
 # Get samples from JVM graph object
 #
 # @param jvmGraph A JVM graph object
-samplesFromGraph <- function(jvmGraph) {
+samplesFromJvmGraph <- function(jvmGraph) {
     jvmGraph$samples()$toArray() |>
         rJava::.jevalArray() |>
         vapply(\(it) {

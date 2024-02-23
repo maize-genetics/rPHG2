@@ -5,7 +5,6 @@
 #' A \code{PHGLocalCon} class defines a \code{rPHG} class for storing
 #' local config file data.
 #'
-#' @slot dbUri URI path to PHGv2 database
 #' @slot hVcfFiles A list of hVCF files
 #'
 #' @name PHGLocalCon-class
@@ -15,11 +14,9 @@ setClass(
     Class    = "PHGLocalCon",
     contains = "PHGCon",
     representation = representation(
-        dbUri     = "character",
         hVcfFiles = "character"
     ),
     prototype = prototype(
-        dbUri     = NA_character_,
         hVcfFiles = NA_character_
     )
 )
@@ -37,11 +34,7 @@ setClass(
 setValidity("PHGLocalCon", function(object) {
     errors <- character()
 
-    if (!is.list(object@hVcfFiles)) {
-        errors <- c("hVcfFiles are not of type list", errors)
-    }
-
-    if (!dir.exists(object@dbUri)) {
+    if (!dir.exists(host(object)) && !is.na(host(object))) {
         errors <- c("TileDB URI path does not exist", errors)
     }
 
@@ -60,15 +53,30 @@ setValidity("PHGLocalCon", function(object) {
 #' Creates a \code{\linkS4class{PHGLocalCon}} object to be used to read PHG
 #' DB data for a given set of PHG-related methods.
 #'
-#' @param dbUri A path to a PHG configuration file
+#' @param hVcfFiles
+#' A list of \href{https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md}{hVCF}
+#' files as a \code{character} vector
+#' @param dbUri
+#' A path to a PHG configuration file
 #'
 #' @export
-PHGLocalCon <- function(dbUri = NULL, hVcfFiles = NULL) {
+PHGLocalCon <- function(hVcfFiles = NULL, dbUri = NULL) {
+    if (is.null(hVcfFiles) && is.null(dbUri)) {
+        stop("Please specify either the hVcfFiles or the dbUri parameter")
+    }
+
+    # Need to do this since `ifelse` can only take in one element
+    if (is.null(hVcfFiles)) {
+        hVcfFiles <- NA_character_
+    } else {
+        hVcfFiles <- normalizePath(hVcfFiles)
+    }
+
     methods::new(
         Class     = "PHGLocalCon",
         phgType   = "local",
-        dbUri     = if (!is.null(dbUri)) dbUri,
-        hVcfFiles = if (!is.null(hVcfFiles)) hVcfFiles
+        host      = ifelse(!is.null(dbUri), dbUri, NA_character_),
+        hVcfFiles = hVcfFiles
     )
 }
 
@@ -96,8 +104,13 @@ setMethod(
         present <- cli::col_green(cli::symbol$radio_on)
         absent  <- cli::col_grey(cli::symbol$radio_off)
 
-        dbUriStatus <- ifelse(is.na(object@dbUri), absent, present)
-        hVcfStatus  <- ifelse(is.na(object@hVcfFiles), absent, present)
+        dbUriStatus <- ifelse(is.na(object@host), absent, present)
+
+        if (any(is.na(object@hVcfFiles))) {
+            hVcfStatus <- absent
+        } else {
+            hVcfStatus <- present
+        }
 
         msg <- c(
             paste0("A ", cli::style_bold("PHGLocalCon"), " connection object"),
@@ -114,54 +127,13 @@ setMethod(
 # /// Methods (general) /////////////////////////////////////////////
 
 ## ----
-#' @rdname configFilePath
+#' @rdname hVcfFiles
 #' @export
 setMethod(
-    f = "configFilePath",
+    f = "hVcfFiles",
     signature = signature(object = "PHGLocalCon"),
     definition = function(object) {
-        return(object@configFilePath)
-    }
-)
-
-
-## ----
-#' @rdname dbName
-#' @export
-setMethod(
-    f = "dbName",
-    signature = signature(object = "PHGLocalCon"),
-    definition = function(object) {
-        return(object@dbName)
-    }
-)
-
-
-## ----
-#' @rdname dbType
-#' @export
-setMethod(
-    f = "dbType",
-    signature = signature(object = "PHGLocalCon"),
-    definition = function(object) {
-        return(object@dbType)
-    }
-)
-
-
-## ----
-#' @rdname showPHGMethods
-#' @export
-setMethod(
-    f = "showPHGMethods",
-    signature = signature(object = "PHGLocalCon"),
-    definition = function(object, showAdvancedMethods) {
-        return(
-            methodTableFromLocal(
-                configFilePath(object),
-                showAdvancedMethods
-            )
-        )
+        return(object@hVcfFiles)
     }
 )
 

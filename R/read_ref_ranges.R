@@ -2,7 +2,7 @@
 # Get ref ranges from JVM graph object
 #
 # @param jvmGraph A JVM graph object
-rangesFromJvmGraph <- function(jvmGraph) {
+refRangesFromJvmGraph <- function(jvmGraph) {
     interface <- createRMethodInterface()
 
     jrr <- interface$getRefRangesFromGraph(jvmGraph)
