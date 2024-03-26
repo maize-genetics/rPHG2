@@ -83,7 +83,7 @@ buildHaplotypeGraph <- function(
         stop("phgLocalCon object is not of type PHGLocalCon")
     }
 
-    if (phgType(localCon) != "local") {
+    if (phgType(phgLocalCon) != "local") {
         stop(
             "Graphs can only be built using local PHG connection (`PHGLocalCon`) objects",
             call. = FALSE
