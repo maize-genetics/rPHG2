@@ -7,15 +7,6 @@ altHeadersFromJvmGraph <- function(jvmGraph) {
 
     ahDf <- interface$getAltHeadersFromGraph(jvmGraph) |> kotlinListToRDataFrame()
 
-    ahDf$positions <- ahDf$positions |>
-        lapply(\(it) {
-            GenomicRanges::makeGRangesFromDataFrame(
-                df = kotlinListToRDataFrame(it),
-                keep.extra.columns = TRUE,
-                seqnames.field = "contig_start"
-            )
-        })
-
     return(ahDf)
 }
 
