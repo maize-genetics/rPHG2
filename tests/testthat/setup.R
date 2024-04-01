@@ -46,8 +46,8 @@ getLatestReleaseUrl <- function(repo) {
 ## ----
 # Download PHGv2 JARs
 #
-# @param dir
-# @param repo
+# @param dir Destination directory for Java JARs
+# @param repo Organization and repository endpoint for API
 downloadJavaLibraries <- function(dir, repo = "maize-genetics/phg_v2") {
 
     # Attempt to get the latest release URL with error handling
