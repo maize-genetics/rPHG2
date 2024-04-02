@@ -23,8 +23,6 @@ class to the console
 \describe{
 \item{\code{nChrom}}{Number of chromosomes}
 
-\item{\code{nNodes}}{Number of nodes}
-
 \item{\code{nRefRanges}}{Number of reference ranges}
 
 \item{\code{nTaxa}}{Number of taxa}

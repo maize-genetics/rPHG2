@@ -1,10 +1,10 @@
 Package: rPHG2
 Title: R interface to PHGv2
-Version: 0.1
+Version: 0.2
 Authors@R:
     person(
         given = "Brandon",
-        family = "Last",
+        family = "Monier",
         email = "bm646@cornell.edu",
         role = c("aut", "cre"),
         comment = c(ORCID = "0000-0001-6797-1221")
@@ -29,7 +29,6 @@ Imports:
     cli,
     curl,
     GenomicRanges,
-    ggplot2 (>= 3.4.0),
     httr,
     jsonlite,
     methods,

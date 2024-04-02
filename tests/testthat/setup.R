@@ -88,6 +88,6 @@ downloadJavaLibraries(phgLibDir)
 
 
 ## Initialize JVM and add PHGv2 JARs to classpath ----
-rPHG2::initPhg(phgLibPath)
+initPhg(phgLibPath)
 
 

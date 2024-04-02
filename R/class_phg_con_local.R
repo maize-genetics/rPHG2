@@ -56,27 +56,16 @@ setValidity("PHGLocalCon", function(object) {
 #' @param hVcfFiles
 #' A list of \href{https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md}{hVCF}
 #' files as a \code{character} vector
-#' @param dbUri
-#' A path to a PHG configuration file
 #'
 #' @export
-PHGLocalCon <- function(hVcfFiles = NULL, dbUri = NULL) {
-    if (is.null(hVcfFiles) && is.null(dbUri)) {
-        stop("Please specify either the hVcfFiles or the dbUri parameter")
-    }
-
-    # Need to do this since `ifelse` can only take in one element
-    if (is.null(hVcfFiles)) {
-        hVcfFiles <- NA_character_
-    } else {
-        hVcfFiles <- normalizePath(hVcfFiles)
-    }
-
+PHGLocalCon <- function(hVcfFiles) {
+    # This is probably overkill right now, but will revisit once the TileDB
+    # C API is better integrated in PHGv2...
     methods::new(
         Class     = "PHGLocalCon",
         phgType   = "local",
-        host      = ifelse(!is.null(dbUri), dbUri, NA_character_),
-        hVcfFiles = hVcfFiles
+        host      = NA_character_, # making this NA for now
+        hVcfFiles = normalizePath(hVcfFiles)
     )
 }
 

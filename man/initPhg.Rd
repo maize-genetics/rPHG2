@@ -4,7 +4,7 @@
 \alias{initPhg}
 \title{Initialize JVM and add class path (for R&D purposes only)}
 \usage{
-initPhg(phgPath, verbose = FALSE)
+initPhg(phgPath, verbose = TRUE)
 }
 \arguments{
 \item{phgPath}{path to PHGv2 lib folder}

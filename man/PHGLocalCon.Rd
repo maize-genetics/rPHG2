@@ -4,13 +4,11 @@
 \alias{PHGLocalCon}
 \title{Helper function to construct a \code{PHGLocalCon} object}
 \usage{
-PHGLocalCon(hVcfFiles = NULL, dbUri = NULL)
+PHGLocalCon(hVcfFiles)
 }
 \arguments{
 \item{hVcfFiles}{A list of \href{https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md}{hVCF}
 files as a \code{character} vector}
-
-\item{dbUri}{A path to a PHG configuration file}
 }
 \description{
 Creates a \code{\linkS4class{PHGLocalCon}} object to be used to read PHG

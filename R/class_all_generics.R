@@ -174,11 +174,12 @@ setGeneric("port", function(object, ...) standardGeneric("port"))
 #' \code{HaplotypeGraph}
 #'
 #' @param object an \code{rPHG} local or server connection object
+#' @param nThreads Number of threads to use when evaluating haplotype IDs
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname readHapIds
 #' @export
-setGeneric("readHapIds", function(object, ...) standardGeneric("readHapIds"))
+setGeneric("readHapIds", function(object, nThreads, ...) standardGeneric("readHapIds"))
 
 
 ## ----
@@ -194,6 +195,21 @@ setGeneric("readHapIds", function(object, ...) standardGeneric("readHapIds"))
 #' @rdname readHapIdMetaData
 #' @export
 setGeneric("readHapIdMetaData", function(object, ...) standardGeneric("readHapIdMetaData"))
+
+
+## ----
+#' @title Return haplotype ID positional metadata
+#'
+#' @description
+#' Gets haplotype ID positional metadata for given samples and reference ranges
+#' from a \code{HaplotypeGraph}
+#'
+#' @param object an \code{rPHG} local or server connection object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname readHapIdPosMetaData
+#' @export
+setGeneric("readHapIdPosMetaData", function(object, ...) standardGeneric("readHapIdPosMetaData"))
 
 
 ## ----

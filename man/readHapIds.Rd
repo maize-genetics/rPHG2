@@ -5,12 +5,14 @@
 \alias{readHapIds,HaplotypeGraph-method}
 \title{Return haplotype IDs}
 \usage{
-readHapIds(object, ...)
+readHapIds(object, nThreads, ...)
 
-\S4method{readHapIds}{HaplotypeGraph}(object)
+\S4method{readHapIds}{HaplotypeGraph}(object, nThreads = 1)
 }
 \arguments{
 \item{object}{an \code{rPHG} local or server connection object}
+
+\item{nThreads}{Number of threads to use when evaluating haplotype IDs}
 
 \item{...}{Additional arguments, for use in specific methods}
 }

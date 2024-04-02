@@ -24,39 +24,17 @@ hapGraphConstructor <- function(l) {
 
 
 ## ----
-# Convert hash map to list object in R
-#
-# @param j A Java HashMap object
-hashMapToList <- function(j) {
-    jvmHashMap <- list()
-    entry_set  <- j$entrySet()
-    iterator   <- rJava::.jcall(entry_set, "Ljava/util/Iterator;", "iterator")
-
-    while (.jcall(iterator, "Z", "hasNext")) {
-        entry <- rJava::.jcall(iterator, "Ljava/lang/Object;", "next")
-        key   <- rJava::.jcall(entry, "Ljava/lang/Object;", "getKey")
-        value <- rJava::.jcall(entry, "Ljava/lang/Object;", "getValue")
-        jvmHashMap[[key$toString()]] <- value
-    }
-
-    return(jvmHashMap)
-}
-
-
-## ----
 #' Initialize JVM and add class path (for R&D purposes only)
 #'
 #' @param phgPath path to PHGv2 lib folder
 #' @param verbose Display all JARs added classpath? Defaults to FALSE.
 #'
 #' @export
-initPhg <- function(phgPath, verbose = FALSE) {
+initPhg <- function(phgPath, verbose = TRUE) {
     rJava::.jinit()
     rJava::.jaddClassPath(dir(phgPath, full.names = TRUE))
 
-    message("PHG JARs added to class path")
-
-    if (verbose) rJava::.jclassPath()
+    if (verbose) message("PHG JARs added to class path")
 }
 
 
@@ -66,7 +44,7 @@ initPhg <- function(phgPath, verbose = FALSE) {
 # @param kl A PHG/Kotlin RList object
 kotlinListToRDataFrame <- function(kl) {
     if (!grepl("phgv2_r_list", kl$toString())) {
-        stop("Object does not have an 'RList' signature")
+        stop("Object does not have a 'RList' signature")
     }
 
     rdf <- kl$getMatrixData() |>
@@ -83,9 +61,9 @@ kotlinListToRDataFrame <- function(kl) {
 # Convert a PHG/Kotlin (Int|Dbl|String)Matrix into an R matrix
 #
 # @param kmat A PHG/Kotlin (Int|Dbl|String)Matrix object
-kotlinMatToRMatrix <- function(kmat) {
+kotlin2DArrayToRMatrix <- function(kmat) {
     if (!grepl("MatrixWithNames", kmat$getClass()$toString())) {
-        stop("Object does not have 'MatrixWithNames' signature")
+        stop("Object does not have a 'MatrixWithNames' signature")
     }
 
     rmat <- kmat$getMatrixData() |> rJava::.jevalArray(simplify = TRUE)

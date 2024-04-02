@@ -6,7 +6,6 @@
 #' a \code{HaplotypeGraph} object defined in the PHG API
 #'
 #' @slot nChrom Number of chromosomes
-#' @slot nNodes Number of nodes
 #' @slot nRefRanges Number of reference ranges
 #' @slot nTaxa Number of taxa
 #' @slot jHapGraph An \code{rJava} \code{jobjRef} object representing a
@@ -75,6 +74,8 @@ setValidity("HaplotypeGraph", function(object) {
 #'
 #' @param phgLocalCon A \code{\linkS4class{PHGLocalCon}} object.
 #'
+#' @importFrom methods is
+#'
 #' @export
 buildHaplotypeGraph <- function(
     phgLocalCon
@@ -83,16 +84,8 @@ buildHaplotypeGraph <- function(
         stop("phgLocalCon object is not of type PHGLocalCon")
     }
 
-    if (phgType(phgLocalCon) != "local") {
-        stop(
-            "Graphs can only be built using local PHG connection (`PHGLocalCon`) objects",
-            call. = FALSE
-        )
-    }
-
     if (!is.na(host(phgLocalCon))) {
-        message("TileDB retrieval methods currently not implemented")
-        return(0L)
+        stop("TileDB retrieval methods currently not implemented")
     } else {
         jvmGraph <- hapGraphConstructor(hVcfFiles(phgLocalCon))
     }
@@ -215,8 +208,8 @@ setMethod(
 setMethod(
     f = "readHapIds",
     signature = signature(object = "HaplotypeGraph"),
-    definition = function(object) {
-        return(hapIdsFromJvmGraph(javaRefObj(object)))
+    definition = function(object, nThreads = 1) {
+        return(hapIdsFromJvmGraph(javaRefObj(object), nThreads))
     }
 )
 
@@ -228,7 +221,19 @@ setMethod(
     f = "readHapIdMetaData",
     signature = signature(object = "HaplotypeGraph"),
     definition = function(object) {
-        return(altHeadersFromJvmGraph(javaRefObj(object)))
+        return(hapIdMetaDataFromJvmGraph(javaRefObj(object)))
+    }
+)
+
+
+## ----
+#' @rdname readHapIdPosMetaData
+#' @export
+setMethod(
+    f = "readHapIdPosMetaData",
+    signature = signature(object = "HaplotypeGraph"),
+    definition = function(object) {
+        return(hapIdPosMetaDataFromJvmGraph(javaRefObj(object)))
     }
 )
 
