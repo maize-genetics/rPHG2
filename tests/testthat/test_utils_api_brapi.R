@@ -44,7 +44,6 @@ test_that("BrAPI utitlity tests", {
     expect_error(parseJSON(negControl2))
     expect_true(is(parseJSON(posControl3), "list"))
     expect_message(parseJSON(posControl3, verbose = TRUE))
-
 })
 
 

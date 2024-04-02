@@ -1,4 +1,4 @@
-test_that("Generic methods for classes tests", {
+test_that("Generic methods for classes tests from BrAPI/Ktor server", {
     brapiUrl <- "https://test-server.brapi.org"
 
     phgSrvCon <- PHGServerCon(brapiUrl)
@@ -14,3 +14,18 @@ test_that("Generic methods for classes tests", {
 })
 
 
+test_that("Generic methods for classes tests from JVM", {
+    hVcfFileDir <- system.file("extdata", package = "rPHG2")
+    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
+    locCon      <- PHGLocalCon(hVcfFiles)
+    graph       <- buildHaplotypeGraph(locCon)
+
+
+    expect_true(is(javaMemoryAddress(graph), "character"))
+    expect_true(is(numberOfChromosomes(graph), "numeric"))
+    expect_true(is(numberOfRefRanges(graph), "numeric"))
+    expect_equal(numberOfRefRanges(graph), 38)
+    expect_true(is(numberOfTaxa(graph), "numeric"))
+    expect_equal(numberOfTaxa(graph), 2)
+
+})
