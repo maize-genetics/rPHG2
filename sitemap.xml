@@ -13,10 +13,28 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/news/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/HaplotypeGraph-class.html</loc>
+  </url>
+  <url>
+    <loc>/reference/HaplotypeGraph-validity.html</loc>
+  </url>
+  <url>
     <loc>/reference/PHGCon-class.html</loc>
   </url>
   <url>
     <loc>/reference/PHGCon-validity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGLocalCon-class.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGLocalCon-validity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGLocalCon.html</loc>
   </url>
   <url>
     <loc>/reference/PHGServerCon-class.html</loc>
@@ -34,6 +52,12 @@
     <loc>/reference/brapiVersion.html</loc>
   </url>
   <url>
+    <loc>/reference/buildHaplotypeGraph.html</loc>
+  </url>
+  <url>
+    <loc>/reference/hVcfFiles.html</loc>
+  </url>
+  <url>
     <loc>/reference/host.html</loc>
   </url>
   <url>
@@ -43,10 +67,37 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/initPhg.html</loc>
+  </url>
+  <url>
+    <loc>/reference/javaMemoryAddress.html</loc>
+  </url>
+  <url>
+    <loc>/reference/javaRefObj.html</loc>
+  </url>
+  <url>
+    <loc>/reference/numberOfChromosomes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/numberOfRefRanges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/numberOfTaxa.html</loc>
+  </url>
+  <url>
     <loc>/reference/phgType.html</loc>
   </url>
   <url>
     <loc>/reference/port.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readHapIdMetaData.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readHapIdPosMetaData.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readHapIds.html</loc>
   </url>
   <url>
     <loc>/reference/readRefRanges.html</loc>
