@@ -23,12 +23,17 @@ License: Apache License (>= 2) | file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+Depends: 
+    R (>= 4.1.0)
 Imports:
     cli,
     curl,
+    GenomicRanges,
+    ggplot2 (>= 3.4.0),
     httr,
     jsonlite,
     methods,
+    rJava,
     tibble
 Suggests: 
     testthat (>= 3.0.0)
