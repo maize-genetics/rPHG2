@@ -12,8 +12,15 @@
 \item{object}{A \code{\linkS4class{PHGDataSet}} object}
 }
 \description{
-Class \code{PHGDataSet} defines a \code{rPHG} Class for storing
-a \code{PHGDataSet} object defined in the PHG API
+A \code{PHGDatSet} class is a general class for storing data found within
+an hVCF file. The main components are:
+
+\describe{
+\item{samples}{Sample IDs}
+\item{reference ranges}{start/stop ranges in reference genome}
+\item{haplotypes}{haplotype sequence IDs (MD5 hashes)}
+\item{metadata}{additional information related to haplotype IDs}
+}
 
 Prints out information regarding properties from the \code{PHGDataSet}
 class to the console

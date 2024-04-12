@@ -11,7 +11,11 @@ PHGDataSet(samples, hapIds, refRanges, hapIdMeta, hapIdMetaPos)
 
 \item{hapIds}{Haplotype sequence IDs}
 
-\item{refRanges}{Reference ranges}
+\item{refRanges}{What type of PHG connection is this?}
+
+\item{hapIdMeta}{Metadata for haplotype IDs}
+
+\item{hapIdMetaPos}{Positional metadata for haplotype IDs}
 }
 \value{
 A \code{PHGDataSet} object.

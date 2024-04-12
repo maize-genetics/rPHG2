@@ -213,6 +213,22 @@ setGeneric("readHapIdPosMetaData", function(object, ...) standardGeneric("readHa
 
 
 ## ----
+#' @title Return all hVCF data from a JVM graph
+#'
+#' @description
+#' Returns all haplotype, sample, and reference range IDs and relative metadata
+#' from a \code{\linkS4class{HaplotypeGraph}} object.
+#'
+#' @param object an \code{rPHG} local or server connection object
+#' @param nThreads Number of threads to use when evaluating haplotype IDs
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname readPhgDataSet
+#' @export
+setGeneric("readPhgDataSet", function(object, nThreads, ...) standardGeneric("readPhgDataSet"))
+
+
+## ----
 #' @title Return reference ranges
 #'
 #' @description

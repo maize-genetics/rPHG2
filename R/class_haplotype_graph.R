@@ -239,6 +239,18 @@ setMethod(
 
 
 ## ----
+#' @rdname readPhgDataSet
+#' @export
+setMethod(
+    f = "readPhgDataSet",
+    signature = signature(object = "HaplotypeGraph"),
+    definition = function(object, nThreads = 1) {
+        return(phgDataSetFromJvmGraph(javaRefObj(object), nThreads))
+    }
+)
+
+
+## ----
 #' @rdname readRefRanges
 #' @export
 setMethod(
