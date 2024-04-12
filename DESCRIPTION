@@ -30,6 +30,7 @@ Imports:
     curl,
     GenomicRanges,
     httr,
+    IRanges,
     jsonlite,
     methods,
     rJava,
