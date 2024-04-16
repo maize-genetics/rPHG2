@@ -99,7 +99,18 @@ setMethod(
     f = "show",
     signature = "PHGDataSet",
     definition = function(object) {
-        cat("A PHG data set object (**placeholder**)\n")
+        pointerSymbol <- cli::col_green(cli::symbol$pointer)
+
+        msg <- c(
+            paste0("A ", cli::style_bold("PHGDataSet"), " object"),
+            paste0(" ", pointerSymbol, " # of ref ranges....: ", cli::style_bold(ncol(readHapIds(object)))),
+            paste0(" ", pointerSymbol, " # of samples.......: ", cli::style_bold(length(readSamples(object)))),
+            paste0("---"),
+            paste0(" ", pointerSymbol, " # of hap IDs.......: ", cli::style_bold(nrow(readHapIdMetaData(object)))),
+            paste0(" ", pointerSymbol, " # of asm regions...: ", cli::style_bold(nrow(readHapIdPosMetaData(object))))
+        )
+
+        cat(msg, sep = "\n")
     }
 )
 
