@@ -5,16 +5,16 @@
 \alias{readPhgDataSet,HaplotypeGraph-method}
 \title{Return all hVCF data from a JVM graph}
 \usage{
-readPhgDataSet(object, nThreads, ...)
+readPhgDataSet(object, ...)
 
-\S4method{readPhgDataSet}{HaplotypeGraph}(object, nThreads = 1)
+\S4method{readPhgDataSet}{HaplotypeGraph}(object, nThreads = 2)
 }
 \arguments{
 \item{object}{an \code{rPHG} local or server connection object}
 
-\item{nThreads}{Number of threads to use when evaluating haplotype IDs}
-
 \item{...}{Additional arguments, for use in specific methods}
+
+\item{nThreads}{Number of threads to use for JVM evaluation}
 }
 \description{
 Returns all haplotype, sample, and reference range IDs and relative metadata

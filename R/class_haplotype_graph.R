@@ -203,12 +203,15 @@ setMethod(
 
 
 ## ----
+#' @param nThreads
+#' Number of threads to use for JVM evaluation. Defaults to \code{2}.
+#'
 #' @rdname readHapIds
 #' @export
 setMethod(
     f = "readHapIds",
     signature = signature(object = "HaplotypeGraph"),
-    definition = function(object, nThreads = 1) {
+    definition = function(object, nThreads = 2) {
         return(hapIdsFromJvmGraph(javaRefObj(object), nThreads))
     }
 )
@@ -239,12 +242,15 @@ setMethod(
 
 
 ## ----
+#' @param nThreads
+#' Number of threads to use for JVM evaluation. Defaults to \code{2}.
+#'
 #' @rdname readPhgDataSet
 #' @export
 setMethod(
     f = "readPhgDataSet",
     signature = signature(object = "HaplotypeGraph"),
-    definition = function(object, nThreads = 1) {
+    definition = function(object, nThreads = 2) {
         return(phgDataSetFromJvmGraph(javaRefObj(object), nThreads))
     }
 )

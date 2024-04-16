@@ -99,13 +99,25 @@ setMethod(
     f = "show",
     signature = "PHGDataSet",
     definition = function(object) {
-        cat("A PHG data set!\n")
+        cat("A PHG data set object (**placeholder**)\n")
     }
 )
 
 
 
 # /// Methods (general) /////////////////////////////////////////////
+
+## ----
+#' @rdname filterSamples
+#' @export
+setMethod(
+    f = "filterSamples",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        filterSamplesFromPhgDataSet(object)
+    }
+)
+
 
 ## ----
 #' @rdname readSamples
