@@ -108,13 +108,31 @@ setMethod(
 # /// Methods (general) /////////////////////////////////////////////
 
 ## ----
+#' @param gRanges
+#' A \code{GRanges} coordinate object
+#'
+#' @rdname filterRefRanges
+#' @export
+setMethod(
+    f = "filterRefRanges",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, gRanges) {
+        filterRefRangesFromPhgDataSet(object, gRanges)
+    }
+)
+
+
+## ----
+#' @param sampleIds
+#' A \code{character} vector of sample IDs
+#'
 #' @rdname filterSamples
 #' @export
 setMethod(
     f = "filterSamples",
     signature = signature(object = "PHGDataSet"),
-    definition = function(object) {
-        filterSamplesFromPhgDataSet(object)
+    definition = function(object, sampleIds) {
+        filterSamplesFromPhgDataSet(object, sampleIds)
     }
 )
 

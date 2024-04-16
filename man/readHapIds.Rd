@@ -17,6 +17,8 @@ readHapIds(object, ...)
 \item{object}{an \code{rPHG} local or server connection object}
 
 \item{...}{Additional arguments, for use in specific methods}
+
+\item{nThreads}{Number of threads to use for JVM evaluation. Defaults to \code{2}.}
 }
 \description{
 Gets haplotype ID for given samples and reference ranges from a

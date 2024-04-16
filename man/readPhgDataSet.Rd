@@ -14,7 +14,7 @@ readPhgDataSet(object, ...)
 
 \item{...}{Additional arguments, for use in specific methods}
 
-\item{nThreads}{Number of threads to use for JVM evaluation}
+\item{nThreads}{Number of threads to use for JVM evaluation. Defaults to \code{2}.}
 }
 \description{
 Returns all haplotype, sample, and reference range IDs and relative metadata
