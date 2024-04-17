@@ -17,8 +17,7 @@ filterSamplesFromPhgDataSet <- function(object, sampleIds) {
     }
 
     # Generate a regex pattern for row subsetting
-    # sRegPattern <- paste0(fSamples, collapse = "|")
-    fHapIds     <- hapIds[fSamples %in% gsub("_G1", "", rownames(hapIds)), , drop = FALSE]
+    fHapIds <- hapIds[gsub("_G1", "", rownames(hapIds)) %in% fSamples, , drop = FALSE]
 
     return(
         PHGDataSet(
