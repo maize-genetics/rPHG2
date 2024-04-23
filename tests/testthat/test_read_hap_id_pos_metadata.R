@@ -14,3 +14,23 @@ test_that("Hap ID positional metadata reading tests from JVM", {
         c("hap_id", "contig_start", "contig_end", "start", "end")
     )
 })
+
+
+test_that("Hap ID positional metadata reading tests from PHGDataSet", {
+    hVcfFileDir <- system.file("extdata", package = "rPHG2")
+    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
+    locCon      <- PHGLocalCon(hVcfFiles)
+    graph       <- buildHaplotypeGraph(locCon)
+    pds         <- readPhgDataSet(graph)
+
+    obsHapIdPosMetaData <- readHapIdPosMetaData(pds)
+
+    expect_true(is(obsHapIdPosMetaData, "data.frame"))
+    expect_equal(dim(obsHapIdPosMetaData), c(76, 5))
+    expect_equal(
+        colnames(obsHapIdPosMetaData),
+        c("hap_id", "contig_start", "contig_end", "start", "end")
+    )
+})
+
+

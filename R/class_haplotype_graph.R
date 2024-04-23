@@ -143,21 +143,6 @@ setMethod(
 # /// Methods (general) /////////////////////////////////////////////
 
 ## ----
-#' @param sampleIds
-#' A \code{character} vector of sample IDs
-#'
-#' @rdname filterSamples
-#' @export
-setMethod(
-    f = "filterSamples",
-    signature = signature(object = "HaplotypeGraph"),
-    definition = function(object, sampleIds) {
-        filterSamplesFromHaplotypeGraph()
-    }
-)
-
-
-## ----
 #' @rdname javaMemoryAddress
 #' @export
 setMethod(
