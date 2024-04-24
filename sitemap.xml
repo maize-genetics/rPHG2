@@ -28,6 +28,12 @@
     <loc>/reference/PHGCon-validity.html</loc>
   </url>
   <url>
+    <loc>/reference/PHGDataSet-class.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PHGDataSet.html</loc>
+  </url>
+  <url>
     <loc>/reference/PHGLocalCon-class.html</loc>
   </url>
   <url>
@@ -53,6 +59,12 @@
   </url>
   <url>
     <loc>/reference/buildHaplotypeGraph.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filterRefRanges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filterSamples.html</loc>
   </url>
   <url>
     <loc>/reference/hVcfFiles.html</loc>
@@ -98,6 +110,9 @@
   </url>
   <url>
     <loc>/reference/readHapIds.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readPhgDataSet.html</loc>
   </url>
   <url>
     <loc>/reference/readRefRanges.html</loc>
