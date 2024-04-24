@@ -24,3 +24,20 @@ test_that("Sample reading tests from JVM object", {
     expect_equal(length(obsSamples), 2)
     expect_equal(obsSamples, c("LineA", "LineB"))
 })
+
+
+test_that("Sample reading tests from PHGDataSet", {
+    hVcfFileDir <- system.file("extdata", package = "rPHG2")
+    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
+    locCon      <- PHGLocalCon(hVcfFiles)
+    graph       <- buildHaplotypeGraph(locCon)
+    pds         <- readPhgDataSet(graph)
+
+    obsSamples <- readSamples(pds)
+
+    expect_true(is(obsSamples, "character"))
+    expect_equal(length(obsSamples), 2)
+    expect_equal(obsSamples, c("LineA", "LineB"))
+})
+
+

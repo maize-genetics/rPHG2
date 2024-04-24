@@ -1,3 +1,14 @@
+## rPHG2 0.3
+* Added new class, `PHGDataSet`
+  + In memory representation of hVCF data sets
+* Added new function, `filterRefRanges()`
+  + Filters relevant rPHG2 data objects by reference range
+  + Requires a `GRanges` object as input
+* Added new function, `filterSamples()`
+  + Filters relevant rPHG2 data objects by sample ID
+  + Input is a basic `character` vector of sample identifiers
+
+
 ## rPHG2 0.2
 * Added JVM connections via `rJava` interface
 * Added new class, `HaplotypeGraph`
@@ -11,12 +22,10 @@
 * Added new function `readHapIdMetaData()`
   + Reads ALT header metadata for each haplotype ID from a connection object
 * Added new function `readHapIdPosMetaData()`
-  + Reads ALT header positional metadata for each haplotype ID from a 
-    connection object
+  + Reads ALT header positional metadata for each haplotype ID from a connection object
 * Added new function `readSamples()`
   + Reads sample IDs from a connection object
 * Added new function `readRefRanges()`
-  + Read reference range positional information as a `GRanges` object from a
-    connection object
+  + Read reference range positional information as a `GRanges` object from a connection object
 
 

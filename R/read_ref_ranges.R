@@ -7,11 +7,11 @@ refRangesFromJvmGraph <- function(jvmGraph) {
 
     jrr <- interface$getRefRangesFromGraph(jvmGraph)
 
-    rrr <- jrr |>
-        kotlinListToRDataFrame() |>
-        GenomicRanges::makeGRangesFromDataFrame()
+    rrr <- kotlinListToRDataFrame(jrr)
+    grr <- GenomicRanges::makeGRangesFromDataFrame(rrr)
+    grr$rr_id <- rrr$rr_id
 
-    return(rrr)
+    return(grr)
 }
 
 

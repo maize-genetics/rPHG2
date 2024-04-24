@@ -27,6 +27,34 @@ setGeneric("brapiVersion", function(object, ...) standardGeneric("brapiVersion")
 
 
 ## ----
+#' @title Filter data by reference range
+#'
+#' @description
+#' Filters \code{rPHG}-related datasets by reference range coordinates or ID.
+#'
+#' @param object an \code{rPHG} dataset
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname filterRefRanges
+#' @export
+setGeneric("filterRefRanges", function(object, ...) standardGeneric("filterRefRanges"))
+
+
+## ----
+#' @title Filter data by sample IDs
+#'
+#' @description
+#' Filters \code{rPHG}-related datasets by sample ID.
+#'
+#' @param object an \code{rPHG} dataset
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname filterSamples
+#' @export
+setGeneric("filterSamples", function(object, ...) standardGeneric("filterSamples"))
+
+
+## ----
 #' @title Return host data
 #'
 #' @description
@@ -174,12 +202,12 @@ setGeneric("port", function(object, ...) standardGeneric("port"))
 #' \code{HaplotypeGraph}
 #'
 #' @param object an \code{rPHG} local or server connection object
-#' @param nThreads Number of threads to use when evaluating haplotype IDs
+# @param nThreads Number of threads to use when evaluating haplotype IDs
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname readHapIds
 #' @export
-setGeneric("readHapIds", function(object, nThreads, ...) standardGeneric("readHapIds"))
+setGeneric("readHapIds", function(object, ...) standardGeneric("readHapIds"))
 
 
 ## ----
@@ -210,6 +238,21 @@ setGeneric("readHapIdMetaData", function(object, ...) standardGeneric("readHapId
 #' @rdname readHapIdPosMetaData
 #' @export
 setGeneric("readHapIdPosMetaData", function(object, ...) standardGeneric("readHapIdPosMetaData"))
+
+
+## ----
+#' @title Return all hVCF data from a JVM graph
+#'
+#' @description
+#' Returns all haplotype, sample, and reference range IDs and relative metadata
+#' from a \code{\linkS4class{HaplotypeGraph}} object.
+#'
+#' @param object an \code{rPHG} local or server connection object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname readPhgDataSet
+#' @export
+setGeneric("readPhgDataSet", function(object, ...) standardGeneric("readPhgDataSet"))
 
 
 ## ----
