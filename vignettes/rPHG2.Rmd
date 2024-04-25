@@ -1,0 +1,55 @@
+---
+title: "Introduction to rPHG2"
+output: rmarkdown::html_document
+description: >
+  Learn how to get started with the basics of rPHG2.
+vignette: >
+  %\VignetteIndexEntry{Introduction to rPHG2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  markdown:
+    wrap: 70
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "figure/graphics-",
+  cache.path = "cache/graphics-",
+  fig.align = "center",
+  external = TRUE,
+  echo = TRUE,
+  warning = FALSE
+)
+
+library(rPHG2)
+```
+
+The basic workflow of the `rPHG2` package is as follows:
+
+1.  Create a connection object
+2.  Read data into the R environment
+3.  Analyze and visualize data retrieval
+
+This document introduces you to `rPHG2`'s methods and grammar, and
+shows you how to apply them to the previously mentioned workflow.
+
+## Creating connection objects
+
+PHG databases can be connected through two primary sources:
+
+-   local
+-   server
+
+_Local_ connections are for local TileDB instances or direct locations of 
+[hVCF](https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md)
+files on a local disk.
+
+Conversely, _server_ locations are for databases served on publicly available
+web services leveraging the [Breeding API (BrAPI) endpoints](https://brapi.org/).
+
+
+
+
+
+
