@@ -1,0 +1,33 @@
+url: ~
+
+template:
+  theme: breeze-light
+  bootstrap: 5
+  bslib:
+    base_font: {google: "Barlow"}
+    heading_font: {google: "Oswald"}
+    code_font: {google: "Roboto Mono"}
+  extra_css: pkgdown/extra.css
+
+navbar:
+  structure:
+    left:  [intro, articles, reference, news]
+    right: [search, github, phg]
+  components:
+    phg:
+      icon: fa-dna
+      href: https://github.com/maize-genetics/phg_v2
+      aria-label: PHG Source
+
+footer:
+  structure:
+    left: acknowledgment
+  components:
+    acknowledgment: <b>rPHG2</b> is an R package developed by <a href="https://www.maizegenetics.net/">The Buckler Lab</a>
+
+home:
+  links:
+  - text: Report a bug
+    href: https://github.com/maize-genetics/rPHG2/issues
+
+
