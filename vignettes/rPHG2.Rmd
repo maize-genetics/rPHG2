@@ -1,6 +1,6 @@
 ---
 title: "Introduction to rPHG2"
-output: rmarkdown::html_document
+output: rmarkdown::html_vignette
 description: >
   Learn how to get started with the basics of rPHG2.
 vignette: >
@@ -14,8 +14,6 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  fig.path = "figure/graphics-",
-  cache.path = "cache/graphics-",
   fig.align = "center",
   external = TRUE,
   echo = TRUE,
@@ -23,6 +21,7 @@ knitr::opts_chunk$set(
 )
 
 library(rPHG2)
+source("../tests/testthat/setup.R")
 ```
 
 The basic workflow of the `rPHG2` package is as follows:
@@ -34,22 +33,301 @@ The basic workflow of the `rPHG2` package is as follows:
 This document introduces you to `rPHG2`'s methods and grammar, and
 shows you how to apply them to the previously mentioned workflow.
 
+
+
 ## Creating connection objects
+rPHG objects can be created through two primary sources:
+* local data
+* server connections
 
-PHG databases can be connected through two primary sources:
+Creating initial "connection" objects helps unify downstream reading and
+evaluation steps for PHGv2 data. In the next couple of sections, we will show
+you how to create either local or server connnection objects.
 
--   local
--   server
 
+### Local data
 _Local_ connections are for local TileDB instances or direct locations of 
 [hVCF](https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md)
-files on a local disk.
+files on a local disk. To create a local connection, we will create a
+`PHGLocalCon` object using the following constructor function:
 
+```{r, eval=FALSE, echo=TRUE}
+PHGLocalCon()
+```
+
+For the above example, we will create a connection to some example local hVCF 
+files provided with the `rPHG2` package:
+
+* `LineA.h.vcf`
+* `LineB.h.vcf`
+
+Since the full paths to these files will differ between each user, we can
+use the `system.file()` function to get the full path:
+
+```{r, eval=FALSE, echo=TRUE}
+system.file("extdata", "LineA.h.vcf", package = "rPHG2")
+```
+
+This will get the full path from the `extdata` directory for the file, 
+`LineA.h.vcf`, found in the `rPHG2` source code.
+
+We can further build on this to create a collection of full file paths to our
+hVCF data:
+
+```{r, eval=TRUE, echo=TRUE}
+hVcfFiles <- system.file(
+    "extdata", 
+    c("LineA.h.vcf", "LineB.h.vcf"), 
+    package = "rPHG2"
+)
+```
+
+
+Now that we have a collection of hVCF files, we can use the `PHGLocalCon()`
+constructor function to create a `PHGLocalCon` object:
+
+```{r, eval=TRUE, echo=TRUE}
+localCon <- hVcfFiles |> PHGLocalCon()
+
+localCon
+```
+
+From here, we can move to the [next section](#creating-jvm-objects) to create a `HaplotypeGraph`
+object interface with the JVM.
+
+
+### Server connections
 Conversely, _server_ locations are for databases served on publicly available
 web services leveraging the [Breeding API (BrAPI) endpoints](https://brapi.org/).
+Since this is a connection to a server, a URL path instead of a local file
+path will be needed. We will use the `PHGServerCon()` constructor function
+to create a `PHGServerCon` object:
+
+```{r, eval=TRUE, echo=TRUE}
+srvCon <- "phg.maizegdb.org" |> PHGServerCon()
+
+srvCon
+```
+
+In the above example, we have made the assumptions that this URL:
+
+1. Uses a secure transfer protocol ([`https`](https://en.wikipedia.org/wiki/HTTPS))
+2. Uses default ports for data serving
+3. Has BrAPI specified endpoints
+
+For points **1** and **2**, if the URL uses non-secure protocols ("http")
+and/or has a modified port number, you will need to specify these with the
+`protocol` and `port` parameters in the constructor function. For example:
+
+```{r, eval=FALSE, echo=TRUE}
+"www.my-unsecure-phg.org" |> 
+    PHGServerCon(
+        port     = 5300, 
+        protocol = "http"
+    )
+```
+
+For point **3**, if the constructor cannot resolve 
+[mandatory endpoints](https://app.swaggerhub.com/apis/PlantBreedingAPI/BrAPI-Core/2.1#/Server%20Info/get_serverinfo),
+an exception will occur.
 
 
 
+## Creating JVM objects
 
+Now that we have either a local or server-based connection object, we can
+convert the raw hVCF data into a 
+[`HaplotypeGraph`](https://github.com/maize-genetics/phg_v2/blob/main/src/main/kotlin/net/maizegenetics/phgv2/api/HaplotypeGraph.kt)
+JVM object and bridge the Java reference pointer to R using the function,
+`buildHaplotypeGraph()`:
+
+
+```{r, eval=TRUE, echo=TRUE}
+graph <- localCon |> buildHaplotypeGraph()
+
+graph
+```
+
+In the above example, we took the local connection object and passed it into
+a `HaplotypeGraph` constructor. Here, we have a basic class that contains a
+pointer object where we can direct data from Java to R:
+
+```{r, eval=TRUE, echo=TRUE}
+graph |> javaRefObj()
+```
+
+
+
+## Reading data
+Now that we have created a `HaplotypeGraph` object, we can begin **read**ing
+data using the `read*` family of `rPHG2` functions.
+
+
+### Sample IDs
+To return a vector of sample IDs from the graph object, we can use the 
+`readSamples()` function:
+
+```{r, eval=TRUE, echo=TRUE}
+graph |> readSamples()
+```
+
+
+### Reference ranges
+To return information about all reference ranges found within the graph object,
+we can use the `readRefRanges()` function. This will return a `GRanges` object
+which is a common data class in the 
+[`GenomicRanges`](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) 
+package:
+
+```{r, eval=TRUE, echo=TRUE}
+graph |> readRefRanges()
+```
+
+
+### Haplotype IDs
+To return all haplotype IDs as a "sample $\times$ reference range" `matrix`
+object, we can use the `readHapIds()` function:
+
+
+```{r, eval=TRUE, echo=TRUE}
+m <- graph |> readHapIds()
+
+# Show only first 3 columns
+m[, 1:3]
+```
+
+
+
+### Haplotype ID metadata
+To return metadata for each haplotype ID as a `tibble` object, we can use 
+the `readHapIdMetaData()` function:
+
+```{r, eval=TRUE, echo=TRUE}
+graph |> readHapIdMetaData()
+```
+
+
+### Haplotype ID metadata (positions)
+To return positional information for each haplotype ID as another `tibble`
+object, we can use the `readHapIdPosMetaData()` function:
+
+```{r, eval=TRUE, echo=TRUE}
+graph |> readHapIdPosMetaData()
+```
+
+
+### All hVCF data
+In a majority of cases, we may need more than one piece of hVCF data. We can
+read all of the prior data simultaneously as `PHGDataSet` object which is
+an in-R-memory representation of all hVCF data:
+
+```{r, eval=TRUE, echo=TRUE}
+graph |> readPhgDataSet()
+```
+
+If this object is created, we can use the prior `read*` methods to 
+instantaneously pull out the previously mentioned R data objects:
+
+* `readSamples()`
+* `readRefRanges()`
+* `readHapIds()`
+* `readHapIdMetaData()`
+* `readHapIdPosMetaData()`
+
+
+
+## Filter data
+In some cases, you may want to query information and focus on one
+specific reference range and/or sample(s). We can **filter** our `PHGDataSet`
+objects using the `filter*` family of functions.
+
+For the following examples, let's picture our primary data as a 2-dimensional
+`matrix` of:
+
+* samples (rows)
+* reference ranges (columns)
+* hap ID data (elements)
+
+If we were to represent this as an object in R called `phgDs`, it would look 
+like the following diagram:
+
+```{r, eval=FALSE, echo=TRUE}
+phgDs
+```
+
+![](img/filtering/mat_01.svg){fig.align="center"}
+
+
+### Filter by sample
+If we want to filter based on sample ID, we can use the `filterSamples()`
+function. Simply add the sample ID or collection of sample IDs as a `character`
+string or a vector of `character` strings, respectively. Using the prior
+diagram as a reference, I will filter out anything that is not the following:
+
+* `B73`
+* `Ky21`
+* `Mo17`
+
+```{r, eval=FALSE, echo=TRUE}
+phgDs |> filterSamples(c("B73", "Ky21", "Mo17"))
+```
+
+![](img/filtering/mat_02.svg){fig.align="center"}
+
+**Note**: If samples are added to the filter collection, but are not
+present in the data, they will be discarded. If **no** samples are found, an
+exception will be thrown stating that no samples could be found.
+
+
+### Filter by reference range
+If we want to filter based on sample ID, we can use the `filterRefRanges()`
+function. Currently, this takes a `GRanges` object where we can specify
+integer-based ranges located in genomic regions by chromosome (i.e., 
+`seqnames`). For example, if I want to return all ranges that intersect with
+the following genomic regions:
+
+| Chromosome | Start (bp) | End (bp) |
+|------------|------------|----------|
+| `"1"`      | `100`      | `400`    |
+| `"2"`      | `400`      | `900`    |
+
+I can create the following `GRanges` object and pass that to the filter
+method:
+
+```{r, eval=FALSE, echo=TRUE}
+gr <- GRanges(
+    seqnames = c("1", "2"),
+    ranges = IRanges(
+        c(100, 800),
+        c(400, 900)
+    )
+)
+
+
+phgDs |> filterRefRanges(gr)
+```
+
+![](img/filtering/mat_03.svg)
+
+
+### Chaining methods
+Since we have two dimensions, we can filter simultaneously by "piping" or
+combining filter methods in one pass:
+
+```{r, eval=FALSE, echo=TRUE}
+gr <- GRanges(
+    seqnames = c("1", "2"),
+    ranges = IRanges(
+        c(100, 800),
+        c(400, 900)
+    )
+)
+
+phgDs |> 
+    filterSamples(c("B73", "Ky21", "Mo17")) |> 
+    filterRefRanges(gr)
+```
+
+![](img/filtering/mat_04.svg)
 
 
