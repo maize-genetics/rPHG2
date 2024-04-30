@@ -41,3 +41,29 @@ PHG_JVM <- list(
 )
 
 
+## ----
+PHG_METRICS <- list(
+    "VALID_GVCF_HEADERS" = c(
+        "taxa",
+        "chrom",
+        "refLength",
+        "numSNPs",
+        "numIns",
+        "numDel",
+        "numNs",
+        "numBasesInserted",
+        "numBasesDeleted",
+        "percentIdentityWithRef",
+        "percentMappedToRef",
+        "meanInsertionSize",
+        "medianInsertionSize",
+        "largestInsertion",
+        "meanDeletionSize",
+        "medianDeletionSize",
+        "largestDeletion",
+        "refRangesWithHaplotype",
+        "haplotypesIdenticalToRef"
+    )
+)
+
+
