@@ -1,126 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://rphg2.maizegenetics.net/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://rphg2.maizegenetics.net/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://rphg2.maizegenetics.net/articles/index.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://rphg2.maizegenetics.net/articles/rPHG2.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://rphg2.maizegenetics.net/authors.html</loc>
   </url>
   <url>
-    <loc>/reference/HaplotypeGraph-class.html</loc>
+    <loc>https://rphg2.maizegenetics.net/index.html</loc>
   </url>
   <url>
-    <loc>/reference/HaplotypeGraph-validity.html</loc>
+    <loc>https://rphg2.maizegenetics.net/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGCon-class.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/HaplotypeGraph-class.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGCon-validity.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/HaplotypeGraph-validity.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGDataSet-class.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGCon-class.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGDataSet.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGCon-validity.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGLocalCon-class.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGDataSet-class.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGLocalCon-validity.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGDataSet.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGLocalCon.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGLocalCon-class.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGServerCon-class.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGLocalCon-validity.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGServerCon-validity.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGLocalCon.html</loc>
   </url>
   <url>
-    <loc>/reference/PHGServerCon.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGServerCon-class.html</loc>
   </url>
   <url>
-    <loc>/reference/brapiURL.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGServerCon-validity.html</loc>
   </url>
   <url>
-    <loc>/reference/brapiVersion.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGServerCon.html</loc>
   </url>
   <url>
-    <loc>/reference/buildHaplotypeGraph.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/brapiURL.html</loc>
   </url>
   <url>
-    <loc>/reference/filterRefRanges.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/brapiVersion.html</loc>
   </url>
   <url>
-    <loc>/reference/filterSamples.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/buildHaplotypeGraph.html</loc>
   </url>
   <url>
-    <loc>/reference/hVcfFiles.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/filterRefRanges.html</loc>
   </url>
   <url>
-    <loc>/reference/host.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/filterSamples.html</loc>
   </url>
   <url>
-    <loc>/reference/httProtocol.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/hVcfFiles.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/host.html</loc>
   </url>
   <url>
-    <loc>/reference/initPhg.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/httProtocol.html</loc>
   </url>
   <url>
-    <loc>/reference/javaMemoryAddress.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/javaRefObj.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/initPhg.html</loc>
   </url>
   <url>
-    <loc>/reference/numberOfChromosomes.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/javaMemoryAddress.html</loc>
   </url>
   <url>
-    <loc>/reference/numberOfRefRanges.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/javaRefObj.html</loc>
   </url>
   <url>
-    <loc>/reference/numberOfTaxa.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/numberOfChromosomes.html</loc>
   </url>
   <url>
-    <loc>/reference/phgType.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/numberOfRefRanges.html</loc>
   </url>
   <url>
-    <loc>/reference/port.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/numberOfTaxa.html</loc>
   </url>
   <url>
-    <loc>/reference/readHapIdMetaData.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/phgType.html</loc>
   </url>
   <url>
-    <loc>/reference/readHapIdPosMetaData.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/port.html</loc>
   </url>
   <url>
-    <loc>/reference/readHapIds.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/readHapIdMetaData.html</loc>
   </url>
   <url>
-    <loc>/reference/readPhgDataSet.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/readHapIdPosMetaData.html</loc>
   </url>
   <url>
-    <loc>/reference/readRefRanges.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/readHapIds.html</loc>
   </url>
   <url>
-    <loc>/reference/readSamples.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/readPhgDataSet.html</loc>
   </url>
   <url>
-    <loc>/reference/serverInfo.html</loc>
+    <loc>https://rphg2.maizegenetics.net/reference/readRefRanges.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/readSamples.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/serverInfo.html</loc>
   </url>
 </urlset>
