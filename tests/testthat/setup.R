@@ -18,6 +18,12 @@ getLatestReleaseUrl <- function(repo) {
 
     response <- httr::GET(apiUrl)
 
+    message("  * API total rate...............: ", response$headers$`x-ratelimit-limit`)
+    message("  * API rate limit (remaining)...: ", response$headers$`x-ratelimit-remaining`)
+    message("  * API rate limit (used)........: ", response$headers$`x-ratelimit-used`)
+    message("  * UTC Epoch time to reset......: ", response$headers$`x-ratelimit-reset`)
+
+
     # Check if the request was successful
     if (httr::http_status(response)$category != "Success") {
         stop(

@@ -1,3 +1,10 @@
+## rPHG2 0.4
+* Added vignettes and README updates
+  + `vignette("rPHG2")`
+* Created build system for website generation
+  + [rphg2.maizegenetics.net](https://rphg2.maizegenetics.net)
+
+
 ## rPHG2 0.3
 * Added new class, `PHGDataSet`
   + In memory representation of hVCF data sets

@@ -1,3 +1,13 @@
+## General ----
+*.swp
+*.swo
+*.html
+*.pdf
+.DS_Store
+.httr-oauth
+vignettes/*.log
+vignettes/figure/
+
 .Rproj.user
 .Rhistory
 .RData
