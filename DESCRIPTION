@@ -1,6 +1,6 @@
 Package: rPHG2
 Title: R interface to PHGv2
-Version: 0.3
+Version: 0.3.1
 Authors@R:
     person(
         given = "Brandon",
@@ -20,6 +20,9 @@ Description:
     from unphased species characterized by low genetic diversity and
     high-density genotyping.
 License: Apache License (>= 2) | file LICENSE
+URL:
+    https://github.com/maize-genetics/rPHG2,
+    https://rphg2.maizegenetics.net/
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
@@ -35,6 +38,9 @@ Imports:
     methods,
     rJava,
     tibble
-Suggests: 
+VignetteBuilder: knitr
+Suggests:
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
