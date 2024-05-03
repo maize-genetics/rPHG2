@@ -37,7 +37,8 @@ Imports:
     jsonlite,
     methods,
     rJava,
-    tibble
+    tibble,
+    tools
 VignetteBuilder: knitr
 Suggests:
     knitr,

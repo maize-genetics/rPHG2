@@ -4,12 +4,12 @@
 \alias{PHGMetrics}
 \title{PHGMetrics object constructor}
 \usage{
-PHGMetrics(dir = NULL, metadata = NULL)
+PHGMetrics(paths = NULL, metadata = NULL)
 }
 \arguments{
-\item{dir}{A collection of directories}
-
 \item{metadata}{key-value metadata for files}
+
+\item{dir}{A collection of directories}
 }
 \value{
 A \code{PHGMetrics} object.

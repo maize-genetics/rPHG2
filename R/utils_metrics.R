@@ -1,4 +1,9 @@
+# /// Helpers ///////////////////////////////////////////////////////
+
 ## ----
+# Find text lines for validation sans "comments"
+#
+# @filePath plain text file to check
 findFirstNonCommentLine <- function(filePath) {
     connection <- file(filePath, open = "r")
     firstLine <- NULL
@@ -16,9 +21,14 @@ findFirstNonCommentLine <- function(filePath) {
 
 
 ## ----
-validateHeaders <- function(line, validHeaders) {
+# Validate spliced text lines with proper header IDs
+#
+# @param line A line of text containing headers and delimiters
+# @param validHeaders A character vector containing vetted IDs
+# @param delimiter What delimiter "character" should be used?
+validateHeaders <- function(line, validHeaders, delimiter = "\t") {
     if (!is.null(line)) {
-        splitLine <- unlist(strsplit(line, "\t"))
+        splitLine <- unlist(strsplit(line, delimiter))
         return(all(splitLine %in% validHeaders))
     } else {
         return(FALSE)
@@ -26,39 +36,74 @@ validateHeaders <- function(line, validHeaders) {
 }
 
 
-## ----
-# Check if input gVCF file is "valid"
-#
-# @param gVcfPaths A gVCF file path
-isValidGvcf <- function(gVcfPaths) {
-    # Assume this constant is defined somewhere in your environment
-    validHeaders <- PHG_METRICS$VALID_GVCF_HEADERS
 
-    # Use vapply to apply the validation process to each file path
-    validities <- vapply(gVcfPaths, function(gPath) {
-        firstLine <- findFirstNonCommentLine(gPath)
-        validateHeaders(firstLine, validHeaders)
-    }, logical(1))  # logical(1) defines the type and length of the output for each iteration
+# /// Primary functions /////////////////////////////////////////////
+
+## ----
+# Check if Anchor file is "valid" (vectorized)
+#
+# @param anchorPaths .anchorspro file paths
+isValidAnchor <- function(anchorPaths) {
+    validities <- vapply(anchorPaths, function(aPath) {
+        con <- file(aPath, open = "r")
+        lineCheck <- readLines(con, n = 1, warn = FALSE)
+        close(con)
+
+        if (grepl("#anchorwave", lineCheck)) {
+            return(TRUE)
+        } else {
+            return(FALSE)
+        }
+    }, logical(1))
 
     return(validities)
 }
 
 
+## ----
+# Check if input gVCF file is "valid" (vectorized)
+#
+# @param gVcfPaths A gVCF file path
+isValidGvcf <- function(gVcfPaths) {
+    validHeaders <- PHG_METRICS$VALID_GVCF_HEADERS
+
+    validities <- vapply(gVcfPaths, function(gPath) {
+        firstLine <- findFirstNonCommentLine(gPath)
+        validateHeaders(firstLine, validHeaders)
+    }, logical(1))
+
+    return(validities)
+}
+
 
 ## ----
-# Check if Anchor file is "valid"
+# Read metric files (assumes tab-delimited structure)
 #
-# @param a An .anchorspro file
-isValidAnchor <- function(a) {
-    con <- file(a, open = "r")
-    lineCheck <- readLines(con, n = 1, warn = FALSE)
-    close(con)
+# @param metricFiles A list of files
+readMetricFiles <- function(metricFiles) {
+    inMemDfs <- lapply(
+        X = metricFiles,
+        FUN = function(x) {
+            message(" * reading data for: ", basename(x))
+            tmp <- tibble::as_tibble(
+                read.table(
+                    file         = x,
+                    header       = TRUE,
+                    sep          = "\t",
+                    comment.char = "#"
+                )
+            )
+            colnames(tmp) <- camelToSnake(colnames(tmp))
+            return(tmp)
+        }
+    )
 
-    if (grepl("#anchorwave", lineCheck)) {
-        return(TRUE)
-    } else {
-        return(FALSE)
-    }
+    names(inMemDfs) <- tools::file_path_sans_ext(basename(metricFiles))
+
+    return(inMemDfs)
 }
+
+
+
 
 
