@@ -4,7 +4,7 @@
 #' @description
 #' Returns the Uniform Resource Locator (URL) of a \code{BrapiCon} object.
 #'
-#' @param object an \code{rPHG} local or server connection object.
+#' @param object an \code{rPHG2} local or server connection object.
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname brapiURL
@@ -18,7 +18,7 @@ setGeneric("brapiURL", function(object, ...) standardGeneric("brapiURL"))
 #' @description
 #' Returns the version ID for a BrAPI-compliant PHG server
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname brapiVersion
@@ -30,9 +30,9 @@ setGeneric("brapiVersion", function(object, ...) standardGeneric("brapiVersion")
 #' @title Filter data by reference range
 #'
 #' @description
-#' Filters \code{rPHG}-related datasets by reference range coordinates or ID.
+#' Filters \code{rPHG2}-related datasets by reference range coordinates or ID.
 #'
-#' @param object an \code{rPHG} dataset
+#' @param object an \code{rPHG2} dataset
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname filterRefRanges
@@ -44,9 +44,9 @@ setGeneric("filterRefRanges", function(object, ...) standardGeneric("filterRefRa
 #' @title Filter data by sample IDs
 #'
 #' @description
-#' Filters \code{rPHG}-related datasets by sample ID.
+#' Filters \code{rPHG2}-related datasets by sample ID.
 #'
-#' @param object an \code{rPHG} dataset
+#' @param object an \code{rPHG2} dataset
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname filterSamples
@@ -60,7 +60,7 @@ setGeneric("filterSamples", function(object, ...) standardGeneric("filterSamples
 #' @description
 #' Returns the host information for a given object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname host
@@ -74,7 +74,7 @@ setGeneric("host", function(object, ...) standardGeneric("host"))
 #' @description
 #' Returns the protocol information for a given object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname httProtocol
@@ -88,7 +88,7 @@ setGeneric("httProtocol", function(object, ...) standardGeneric("httProtocol"))
 #' @description
 #' Returns a list of hVCF files.
 #'
-#' @param object an \code{rPHG} local connection object
+#' @param object an \code{rPHG2} local connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname hVcfFiles
@@ -100,9 +100,9 @@ setGeneric("hVcfFiles", function(object, ...) standardGeneric("hVcfFiles"))
 #' @title Return \code{rJava} reference object
 #'
 #' @description
-#' Returns the \code{rJava} memory reference for a given \code{rPHG} object
+#' Returns the \code{rJava} memory reference for a given \code{rPHG2} object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname javaMemoryAddress
@@ -114,9 +114,9 @@ setGeneric("javaMemoryAddress", function(object, ...) standardGeneric("javaMemor
 #' @title Return \code{rJava} reference object
 #'
 #' @description
-#' Returns the \code{rJava} memory reference for a given \code{rPHG} object
+#' Returns the \code{rJava} memory reference for a given \code{rPHG2} object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname javaRefObj
@@ -125,12 +125,62 @@ setGeneric("javaRefObj", function(object, ...) standardGeneric("javaRefObj"))
 
 
 ## ----
+#' @title Return metrics table IDs
+#'
+#' @description
+#' Returns a PHG metrics table by given ID
+#'
+#' @param object an \code{rPHG2} metrics object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname metricsIds
+#' @export
+setGeneric("metricsIds", function(object, ...) standardGeneric("metricsIds"))
+
+#' @rdname metricsIds
+#' @export
+setGeneric("metricsIds<-", function(object, ..., value) standardGeneric("metricsIds<-"))
+
+
+## ----
+#' @title Return metric metadata
+#'
+#' @description
+#' Returns metadata information from \code{rPHG2} metrics objects
+#'
+#' @param object an \code{rPHG2} metrics object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname metricsMetaData
+#' @export
+setGeneric("metricsMetaData", function(object, ...) standardGeneric("metricsMetaData"))
+
+
+## ----
+#' @title Return a metrics table
+#'
+#' @description
+#' Returns a PHG metrics table by given ID
+#'
+#' @param object an \code{rPHG2} metrics object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname metricsTable
+#' @export
+setGeneric("metricsTable", function(object, ...) standardGeneric("metricsTable"))
+
+#' @rdname metricsTable
+#' @export
+setGeneric("metricsTable<-", function(object, ..., value) standardGeneric("metricsTable<-"))
+
+
+## ----
 #' @title Return number of chromosomes
 #'
 #' @description
 #' Returns the number of chromosomes for a given object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname numberOfChromosomes
@@ -144,7 +194,7 @@ setGeneric("numberOfChromosomes", function(object, ...) standardGeneric("numberO
 #' @description
 #' Returns the number of reference ranges for a given object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname numberOfRefRanges
@@ -158,7 +208,7 @@ setGeneric("numberOfRefRanges", function(object, ...) standardGeneric("numberOfR
 #' @description
 #' Returns the number of taxa for a given object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname numberOfTaxa
@@ -170,9 +220,9 @@ setGeneric("numberOfTaxa", function(object, ...) standardGeneric("numberOfTaxa")
 #' @title Return type of PHG connection
 #'
 #' @description
-#' Returns the PHG type for a given \code{rPHG} local or server connection object
+#' Returns the PHG type for a given \code{rPHG2} local or server connection object
 #'
-#' @param object an \code{rPHG} connection object
+#' @param object an \code{rPHG2} connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname phgType
@@ -186,7 +236,7 @@ setGeneric("phgType", function(object, ...) standardGeneric("phgType"))
 #' @description
 #' Returns the port information for a given object
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname port
@@ -201,7 +251,7 @@ setGeneric("port", function(object, ...) standardGeneric("port"))
 #' Gets haplotype ID for given samples and reference ranges from a
 #' \code{HaplotypeGraph}
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 # @param nThreads Number of threads to use when evaluating haplotype IDs
 #' @param ... Additional arguments, for use in specific methods
 #'
@@ -217,7 +267,7 @@ setGeneric("readHapIds", function(object, ...) standardGeneric("readHapIds"))
 #' Gets haplotype ID metadata for given samples and reference ranges from a
 #' \code{HaplotypeGraph}
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname readHapIdMetaData
@@ -232,7 +282,7 @@ setGeneric("readHapIdMetaData", function(object, ...) standardGeneric("readHapId
 #' Gets haplotype ID positional metadata for given samples and reference ranges
 #' from a \code{HaplotypeGraph}
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname readHapIdPosMetaData
@@ -247,7 +297,7 @@ setGeneric("readHapIdPosMetaData", function(object, ...) standardGeneric("readHa
 #' Returns all haplotype, sample, and reference range IDs and relative metadata
 #' from a \code{\linkS4class{HaplotypeGraph}} object.
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname readPhgDataSet
@@ -261,7 +311,7 @@ setGeneric("readPhgDataSet", function(object, ...) standardGeneric("readPhgDataS
 #' @description
 #' Get reference range data from a \code{HaplotypeGraph}
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname readRefRanges
@@ -275,7 +325,7 @@ setGeneric("readRefRanges", function(object, ...) standardGeneric("readRefRanges
 #' @description
 #' Gets sample ID data from a \code{HaplotypeGraph}
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname readSamples
@@ -289,7 +339,7 @@ setGeneric("readSamples", function(object, ...) standardGeneric("readSamples"))
 #' @description
 #' Get available BrAPI calls from BrAPI compliant PHG server
 #'
-#' @param object an \code{rPHG} local or server connection object
+#' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname serverInfo

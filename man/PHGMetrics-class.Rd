@@ -11,9 +11,9 @@ generated from PHGv2 operations.
 \section{Slots}{
 
 \describe{
-\item{\code{anchorFiles}}{AnchorWave alignment metrics (\code{.anchorspro})}
+\item{\code{metricAlign}}{AnchorWave alignment metrics (\code{.anchorspro})}
 
-\item{\code{gvcfMetrics}}{gVCF metrics}
+\item{\code{metricGvcf}}{gVCF metrics}
 
 \item{\code{metadata}}{A \code{data.frame} object of key-value data for files}
 }}

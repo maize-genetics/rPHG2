@@ -10,7 +10,7 @@ numberOfRefRanges(object, ...)
 \S4method{numberOfRefRanges}{HaplotypeGraph}(object)
 }
 \arguments{
-\item{object}{an \code{rPHG} local or server connection object}
+\item{object}{an \code{rPHG2} local or server connection object}
 
 \item{...}{Additional arguments, for use in specific methods}
 }

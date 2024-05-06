@@ -43,6 +43,18 @@ PHG_JVM <- list(
 
 ## ----
 PHG_METRICS <- list(
+    "VALID_ANCHOR_HEADERS" = c(
+        "refChr",
+        "referenceStart",
+        "referenceEnd",
+        "queryChr",
+        "queryStart",
+        "queryEnd",
+        "strand",
+        "gene",
+        "blockIndex",
+        "score"
+    ),
     "VALID_GVCF_HEADERS" = c(
         "taxa",
         "chrom",
@@ -63,6 +75,10 @@ PHG_METRICS <- list(
         "largestDeletion",
         "refRangesWithHaplotype",
         "haplotypesIdenticalToRef"
+    ),
+    "VALID_METRICS_IDS" = c(
+        "gvcf",
+        "align"
     )
 )
 

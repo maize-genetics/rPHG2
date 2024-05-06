@@ -10,12 +10,12 @@ filterRefRanges(object, ...)
 \S4method{filterRefRanges}{PHGDataSet}(object, gRanges)
 }
 \arguments{
-\item{object}{an \code{rPHG} dataset}
+\item{object}{an \code{rPHG2} dataset}
 
 \item{...}{Additional arguments, for use in specific methods}
 
 \item{gRanges}{A \code{GRanges} coordinate object}
 }
 \description{
-Filters \code{rPHG}-related datasets by reference range coordinates or ID.
+Filters \code{rPHG2}-related datasets by reference range coordinates or ID.
 }

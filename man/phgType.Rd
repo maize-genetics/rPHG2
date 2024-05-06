@@ -10,10 +10,10 @@ phgType(object, ...)
 \S4method{phgType}{PHGCon}(object)
 }
 \arguments{
-\item{object}{an \code{rPHG} connection object}
+\item{object}{an \code{rPHG2} connection object}
 
 \item{...}{Additional arguments, for use in specific methods}
 }
 \description{
-Returns the PHG type for a given \code{rPHG} local or server connection object
+Returns the PHG type for a given \code{rPHG2} local or server connection object
 }

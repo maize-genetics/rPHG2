@@ -10,7 +10,7 @@ port(object, ...)
 \S4method{port}{PHGServerCon}(object)
 }
 \arguments{
-\item{object}{an \code{rPHG} local or server connection object}
+\item{object}{an \code{rPHG2} local or server connection object}
 
 \item{...}{Additional arguments, for use in specific methods}
 }
