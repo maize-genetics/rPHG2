@@ -127,6 +127,33 @@ PHGMetrics <- function(paths = NULL, metadata = NULL) {
 
 # /// Methods (show) ////////////////////////////////////////////////
 
+## ----
+#' @title Show methods for PHGMetrics objects
+#'
+#' @description
+#' Prints out information regarding properties from the \code{PHGMetrics}
+#' class to the console
+#'
+#' @param object A \code{\linkS4class{PHGMetrics}} object
+#'
+#' @docType methods
+#' @rdname PHGMetrics-class
+#' @aliases show,PHGMetrics-method
+setMethod(
+    f = "show",
+    signature = "PHGMetrics",
+    definition = function(object) {
+        maxPrint <- 2
+
+        # Output header
+        cat(paste0("A ", cli::style_bold("PHGMetrics"), " object:\n"))
+
+        # Display metrics for gVCF and AnchorWave
+        displayMetrics(object@metricAlign, "AnchorWave data", maxPrint)
+        displayMetrics(object@metricGvcf, "gVCF data", maxPrint)
+    }
+)
+
 
 
 # /// Methods (override) ////////////////////////////////////////////
@@ -147,14 +174,6 @@ setMethod("$", "PHGMetrics", function(x, name) {
 
 
 # /// Methods (general) /////////////////////////////////////////////
-
-# NEED:
-# [x] metricsIds
-# [x] metricsIds<-
-# [x] metricsMetaData
-# [x] metricsTable
-# [ ] metricsTable<-
-
 
 ## ----
 #' @rdname metricsIds
@@ -184,18 +203,74 @@ setMethod(
     signature = signature(object = "PHGMetrics"),
     definition = function(object, value) {
         if (is.null(names(value))) {
-            stop("Provided 'value' is not a named 'vector'")
+            rlang::abort("Provided 'value' is not a named 'vector'")
         }
 
         if (!is.character(value)) {
-            stop("Elements in vector for 'value' must be of type 'character'")
+            rlang::abort("Elements in vector for 'value' must be of type 'character'")
+        }
+
+        if (any(is.na(names(value)))) {
+            offenders <- value[is.na(names(value))]
+            for (off in offenders) {
+                cat(metMessenger(off, "warn_03"))
+            }
+
+            value <- value[value != offenders]
+
+            if (length(value) == 0) {
+                rlang::abort("No provided IDs found in object after NA check")
+            }
+        }
+
+        if (any(duplicated(names(value)))) {
+            offenders <- value[duplicated(names(value))]
+            for (off in offenders) {
+                cat(metMessenger(off, "warn_04"))
+            }
+
+            value <- value[value != offenders]
+
+            if (length(value) == 0) {
+                rlang::abort("No provided IDs found in object after duplicate check")
+            }
+        }
+
+        if (any(duplicated(value))) {
+            offenders <- value[duplicated(value)]
+            for (off in offenders) {
+                cat(metMessenger(off, "warn_04"))
+            }
+
+            value <- value[value != offenders]
+
+            if (length(value) == 0) {
+                rlang::abort("No provided IDs found in object after duplicate check")
+            }
+        }
+
+        if (all(value %in% metricsIds(object))) {
+            rlang::abort("No IDs changed")
+        }
+
+        if (any(value %in% metricsIds(object))) {
+            offenders <- value[value %in% metricsIds(object)]
+            for (off in offenders) {
+                cat(metMessenger(off, "warn_02"))
+            }
+
+            value <- value[value != offenders]
+
+            if (length(value) == 0) {
+                rlang::abort("No IDs remaining after duplicate check")
+            }
         }
 
         if (any(!names(value) %in% metricsIds(object))) {
-            stop("No provided IDs found in object")
+            rlang::abort("No provided IDs found in object")
         }
 
-        newNames <- c(value)
+        newNames <- value
         oldNames <- names(newNames)
 
         md <- metricsMetaData(object)
@@ -299,89 +374,81 @@ setMethod(
     f = "metricsTable<-",
     signature = signature(object = "PHGMetrics"),
     definition = function(object, value) {
-        # TODO - refactor this!
         if (!is.list(value)) {
-            stop("Provided 'value' not of type 'list'")
+            rlang::abort("Provided 'value' not of type 'list'")
         }
 
         if (is.data.frame(value)) {
-            stop("Provided 'value' must be in a named 'list'")
+            rlang::abort("Provided 'value' must be in a named 'list'")
         }
 
         if (is.null(names(value))) {
-            stop("Provided 'list' object does not have names")
+            rlang::abort("Provided 'list' object does not have names")
         }
 
-        validAlgnDfs <- vector("list", length(value))
-        validGvcfDfs <- vector("list", length(value))
+        validAlgnDfs <- list()
+        validGvcfDfs <- list()
 
-        validFileAlgnIds <- vector("character")
-        validFileGvcfIds <- vector("character")
+        validFileAlgnIds <- character()
+        validFileGvcfIds <- character()
 
-        metNames <- names(value)
+        for (metricName in names(value)) {
+            metricValue <- value[[metricName]]
 
-        metIndex <- 1
-        for (v in value) {
-            if (is(v, "character")) {
-                if (file.exists(v)) {
-                    if (isValidAnchor(v)) {
-                        validAlgnDfs[[metIndex]] <- readMetricFiles(v)[[1]]
-                        validFileAlgnIds <- c(validFileAlgnIds, basename(v))
-                    } else if (isValidGvcf(v)) {
-                        validGvcfDfs[[metIndex]] <- readMetricFiles(v)[[1]]
-                        validFileGvcfIds <- c(validFileGvcfIds, basename(v))
-                    } else {
-                        metIndex <- metIndex + 1
-                    }
+            if (metricName %in% metricsIds(object)) {
+                cat(metMessenger(metricName, "warn_02"))
+            } else if (is(metricValue, "character") && file.exists(metricValue)) {
+                if (isValidAnchor(metricValue)) {
+                    validAlgnDfs[[metricName]] <- readMetricFiles(metricValue)[[1]]
+                    validFileAlgnIds <- c(validFileAlgnIds, basename(metricValue))
+                } else if (isValidGvcf(metricValue)) {
+                    validGvcfDfs[[metricName]] <- readMetricFiles(metricValue)[[1]]
+                    validFileGvcfIds <- c(validFileGvcfIds, basename(metricValue))
                 } else {
-                    metIndex <- metIndex + 1
+                    cat(metMessenger(metricName, "warn_01"))
+                }
+            } else if (is(metricValue, "data.frame")) {
+                if (all(camelToSnake(colnames(metricValue)) %in% camelToSnake(PHG_METRICS$VALID_ANCHOR_HEADERS))) {
+                    cat(metMessenger(metricName, "success_02"))
+                    validAlgnDfs[[metricName]] <- metricValue
+                    validFileAlgnIds <- c(validFileAlgnIds, metricName)
+                } else if (all(camelToSnake(colnames(metricValue)) %in% camelToSnake(PHG_METRICS$VALID_GVCF_HEADERS))) {
+                    cat(metMessenger(metricName, "success_02"))
+                    validGvcfDfs[[metricName]] <- metricValue
+                    validFileGvcfIds <- c(validFileGvcfIds, metricName)
+                } else {
+                    cat(metMessenger(metricName, "warn_01"))
                 }
             } else {
-                if (is(v, "data.frame")) {
-                    if (all(camelToSnake(colnames(v)) %in% camelToSnake(PHG_METRICS$VALID_ANCHOR_HEADERS))) {
-                        validAlgnDfs[[metIndex]] <- v
-                        validFileAlgnIds <- c(validFileAlgnIds, "df_var")
-                    } else if (all(camelToSnake(colnames(v)) %in% camelToSnake(PHG_METRICS$VALID_GVCF_HEADERS))) {
-                        validGvcfDfs[[metIndex]] <- v
-                        validFileGvcfIds <- c(validFileGvcfIds, "df_var")
-                    } else {
-                        metIndex <- metIndex + 1
-                    }
-                } else {
-                    metIndex <- metIndex + 1
-                }
+                cat(metMessenger(metricName, "warn_01"))
             }
         }
 
-        names(validAlgnDfs) <- metNames
-        names(validGvcfDfs) <- metNames
-
-        validAlgnDfs <- validAlgnDfs[lengths(validAlgnDfs) != 0]
-        validGvcfDfs <- validGvcfDfs[lengths(validGvcfDfs) != 0]
-
-        if (length(validGvcfDfs) == 0 && length(validAlgnDfs) == 0) {
-            stop("No valid metrics tables could be identified")
-        } else {
-            md <- metricsMetaData(object)
-            if (length(validAlgnDfs) != 0) {
-                mdAdd <- tibble::tibble(
-                    file = validFileAlgnIds,
-                    type = "align",
-                    id   = names(validAlgnDfs)
-                )
-                object@metricAlign <- c(object@metricAlign, validAlgnDfs)
-            }
-            if (length(validGvcfDfs) != 0) {
-                mdAdd <- tibble::tibble(
-                    file = validFileGvcfIds,
-                    type = "gvcf",
-                    id   = names(validGvcfDfs)
-                )
-                object@metricGvcf <- c(object@metricGvcf, validGvcfDfs)
-            }
-
-            slot(object, "metadata") <- rbind(md, mdAdd)
+        if (length(validAlgnDfs) == 0 && length(validGvcfDfs) == 0) {
+            rlang::abort("No valid metrics tables could be identified")
         }
+
+        md <- metricsMetaData(object)
+        if (length(validAlgnDfs) != 0) {
+            mdAdd <- tibble::tibble(
+                file = validFileAlgnIds,
+                type = "align",
+                id = names(validAlgnDfs)
+            )
+            object@metricAlign <- c(object@metricAlign, validAlgnDfs)
+        }
+        if (length(validGvcfDfs) != 0) {
+            mdAdd <- tibble::tibble(
+                file = validFileGvcfIds,
+                type = "gvcf",
+                id = names(validGvcfDfs)
+            )
+            object@metricGvcf <- c(object@metricGvcf, validGvcfDfs)
+        }
+
+        # Combine the original and additional metadata
+        mdNew <- rbind(md, mdAdd)
+        slot(object, "metadata") <- mdNew
 
         return(object)
     }

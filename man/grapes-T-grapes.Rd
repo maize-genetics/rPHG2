@@ -19,3 +19,20 @@ A named vector
 Generates a named element. Can be used in conjunction with \code{c()} to
 create a collection of named elements
 }
+\examples{
+# Creating a named vector with a static name
+vectorElement <- "value" \%T\% 5
+print(vectorElement)
+
+# Creating a combined named vector with both static and dynamic names
+nameForElement <- "dynamicName"
+combinedVector <- c("staticName" \%T\% 123, nameForElement \%T\% 456)
+print(combinedVector)
+
+# Note: `\%T\%` can be especially useful in data manipulation where dynamic
+# naming of elements is required. Here's a more complex example:
+keyMap <- data.frame(key = "key_01")
+dynamicVector <- keyMap$key \%T\% 10
+print(dynamicVector)
+
+}

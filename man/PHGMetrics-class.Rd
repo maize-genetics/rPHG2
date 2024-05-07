@@ -3,10 +3,20 @@
 \docType{class}
 \name{PHGMetrics-class}
 \alias{PHGMetrics-class}
+\alias{show,PHGMetrics-method}
 \title{A PHGMetrics Class}
+\usage{
+\S4method{show}{PHGMetrics}(object)
+}
+\arguments{
+\item{object}{A \code{\linkS4class{PHGMetrics}} object}
+}
 \description{
 A \code{PHGMetrics} class is a general class for storing metrics data
 generated from PHGv2 operations.
+
+Prints out information regarding properties from the \code{PHGMetrics}
+class to the console
 }
 \section{Slots}{
 

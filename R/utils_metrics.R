@@ -40,6 +40,44 @@ validateHeaders <- function(line, validHeaders, delimiter = "\t") {
 # /// Primary functions /////////////////////////////////////////////
 
 ## ----
+# Helper function to display dimensions of metrics
+displayMetrics <- function(metrics, label, maxPrint) {
+    cuGrey        <- "\033[38;5;246m"
+    rsGrey        <- "\033[0m"
+    pointerSymbol <- cli::col_green(cli::symbol$pointer)
+    infoSymbol    <- cli::symbol$info
+
+    if (length(metrics) > maxPrint) {
+        shownMetrics <- metrics[seq_len(maxPrint)]
+        extraCount <- length(metrics) - maxPrint
+    } else {
+        shownMetrics <- metrics
+        extraCount <- 0
+    }
+
+    cat(paste0("* ", label, ":\n"))
+    lapply(seq_along(shownMetrics), function(x) {
+        obj  <- dim(shownMetrics[[x]])
+        nObj <- names(shownMetrics[x])
+        msg <- paste0(
+            " ", pointerSymbol, " ", nObj,
+            " (", cuGrey, paste(obj, collapse = " "), rsGrey, ")", "\n"
+        )
+        cat(msg)
+    })
+
+    if (extraCount > 0) {
+        cat(
+            paste0(
+                cuGrey, " # ", infoSymbol, " ",
+                extraCount, " more tables", rsGrey, "\n"
+            )
+        )
+    }
+}
+
+
+## ----
 # Check if Anchor file is "valid" (vectorized)
 #
 # @param anchorPaths .anchorspro file paths
@@ -77,6 +115,56 @@ isValidGvcf <- function(gVcfPaths) {
 
 
 ## ----
+# Deploy messages across functions
+#
+# @param mn
+# A metric identifier (character)
+# @param type
+# Boiler plate message template
+metMessenger <- function(
+    mn,
+    type = c(
+        "success_01",
+        "success_02",
+        "warn_01",
+        "warn_02",
+        "warn_03",
+        "warn_04"
+    )
+) {
+    type <- match.arg(type)
+
+    msgInfo <- cli::symbol$tick
+    msgWarn <- cli::symbol$warning
+
+    # Function to generate messages based on type
+    msgTemp <- function(action, note = "", success = TRUE) {
+        cf <- if (success) cli::col_green else cli::col_yellow
+        symbol <- if (success) msgInfo else msgWarn
+        message <- paste0(" ", symbol, " ", action, ": ", basename(mn))
+        message <- cf(message)
+        if (note != "") {
+            message <- paste0(message, cli::style_bold(note))
+        }
+        paste0(message, "\n")
+    }
+
+    # Response generation using the template function
+    resp <- switch(
+        EXPR = type,
+        "success_01" = msgTemp("reading data for"),
+        "success_02" = msgTemp("importing data for"),
+        "warn_01"    = msgTemp("skipping value", " (not valid metric data)", FALSE),
+        "warn_02"    = msgTemp("skipping value", " (ID already found in object)", FALSE),
+        "warn_03"    = msgTemp("skipping value", " (ID not found in object)", FALSE),
+        "warn_04"    = msgTemp("skipping value", " (ID duplicated)", FALSE)
+    )
+
+    return(resp)
+}
+
+
+## ----
 # Read metric files (assumes tab-delimited structure)
 #
 # @param metricFiles A list of files
@@ -84,7 +172,7 @@ readMetricFiles <- function(metricFiles) {
     inMemDfs <- lapply(
         X = metricFiles,
         FUN = function(x) {
-            message(" * reading data for: ", basename(x))
+            cat(metMessenger(basename(x), "success_01"))
             tmp <- tibble::as_tibble(
                 read.table(
                     file         = x,
