@@ -146,11 +146,22 @@ setMethod(
         maxPrint <- 2
 
         # Output header
-        cat(paste0("A ", cli::style_bold("PHGMetrics"), " object:\n"))
+        cat(
+            paste0(
+                "A ", cli::style_bold("PHGMetrics"), " object containing ",
+                cli::style_bold(length(metricsTable(object))), " tables:\n"
+            )
+        )
 
         # Display metrics for gVCF and AnchorWave
-        displayMetrics(object@metricAlign, "AnchorWave data", maxPrint)
-        displayMetrics(object@metricGvcf, "gVCF data", maxPrint)
+
+        if (length(object@metricAlign) != 0) {
+            displayMetrics(object@metricAlign, "AnchorWave data", maxPrint)
+        }
+
+        if (length(object@metricGvcf) != 0) {
+            displayMetrics(object@metricGvcf, "gVCF data", maxPrint)
+        }
     }
 )
 
@@ -250,7 +261,7 @@ setMethod(
         }
 
         if (all(value %in% metricsIds(object))) {
-            rlang::abort("No IDs changed")
+            rlang::abort("No IDs changed (all new values already found in object)")
         }
 
         if (any(value %in% metricsIds(object))) {
@@ -384,6 +395,10 @@ setMethod(
 
         if (is.null(names(value))) {
             rlang::abort("Provided 'list' object does not have names")
+        }
+
+        if (any(duplicated(names(value)))) {
+            rlang::abort("Provided 'list' object has duplicated IDs (all IDs must be unique)")
         }
 
         validAlgnDfs <- list()

@@ -1,4 +1,4 @@
-# /// Helpers ///////////////////////////////////////////////////////
+# /// Internal helpers //////////////////////////////////////////////
 
 ## ----
 # Find text lines for validation sans "comments"
@@ -17,6 +17,65 @@ findFirstNonCommentLine <- function(filePath) {
     })
     close(connection)
     return(firstLine)
+}
+
+
+## ----
+# Generate a Colored and Formatted Message Based on Success or Failure
+#
+# This function creates a custom message incorporating user-defined
+# actions, notes, and a success indicator. It uses color coding to
+# distinguish between successful and warning messages. If the operation
+# is not successful, it defaults the action to "skipping value". Notes
+# are formatted in bold when provided.
+#
+# @param mn
+# A metric ID
+# @param action
+# A string specifying the action being reported on.
+# If `success` is FALSE, this is automatically set to "skipping value".
+# Default is NULL.
+# @param note
+# An optional string providing additional details about
+# the action. This note is displayed in bold within the message if
+# provided. Default is an empty string.
+# @param success
+# A logical indicating whether the action was
+# successful (`TRUE`) or not (`FALSE`). This affects the message's
+# color and symbol. Default is `TRUE`.
+#
+# @return
+# A string containing the formatted message with a newline
+# character appended. The message includes a symbol, the action,
+# possible note, and is colored based on the success parameter.
+msgTemp <- function(mn, action = NULL, note = "", success = TRUE) {
+    # Pre define 'cli' symbols
+    msgInfo <- cli::symbol$tick
+    msgWarn <- cli::symbol$warning
+
+    # Choose the color function based on success
+    colorFunc <- if (success) cli::col_green else cli::col_yellow
+
+    # Choose the symbol based on success
+    symbol <- if (success) msgInfo else msgWarn
+
+    # Default action if not successful
+    if (!success) {
+        action <- "skipping value"
+    }
+
+    # Construct the base message
+    message <- paste0(" ", symbol, " ", action, ": ", basename(mn))
+    message <- colorFunc(message)  # Apply the color function
+
+    # Append note if provided
+    if (note != "") {
+        noteFormatted <- cli::style_bold(paste0(" (", note, ")"))
+        message <- paste0(message, colorFunc(noteFormatted))
+    }
+
+    # Append newline character
+    paste0(message, "\n")
 }
 
 
@@ -41,9 +100,13 @@ validateHeaders <- function(line, validHeaders, delimiter = "\t") {
 
 ## ----
 # Helper function to display dimensions of metrics
+#
+# @param metrics A list of 'data.frame' objects
+# @param label Header for display
+# @param maxPrint Max number of table to display
 displayMetrics <- function(metrics, label, maxPrint) {
     cuGrey        <- "\033[38;5;246m"
-    rsGrey        <- "\033[0m"
+    rsGrey        <- "\033[39m"
     pointerSymbol <- cli::col_green(cli::symbol$pointer)
     infoSymbol    <- cli::symbol$info
 
@@ -55,7 +118,7 @@ displayMetrics <- function(metrics, label, maxPrint) {
         extraCount <- 0
     }
 
-    cat(paste0("* ", label, ":\n"))
+    cat(paste0("-- ", label, ":\n"))
     lapply(seq_along(shownMetrics), function(x) {
         obj  <- dim(shownMetrics[[x]])
         nObj <- names(shownMetrics[x])
@@ -117,10 +180,8 @@ isValidGvcf <- function(gVcfPaths) {
 ## ----
 # Deploy messages across functions
 #
-# @param mn
-# A metric identifier (character)
-# @param type
-# Boiler plate message template
+# @param mn A metric identifier (character)
+# @param type Boiler plate message template
 metMessenger <- function(
     mn,
     type = c(
@@ -134,30 +195,15 @@ metMessenger <- function(
 ) {
     type <- match.arg(type)
 
-    msgInfo <- cli::symbol$tick
-    msgWarn <- cli::symbol$warning
-
-    # Function to generate messages based on type
-    msgTemp <- function(action, note = "", success = TRUE) {
-        cf <- if (success) cli::col_green else cli::col_yellow
-        symbol <- if (success) msgInfo else msgWarn
-        message <- paste0(" ", symbol, " ", action, ": ", basename(mn))
-        message <- cf(message)
-        if (note != "") {
-            message <- paste0(message, cli::style_bold(note))
-        }
-        paste0(message, "\n")
-    }
-
     # Response generation using the template function
     resp <- switch(
         EXPR = type,
-        "success_01" = msgTemp("reading data for"),
-        "success_02" = msgTemp("importing data for"),
-        "warn_01"    = msgTemp("skipping value", " (not valid metric data)", FALSE),
-        "warn_02"    = msgTemp("skipping value", " (ID already found in object)", FALSE),
-        "warn_03"    = msgTemp("skipping value", " (ID not found in object)", FALSE),
-        "warn_04"    = msgTemp("skipping value", " (ID duplicated)", FALSE)
+        "success_01" = msgTemp(mn, success = TRUE, action = "reading data for"),
+        "success_02" = msgTemp(mn, success = TRUE, action = "importing data for"),
+        "warn_01"    = msgTemp(mn, success = FALSE, note = "not valid metric data"),
+        "warn_02"    = msgTemp(mn, success = FALSE, note = "ID already found in object"),
+        "warn_03"    = msgTemp(mn, success = FALSE, note = "ID not found in object"),
+        "warn_04"    = msgTemp(mn, success = FALSE, note = "ID duplicated")
     )
 
     return(resp)
@@ -190,8 +236,5 @@ readMetricFiles <- function(metricFiles) {
 
     return(inMemDfs)
 }
-
-
-
 
 
