@@ -231,6 +231,20 @@ setGeneric("phgType", function(object, ...) standardGeneric("phgType"))
 
 
 ## ----
+#' @title Generate dot plots
+#'
+#' @description
+#' Generates collinearity (dot) plots between 2 samples
+#'
+#' @param object an \code{rPHG2} metrics object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname plotDot
+#' @export
+setGeneric("plotDot", function(object, ...) standardGeneric("plotDot"))
+
+
+## ----
 #' @title Return port value
 #'
 #' @description

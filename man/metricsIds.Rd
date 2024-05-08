@@ -11,7 +11,7 @@ metricsIds(object, ...)
 
 metricsIds(object, ...) <- value
 
-\S4method{metricsIds}{PHGMetrics}(object)
+\S4method{metricsIds}{PHGMetrics}(object, type = NULL)
 
 \S4method{metricsIds}{PHGMetrics}(object) <- value
 }
@@ -21,6 +21,8 @@ metricsIds(object, ...) <- value
 \item{...}{Additional arguments, for use in specific methods}
 
 \item{value}{A named vector where name(s) are the old IDs and elements are the new IDs}
+
+\item{type}{What collection of IDs do you want to return? Defaults to \code{NULL}.}
 }
 \description{
 Returns a PHG metrics table by given ID

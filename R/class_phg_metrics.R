@@ -153,8 +153,7 @@ setMethod(
             )
         )
 
-        # Display metrics for gVCF and AnchorWave
-
+        # Display metrics for all table groups
         if (length(object@metricAlign) != 0) {
             displayMetrics(object@metricAlign, "AnchorWave data", maxPrint)
         }
@@ -187,18 +186,32 @@ setMethod("$", "PHGMetrics", function(x, name) {
 # /// Methods (general) /////////////////////////////////////////////
 
 ## ----
+#' @param type
+#' What collection of IDs do you want to return? Defaults to \code{NULL}.
+#'
 #' @rdname metricsIds
 #' @export
 setMethod(
     f = "metricsIds",
     signature = signature(object = "PHGMetrics"),
-    definition = function(object) {
-        return(
-            c(
+    definition = function(object, type = NULL) {
+
+        if (!is.null(type)) {
+            rlang::arg_match0(type, values = PHG_METRICS$VALID_METRICS_IDS)
+        }
+
+        if (is.null(type)) {
+            ids <- c(
                 names(object@metricAlign),
                 names(object@metricGvcf)
             )
-        )
+        } else if (type == "align") {
+            ids <- c(names(object@metricAlign))
+        } else if (type == "gvcf") {
+            ids <- c(names(object@metricGvcf))
+        }
+
+        return(ids)
     }
 )
 
@@ -468,5 +481,59 @@ setMethod(
         return(object)
     }
 )
+
+
+## ----
+#' @param metricId
+#' A valid metric ID \code{character} name.
+#' @param querySeqId
+#' Vector of sequence IDs (query).
+#' @param refSeqId
+#' Vector of sequence IDs (reference).
+#' @param queryLab
+#' Optional label for query axis.
+#' @param refLab
+#' Optional label for reference axis.
+#' @param colorId
+#' How to color plots (\code{strand} or \code{score})
+#'
+#' @rdname plotDot
+#' @export
+setMethod(
+    f = "plotDot",
+    signature = signature(object = "PHGMetrics"),
+    definition = function(
+        object,
+        metricId,
+        querySeqId = NULL,
+        refSeqId = NULL,
+        queryLab = NULL,
+        refLab = NULL,
+        colorId = c("strand", "score")
+    ) {
+        colorId <- rlang::arg_match(colorId)
+
+        if (length(metricId) > 1) {
+            rlang::abort("This method currently does not support multiple ID plotting")
+        }
+
+        if (!metricId %in% metricsIds(object, type = "align")) {
+            rlang::abort("ID is not a valid AnchorWave table")
+        }
+
+        p <- plotDotFromMetrics(
+            df = metricsTable(object, metricId),
+            metricId = metricId,
+            querySeqId = querySeqId,
+            refSeqId = refSeqId,
+            queryLab = queryLab,
+            refLab = refLab,
+            colorId = colorId
+        )
+
+        return(p)
+    }
+)
+
 
 
