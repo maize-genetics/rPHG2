@@ -46,8 +46,14 @@ camelToSnake <- function(x) {
 #' @export
 `%T%` <- function(lhs, rhs) {
     nRhs <- eval(rhs)
-    names(nRhs) <- eval(lhs)
-    return(nRhs)
+    nLhs <- eval(lhs)
+
+    if (length(nLhs) == 0) {
+        rlang::abort("Failed evaluation of 'lhs' (empty character)")
+    } else {
+        names(nRhs) <- nLhs
+        return(nRhs)
+    }
 }
 
 

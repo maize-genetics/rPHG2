@@ -9,7 +9,7 @@ PHGMetrics(paths = NULL, metadata = NULL)
 \arguments{
 \item{metadata}{key-value metadata for files}
 
-\item{dir}{A collection of directories}
+\item{dir}{A \code{character} vector of file and/or directory paths}
 }
 \value{
 A \code{PHGMetrics} object.

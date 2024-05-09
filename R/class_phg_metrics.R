@@ -37,7 +37,7 @@ setClass(
 #' \code{PHGMetrics} is the primary container for housing PHGv2 metrics data
 #'
 #' @param dir
-#' A collection of directories
+#' A \code{character} vector of file and/or directory paths
 #' @param metadata
 #' key-value metadata for files
 #'
@@ -45,6 +45,10 @@ setClass(
 #'
 #' @export
 PHGMetrics <- function(paths = NULL, metadata = NULL) {
+    if (!is.character(paths)) {
+        rlang::abort("No valid file paths or directories given for 'paths' parameter")
+    }
+
     # V01 - check if directories or files exist
     dirFilt <- paths[dir.exists(paths)]
     filFilt <- paths[file.exists(paths)]
@@ -66,6 +70,8 @@ PHGMetrics <- function(paths = NULL, metadata = NULL) {
             recursive  = TRUE
         )
         metFilesFromDir <- normalizePath(metFilesFromDir)
+    } else {
+        metFilesFromDir <- NULL
     }
 
     # V04 - combine all files as one collection
@@ -111,16 +117,14 @@ PHGMetrics <- function(paths = NULL, metadata = NULL) {
         )
     }
 
-    if (is.null(dir)) {
-        methods::new("PHGMetrics")
-    } else {
+    return(
         methods::new(
             Class       = "PHGMetrics",
             metricAlign = algnDfs,
             metricGvcf  = gvcfDfs,
             metadata    = metadata
         )
-    }
+    )
 }
 
 
@@ -234,47 +238,20 @@ setMethod(
             rlang::abort("Elements in vector for 'value' must be of type 'character'")
         }
 
-        if (any(is.na(names(value)))) {
-            offenders <- value[is.na(names(value))]
-            for (off in offenders) {
-                cat(metMessenger(off, "warn_03"))
-            }
-
-            value <- value[value != offenders]
-
-            if (length(value) == 0) {
-                rlang::abort("No provided IDs found in object after NA check")
-            }
-        }
-
         if (any(duplicated(names(value)))) {
-            offenders <- value[duplicated(names(value))]
-            for (off in offenders) {
-                cat(metMessenger(off, "warn_04"))
-            }
-
-            value <- value[value != offenders]
-
-            if (length(value) == 0) {
-                rlang::abort("No provided IDs found in object after duplicate check")
-            }
+            rlang::abort("Duplicated object IDs found in 'value' (all IDs must be unique)")
         }
 
         if (any(duplicated(value))) {
-            offenders <- value[duplicated(value)]
-            for (off in offenders) {
-                cat(metMessenger(off, "warn_04"))
-            }
-
-            value <- value[value != offenders]
-
-            if (length(value) == 0) {
-                rlang::abort("No provided IDs found in object after duplicate check")
-            }
+            rlang::abort("Duplicated new IDs found in 'value' (all IDs must be unique)")
         }
 
         if (all(value %in% metricsIds(object))) {
             rlang::abort("No IDs changed (all new values already found in object)")
+        }
+
+        if (all(!names(value) %in% metricsIds(object))) {
+            rlang::abort("No provided IDs found in object")
         }
 
         if (any(value %in% metricsIds(object))) {
@@ -282,16 +259,15 @@ setMethod(
             for (off in offenders) {
                 cat(metMessenger(off, "warn_02"))
             }
-
             value <- value[value != offenders]
-
-            if (length(value) == 0) {
-                rlang::abort("No IDs remaining after duplicate check")
-            }
         }
 
         if (any(!names(value) %in% metricsIds(object))) {
-            rlang::abort("No provided IDs found in object")
+            offenders <- value[!names(value) %in% metricsIds(object)]
+            for (off in offenders) {
+                cat(metMessenger(off, "warn_03"))
+            }
+            value <- value[value != offenders]
         }
 
         newNames <- value
@@ -534,6 +510,5 @@ setMethod(
         return(p)
     }
 )
-
 
 
