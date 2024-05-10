@@ -39,18 +39,11 @@ plotDotFromMetrics <- function(
     if (is.null(queryLab)) queryLab <- "Query"
     if (is.null(refLab)) refLab <- "Reference"
 
-    if (colorId == "score") {
-        scaleUnit <- ggplot2::scale_color_viridis_c()
-    } else if (colorId == "strand") {
-        scaleUnit <- ggplot2::scale_color_manual(
-            values = c(
-                "+" = "#DA897C",
-                "-" = "#0D6A82"
-            )
-        )
-    } else {
-        scaleUnit <- NULL
-    }
+    scaleUnit <- switch(
+        EXPR     = colorId,
+        "score"  = ggplot2::scale_color_viridis_c(),
+        "strand" = ggplot2::scale_color_manual(values = c("+" = "#DA897C", "-" = "#0D6A82")),
+    )
 
     if (!is.null(refSeqId)) df <- df[which(df$ref_chr %in% refSeqId), ]
     if (!is.null(querySeqId)) df <- df[which(df$query_chr %in% querySeqId), ]

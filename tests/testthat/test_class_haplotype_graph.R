@@ -20,7 +20,6 @@ test_that("HaplotypeGraph class construction tests", {
 
     expect_error(buildHaplotypeGraph(locConBad))
 
-
     graph <- buildHaplotypeGraph(locCon)
     locConOutput <- utils::capture.output(graph)
 

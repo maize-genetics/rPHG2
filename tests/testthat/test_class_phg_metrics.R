@@ -48,7 +48,7 @@ test_that("PHGMetrics override tests", {
 })
 
 
-test_that("PHGMetrics general metric ID return and updated tests", {
+test_that("PHGMetrics general metric ID return and update tests", {
     metricDir <- system.file("extdata", package = "rPHG2")
     algnPath  <- system.file("extdata", "toy_anchors_s01.anchorspro", package = "rPHG2")
     gvcfPath  <- system.file("extdata", "toy_gvcf_metrics.tsv", package = "rPHG2")
@@ -120,12 +120,13 @@ test_that("PHGMetrics general metric ID return and updated tests", {
 })
 
 
-test_that("PHGMetrics general metric table return and updated tests", {
+test_that("PHGMetrics general metric table return and update tests", {
     metricDir <- system.file("extdata", package = "rPHG2")
     algnPath  <- system.file("extdata", "toy_anchors_s01.anchorspro", package = "rPHG2")
     gvcfPath  <- system.file("extdata", "toy_gvcf_metrics.tsv", package = "rPHG2")
     hvcfPath  <- system.file("extdata", "LineA.h.vcf", package = "rPHG2")
     algnDf    <- read.table(algnPath, header = TRUE, sep = "\t")
+    gvcfDf    <- read.table(gvcfPath, header = TRUE, sep = "\t")
 
     metBase <- PHGMetrics(c(algnPath, gvcfPath))
 
@@ -142,26 +143,206 @@ test_that("PHGMetrics general metric table return and updated tests", {
         object = metricsTable(metTest, name = "non_existant"),
         regexp = "Provided \'name\' not found in object"
     )
-
     expect_true(
         is(
             metricsTable(metTest, metTest$toy_anchors_s01, type = "gvcf"),
             "tbl_df"
         )
     )
-
     resGvcf <- metricsTable(metTest, type = "gvcf")
     resAlgn <- metricsTable(metTest, type = "align")
-
     expect_true(is(resGvcf, "tbl_df"))
     expect_true(is(resAlgn, "tbl_df"))
     expect_equal(ncol(resGvcf), 19)
     expect_equal(ncol(resAlgn), 10)
     expect_equal(colnames(resAlgn), camelToSnake(PHG_METRICS$VALID_ANCHOR_HEADERS))
     expect_equal(colnames(resGvcf), camelToSnake(PHG_METRICS$VALID_GVCF_HEADERS))
-
     expect_error(metricsTable(metTest, type = "invalid"))
+
+    # metricsTable<-
+    metTest <- metBase
+    expect_error(
+        object = metricsTable(metTest) <- "invalid",
+        regexp = "Provided \'value\' not of type \'list\'"
+    )
+    expect_error(
+        object = metricsTable(metTest) <- mtcars,
+        regexp = "Provided \'value\' must be in a named \'list\'"
+    )
+    expect_error(
+        object = metricsTable(metTest) <- list(mtcars),
+        regexp = "Provided \'list\' object does not have names"
+    )
+    expect_error(
+        object = metricsTable(metTest) <- list("invalid" = mtcars, "invalid" = iris),
+        regexp = "Provided \'list\' object has duplicated IDs"
+    )
+    expect_error(
+        object = metricsTable(metTest) <- list("invalid" = mtcars),
+        regexp = "No valid metrics tables could be identified"
+    )
+
+    metTest <- metBase
+    metricsTable(metTest) <- list(
+        "valid_gvcf_from_path" = gvcfPath,
+        "valid_gvcf_from_df"   = gvcfDf
+    )
+    expect_true(is(metricsTable(metTest), "list"))
+    expect_equal(
+        object   = metricsIds(metTest),
+        expected = c(
+            "toy_anchors_s01",
+            "toy_gvcf_metrics",
+            "valid_gvcf_from_path",
+            "valid_gvcf_from_df"
+        )
+    )
+
+    metTest <- metBase
+    metricsTable(metTest) <- list(
+        "valid_algn_from_path" = algnPath,
+        "valid_algn_from_df"   = algnDf
+    )
+    expect_true(is(metricsTable(metTest), "list"))
+    expect_equal(
+        object   = metricsIds(metTest),
+        expected = c(
+            "toy_anchors_s01",
+            "valid_algn_from_path",
+            "valid_algn_from_df",
+            "toy_gvcf_metrics"
+        )
+    )
+
+    metTest <- metBase
+    metricsTable(metTest) <- list(
+        "valid_gvcf_from_path" = gvcfPath,
+        "valid_gvcf_from_df"   = gvcfDf,
+        "valid_algn_from_path" = algnPath,
+        "valid_algn_from_df"   = algnDf
+    )
+    expect_true(is(metricsTable(metTest), "list"))
+    expect_equal(
+        object   = metricsIds(metTest),
+        expected = c(
+            "toy_anchors_s01",
+            "valid_algn_from_path",
+            "valid_algn_from_df",
+            "toy_gvcf_metrics",
+            "valid_gvcf_from_path",
+            "valid_gvcf_from_df"
+        )
+    )
+
+    metTest <- metBase
+    metricsTable(metTest) <- list(
+        "valid_gvcf_from_path"    = gvcfPath,
+        "valid_gvcf_from_df"      = gvcfDf,
+        "invalid_gvcf_from_path"  = "invalid_path",
+        "invalid_gvcf_from_path2" = hvcfPath,
+        "invalid_gvcf_from_df"    = mtcars,
+        "valid_algn_from_path"    = algnPath,
+        "valid_algn_from_df"      = algnDf,
+        "invalid_algn_from_path"  = "invalid_path",
+        "invalid_algn_from_path2" = hvcfPath,
+        "invalid_algn_from_df"    = mtcars
+    )
+    expect_true(is(metricsTable(metTest), "list"))
+    expect_true(is(metricsTable(metTest, type = "gvcf"), "list"))
+    expect_true(is(metricsTable(metTest, type = "align"), "list"))
+    expect_equal(
+        object   = metricsIds(metTest),
+        expected = c(
+            "toy_anchors_s01",
+            "valid_algn_from_path",
+            "valid_algn_from_df",
+            "toy_gvcf_metrics",
+            "valid_gvcf_from_path",
+            "valid_gvcf_from_df"
+        )
+    )
+    metOut01 <- utils::capture.output(metTest)
+    expect_equal(length(metOut01), 9)
+
+    metTest <- metBase
+    metricsTable(metTest) <- list(
+        "toy_anchors_s01"      = algnDf,
+        "valid_algn_from_path" = algnPath
+    )
+    expect_equal(
+        object   = metricsIds(metTest),
+        expected = c(
+            "toy_anchors_s01",
+            "valid_algn_from_path",
+            "toy_gvcf_metrics"
+        )
+    )
+
 })
+
+
+test_that("PHGMetrics general dot plot tests", {
+    metricDir <- system.file("extdata", package = "rPHG2")
+
+    metBase <- PHGMetrics(metricDir)
+
+    expect_true(is(plotDot(metBase, metBase$toy_anchors_s01), "ggplot"))
+    expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, colorId = "score"), "ggplot"))
+    expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, refSeqId = c("1", "2")), "ggplot"))
+    expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, querySeqId = c("1", "2")), "ggplot"))
+    expect_error(plotDot(metBase, metBase$toy_anchors_s01, colordId = "not_a_column"))
+    expect_error(plotDot(metBase, metBase$toy_anchors_s01, refSeqId = "1", querySeqId = "2"))
+    expect_error(plotDot(metBase, metBase$toy_gvcf_metrics))
+    expect_error(
+        plotDot(
+            object = metBase,
+            metricId = c(
+                metBase$toy_anchors_s01,
+                metBase$toy_anchors_s01
+            ),
+            refSeqId = "1",
+            querySeqId = "2"
+        )
+    )
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
