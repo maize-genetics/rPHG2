@@ -1,0 +1,57 @@
+---
+title: "Load and visualize PHG metrics"
+output: rmarkdown::html_vignette
+description: >
+  Learn how to load and visulaize PHG metrics
+vignette: >
+  %\VignetteIndexEntry{Load and visualize PHG metrics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  markdown:
+    wrap: 70
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.align = "center",
+  external = TRUE,
+  echo = TRUE,
+  warning = FALSE
+)
+
+library(rPHG2)
+```
+
+
+In addition to loading and inspecting hVCF data, `rPHG2` provides classes for
+quick loading and granular visualization of "PHG metrics" data. Currently,
+there are two primary types of PHG metrics:
+
+* Alignment files from AnchorWave
+  + used for collinearity plotting of samples against the reference genome
+* gVCF data metrics
+  + general statistics of gVCFs generated for each sample $\times$ chromosome
+    pair
+
+```{r, eval=TRUE, echo=TRUE}
+metricDir <- system.file("extdata", package = "rPHG2")
+
+metData <- PHGMetrics(metricDir)
+
+metData
+```
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsIds()
+```
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsTable()
+```
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotDot(metData$toy_anchors_s01)
+```
+
+
