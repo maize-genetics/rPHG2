@@ -22,6 +22,10 @@ metricsTable(object, ...) <- value
 
 \item{value}{A named list where names are the metric table IDs and values are valid
 metrics tables. Currently, gVCF and AnchorWave alignment files are allowed.}
+
+\item{name}{A metric table name}
+
+\item{type}{What collection of IDs do you want to return? Defaults to \code{NULL}.}
 }
 \description{
 Returns a PHG metrics table by given ID

@@ -36,7 +36,7 @@ setClass(
 #' @description
 #' \code{PHGMetrics} is the primary container for housing PHGv2 metrics data
 #'
-#' @param dir
+#' @param paths
 #' A \code{character} vector of file and/or directory paths
 #' @param metadata
 #' key-value metadata for files
@@ -173,6 +173,23 @@ setMethod(
 # /// Methods (override) ////////////////////////////////////////////
 
 ## ----
+#' @title
+#' Retrieve Names Matching a Pattern from PHGMetrics Objects
+#'
+#' @description
+#' This function extracts all the names from the `id` field in the `metadata`
+#' slot of a `PHGMetrics` object that match a specified pattern.
+#'
+#' @param x
+#' A `PHGMetrics` object.
+#' @param pattern
+#' A regular expression pattern to match against the `id` values.
+#'
+#' @return
+#' A character vector of names matching the pattern.
+#'
+#' @importFrom utils .DollarNames
+#'
 #' @export
 .DollarNames.PHGMetrics <- function(x, pattern = "") {
     grep(pattern, x@metadata$id, value = TRUE)
@@ -180,9 +197,26 @@ setMethod(
 
 
 ## ----
+#' @title
+#' Access Elements of PHGMetrics Objects by Name
+#'
+#' @description
+#' This method allows for accessing elements of the `metadata` slot in
+#' `PHGMetrics` objects using the `$` operator, specifically filtering by the
+#' `id`.
+#'
+#' @param x
+#' A `PHGMetrics` object.
+#' @param name
+#' The name of the element to access within the `metadata$id` field.
+#'
+#' @return
+#' The value associated with the specified `name` in the `metadata$id` of the
+#' `PHGMetrics` object, if it exists.
+#'
 #' @export
 setMethod("$", "PHGMetrics", function(x, name) {
-    slot(x, "metadata")[["id"]][x@metadata[["id"]] == name]
+    methods::slot(x, "metadata")[["id"]][x@metadata[["id"]] == name]
 })
 
 
@@ -285,7 +319,7 @@ setMethod(
         mdNew <- md
         mdNew[mdNew$id %in% oldNames, "id"] <- newNames
 
-        slot(object, "metadata")  <- mdNew
+        methods::slot(object, "metadata")  <- mdNew
         names(object@metricGvcf)  <- newGvcfIds
         names(object@metricAlign) <- newAlgnIds
 
@@ -307,6 +341,10 @@ setMethod(
 
 
 ## ----
+#' @param name
+#' A metric table name
+#' @param type
+#' What collection of IDs do you want to return? Defaults to \code{NULL}.
 #' @rdname metricsTable
 #' @export
 setMethod(
@@ -452,7 +490,7 @@ setMethod(
 
         # Combine the original and additional metadata
         mdNew <- rbind(md, mdAdd)
-        slot(object, "metadata") <- mdNew
+        methods::slot(object, "metadata") <- mdNew
 
         return(object)
     }

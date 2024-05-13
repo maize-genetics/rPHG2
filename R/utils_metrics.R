@@ -220,7 +220,7 @@ readMetricFiles <- function(metricFiles) {
         FUN = function(x) {
             cat(metMessenger(basename(x), "success_01"))
             tmp <- tibble::as_tibble(
-                read.table(
+                utils::read.table(
                     file         = x,
                     header       = TRUE,
                     sep          = "\t",
