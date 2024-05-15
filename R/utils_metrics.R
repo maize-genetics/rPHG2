@@ -98,6 +98,12 @@ validateHeaders <- function(line, validHeaders, delimiter = "\t") {
 
 # /// Primary functions /////////////////////////////////////////////
 
+colCustGrey <- function(text, shade = 50) {
+    greyColor <- paste0("grey", shade)
+    style <- cli::make_ansi_style(greyColor)
+    style(text)
+}
+
 ## ----
 # Helper function to display dimensions of metrics
 #
@@ -105,8 +111,6 @@ validateHeaders <- function(line, validHeaders, delimiter = "\t") {
 # @param label Header for display
 # @param maxPrint Max number of table to display
 displayMetrics <- function(metrics, label, maxPrint) {
-    cuGrey        <- "\033[38;5;246m"
-    rsGrey        <- "\033[39m"
     pointerSymbol <- cli::col_green(cli::symbol$pointer)
     infoSymbol    <- cli::symbol$info
 
@@ -124,16 +128,18 @@ displayMetrics <- function(metrics, label, maxPrint) {
         nObj <- names(shownMetrics[x])
         msg <- paste0(
             " ", pointerSymbol, " ", nObj,
-            " (", cuGrey, paste(obj, collapse = " "), rsGrey, ")", "\n"
+            " (", colCustGrey(paste(obj, collapse = " ")), ")", "\n"
         )
         cat(msg)
     })
 
     if (extraCount > 0) {
         cat(
-            paste0(
-                cuGrey, " # ", infoSymbol, " ",
-                extraCount, " more tables", rsGrey, "\n"
+            colCustGrey(
+                paste0(
+                    " # ", infoSymbol, " ",
+                    extraCount, " more table(s)", "\n"
+                )
             )
         )
     }

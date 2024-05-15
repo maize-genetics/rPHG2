@@ -293,6 +293,7 @@ test_that("PHGMetrics general dot plot tests", {
     expect_error(plotDot(metBase, metBase$toy_anchors_s01, colordId = "not_a_column"))
     expect_error(plotDot(metBase, metBase$toy_anchors_s01, refSeqId = "1", querySeqId = "2"))
     expect_error(plotDot(metBase, metBase$toy_gvcf_metrics))
+    expect_error(plotDot(metBase, metBase$invalid_selection), regexp = "ID is not a valid AnchorWave")
     expect_error(
         plotDot(
             object = metBase,

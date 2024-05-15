@@ -452,11 +452,13 @@ setMethod(
             } else if (is(metricValue, "data.frame")) {
                 if (all(camelToSnake(colnames(metricValue)) %in% camelToSnake(PHG_METRICS$VALID_ANCHOR_HEADERS))) {
                     cat(metMessenger(metricName, "success_02"))
-                    validAlgnDfs[[metricName]] <- metricValue
+                    validAlgnDfs[[metricName]] <- tibble::as_tibble(metricValue)
+                    colnames(validAlgnDfs[[metricName]]) <- camelToSnake(colnames(metricValue))
                     validFileAlgnIds <- c(validFileAlgnIds, metricName)
                 } else if (all(camelToSnake(colnames(metricValue)) %in% camelToSnake(PHG_METRICS$VALID_GVCF_HEADERS))) {
                     cat(metMessenger(metricName, "success_02"))
-                    validGvcfDfs[[metricName]] <- metricValue
+                    validGvcfDfs[[metricName]] <- tibble::as_tibble(metricValue)
+                    colnames(validGvcfDfs[[metricName]]) <- camelToSnake(colnames(metricValue))
                     validFileGvcfIds <- c(validFileGvcfIds, metricName)
                 } else {
                     cat(metMessenger(metricName, "warn_01"))
@@ -529,6 +531,10 @@ setMethod(
 
         if (length(metricId) > 1) {
             rlang::abort("This method currently does not support multiple ID plotting")
+        }
+
+        if (length(metricId) == 0) {
+            rlang::abort("ID is not a valid AnchorWave table")
         }
 
         if (!metricId %in% metricsIds(object, type = "align")) {

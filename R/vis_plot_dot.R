@@ -63,6 +63,7 @@ plotDotFromMetrics <- function(
         ggplot2::geom_point(size = 0.3) +
         ggplot2::scale_y_continuous(labels = toMb) +
         ggplot2::scale_x_continuous(labels = toMb) +
+        ggplot2::ggtitle(metricId) +
         ggplot2::facet_grid(
             rows   = ggplot2::vars(!!rlang::sym("ref_chr")),
             col    = ggplot2::vars(!!rlang::sym("query_chr")),
