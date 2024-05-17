@@ -1,0 +1,226 @@
+---
+title: "Load and visualize PHG metrics"
+output: rmarkdown::html_vignette
+description: >
+  Learn how to load and visulaize PHG metrics
+vignette: >
+  %\VignetteIndexEntry{Load and visualize PHG metrics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  markdown:
+    wrap: 70
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.align = "center",
+  external = TRUE,
+  echo = TRUE,
+  warning = FALSE
+)
+
+library(rPHG2)
+```
+
+## Creating `PHGMetrics` objects
+In addition to loading and inspecting hVCF data, `rPHG2` provides classes for
+quick loading and granular visualization of "PHG metrics" data. Currently,
+there are two primary types of PHG metrics:
+
+* Alignment files from AnchorWave
+  + used for collinearity plotting of samples against the reference genome
+* gVCF data metrics
+  + general statistics of gVCFs generated for each sample $\times$ chromosome
+    pair
+
+To provide "easy to use" downstream plotting methods, we will need to construct
+a new `rPHG2` `PHGMetrics` object by providing either file paths, directory
+paths, or a combination of the two as a `character` vector. In the following
+example, I will provide a path to a directory containing both alignment and
+gVCF data that is found within the library:
+
+```{r, eval=TRUE, echo=TRUE}
+metricDir <- system.file("extdata", package = "rPHG2")
+
+metricDir
+```
+
+From this variable, we can simply pass this to the `PHGMetrics` constructor,
+`PHGMetrics()`:
+
+```{r, eval=TRUE, echo=TRUE}
+metData <- PHGMetrics(metricDir)
+
+metData
+```
+
+## Accessing metrics data tables
+
+### General use
+From the previously created `metData` object, we can directly access various
+types of data through a series of accessor methods.
+
+If we want to extract all metrics tables as `data.frame`-like objects, we can
+use the `metricsTable()` function, which will return a `list` object of
+`data.frame` tables:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsTable()
+```
+
+### Individual table selection
+If we want to extract just one table, we can provide the **name** of the table
+into the `metricsTable()` function by specifying a valid name with the `name`
+parameter. By default, the `PHGMetrics()` constructor will specify the names
+of each table by extracting the base name of each file passed to the
+constructor. For example, if we have the following file path:
+
+`/path/to/my/alignment_file.anchorspro`
+
+...the default name for this table will be `alignment_file`. Depending on the
+complexity of the file ID, `rPHG2` provides a `$` operator override which
+allows users to cycle through valid metrics table names:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsTable(name = metData$toy_anchors_s01)
+```
+
+### Table selection by metric type
+We can also extract tables by type using the `type` parameter in the 
+`metricsTable()` function. Currently, the two metric types that PHGv2 provides 
+are as follows:
+
+* `align` - For AnchorWave alignment files
+* `gvcf` - For gVCF metrics files
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsTable(type = "gvcf")
+```
+
+
+## Other accessor functions
+In addition to extracting tables, we can also access other types of data
+found in `PHGMetrics` objects.
+
+### Identifiers
+If we want to return all IDs of every table we can use the `metricsIds()`
+function:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsIds()
+```
+
+Similar to the previous section, we can also return IDs by metric type using
+the `type` parameter:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsIds(type = "align")
+```
+
+### Metadata
+We can also extract metadata which will provide a simple `data.frame` table
+containing three columns:
+
+* `file` - file ID of loaded data
+* `type` - metrics data type
+* `id` - the "name" of the metrics table
+
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> metricsMetaData()
+```
+
+
+## Updating `PHGMetrics` objects
+To update existing `PHGMetrics` we can use `f()<-` complements to the
+accessor methods from the prior sections. Currently, we can update or add the
+following information:
+
+* metrics table names/IDs (_update_)
+* metrics tables (_add_)
+
+
+### Update IDs
+To update pre-existing names of tables in the object, we can use the 
+`metricsIds()` function in conjunction with the assignment (`<-`) operator
+by passing a named `character` vector, where the name of the vector is the
+name of the old table ID and the element is the new name:
+
+```{r, echo=TRUE, eval=FALSE}
+nameMap <- c(
+    "old_id1" = "new_id1",
+    "old_id2" = "new_id2"
+)
+```
+
+If we do not wish to remember all old IDs of our tables, we can use the prior
+`$` operator in conjunction with `rPHG2`'s defined "to" operator, `%T%` in
+a vector:
+
+```{r, echo=TRUE, eval=TRUE}
+nameMap <- c(
+    metData$toy_gvcf_metrics %T% "new_gvcf_id",
+    metData$toy_anchors_s01 %T% "new_anchor_id"
+)
+```
+
+The prior code will internally evaluate to named `character` vector:
+
+```{r, echo=TRUE, eval=TRUE}
+nameMap
+```
+
+This can be passed to the `metricsIds()` function:
+
+```{r, echo=TRUE, eval=TRUE}
+metricsIds(metData) <- nameMap
+
+metData |> metricsIds()
+```
+
+### Update tables
+We can also add new tables to our existing `PHGMetrics` objects using the
+`metricsTable()` function by passing a named `list` object containing a
+combination of the valid types:
+
+* file paths
+* directory paths
+* in-memory R `data.frame` objects containing valid PHGv2 metric structures
+
+For this example, I will add another table via a `data.frame` using some 
+internal toy data found in the `rPHG2` package:
+
+```{r, eval=TRUE, echo=TRUE}
+algnPath <- system.file("extdata/toy_anchors_s01.anchorspro", package = "rPHG2")
+algnDf   <- read.table(algnPath, header = TRUE, sep = "\t")
+
+head(algnDf)
+```
+
+```{r, eval=TRUE, echo=TRUE}
+metricsTable(metData) <- list("new_algn_table" = algnDf)
+
+metData |> metricsMetaData()
+```
+
+
+
+## Visualize metrics data
+If you are satisfied with how the metrics data is loaded into R, we can
+directly visualize granular diagnostic plots using the `plot*` family of
+functions.
+
+For example, if I want to generate dot plots from alignment data, I can simply
+pass the `PHGMetrics` object to the function, `plotDot()`. Currently this
+can only plot one table at a time, so we must specify the alignment table
+that we want to visualize:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotDot(metData$new_anchor_id)
+```
+
+**Note**: This plot can only work on alignment (`type = "align"`) data and will
+throw an error if any gVCF-based metrics Ids are used.
+
+

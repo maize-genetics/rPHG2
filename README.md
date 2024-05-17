@@ -24,29 +24,25 @@ pak::pak("maize-genetics/rPHG2")
 
 ## Usage
 
-### Initialize with PHGv2 JARs
 ``` r
+# Initialize with PHGv2 JARs
 initPhg("my/phg/jar/path")
-```
 
-### Create a connection
-``` r
+
+# Create a connection
 locCon <- list.files("my/hvcf/dir") |>
     PHGLocalCon()
-```
 
-### Build a graph
-``` r
+
+# Build a graph
 graph <- locCon |> buildHaplotypeGraph()
-```
 
-### Read data into R
-``` r
+
+# Read data into R
 phgDs <- graph |> readPhgDataSet()
-```
 
-### Identify areas of interest
-``` r
+
+# Identify areas of interest
 gr <- GRanges(
     seqnames = c("1", "2"),
     ranges = IRanges(

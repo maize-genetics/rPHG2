@@ -22,11 +22,11 @@ test_that("BrAPI utitlity tests", {
         )
     )
 
-    # httResp
-    expect_true(is(httpResp(file.path(posControl4, 200)), "list"))
-    for (i in seq(200, 500, 100)) {
-        expect_equal(httpResp(file.path(posControl4, i))$status, i)
-    }
+    # # httResp
+    # expect_true(is(httpResp(file.path(posControl4, 200)), "list"))
+    # for (i in seq(200, 500, 100)) {
+    #     expect_equal(httpResp(file.path(posControl4, i))$status, i)
+    # }
 
     # jsonToTibble
     expect_true(

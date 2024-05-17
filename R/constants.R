@@ -41,3 +41,45 @@ PHG_JVM <- list(
 )
 
 
+## ----
+PHG_METRICS <- list(
+    "VALID_ANCHOR_HEADERS" = c(
+        "refChr",
+        "referenceStart",
+        "referenceEnd",
+        "queryChr",
+        "queryStart",
+        "queryEnd",
+        "strand",
+        "gene",
+        "blockIndex",
+        "score"
+    ),
+    "VALID_GVCF_HEADERS" = c(
+        "taxa",
+        "chrom",
+        "refLength",
+        "numSNPs",
+        "numIns",
+        "numDel",
+        "numNs",
+        "numBasesInserted",
+        "numBasesDeleted",
+        "percentIdentityWithRef",
+        "percentMappedToRef",
+        "meanInsertionSize",
+        "medianInsertionSize",
+        "largestInsertion",
+        "meanDeletionSize",
+        "medianDeletionSize",
+        "largestDeletion",
+        "refRangesWithHaplotype",
+        "haplotypesIdenticalToRef"
+    ),
+    "VALID_METRICS_IDS" = c(
+        "gvcf",
+        "align"
+    )
+)
+
+

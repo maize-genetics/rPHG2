@@ -10,12 +10,12 @@ filterSamples(object, ...)
 \S4method{filterSamples}{PHGDataSet}(object, sampleIds)
 }
 \arguments{
-\item{object}{an \code{rPHG} dataset}
+\item{object}{an \code{rPHG2} dataset}
 
 \item{...}{Additional arguments, for use in specific methods}
 
 \item{sampleIds}{A \code{character} vector of sample IDs}
 }
 \description{
-Filters \code{rPHG}-related datasets by sample ID.
+Filters \code{rPHG2}-related datasets by sample ID.
 }

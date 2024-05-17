@@ -10,10 +10,10 @@ javaMemoryAddress(object, ...)
 \S4method{javaMemoryAddress}{HaplotypeGraph}(object)
 }
 \arguments{
-\item{object}{an \code{rPHG} local or server connection object}
+\item{object}{an \code{rPHG2} local or server connection object}
 
 \item{...}{Additional arguments, for use in specific methods}
 }
 \description{
-Returns the \code{rJava} memory reference for a given \code{rPHG} object
+Returns the \code{rJava} memory reference for a given \code{rPHG2} object
 }

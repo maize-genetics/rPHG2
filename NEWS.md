@@ -3,6 +3,15 @@
   + `vignette("rPHG2")`
 * Created build system for website generation
   + [rphg2.maizegenetics.net](https://rphg2.maizegenetics.net)
+* Added new class `PHGMetrics`
+  + Primary container for PHGv2 metrics data
+* Added accessor methods for `PHGMetrics` objects:
+  + `metricsIds()`
+  + `metricsTable()`
+  + `metricsMetaData()`
+* Prior methods are also updatable
+* Added visualization methods:
+  + `plotDot()` - collinearity plotter for alignment data
 
 
 ## rPHG2 0.3

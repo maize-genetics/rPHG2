@@ -10,7 +10,7 @@ hVcfFiles(object, ...)
 \S4method{hVcfFiles}{PHGLocalCon}(object)
 }
 \arguments{
-\item{object}{an \code{rPHG} local connection object}
+\item{object}{an \code{rPHG2} local connection object}
 
 \item{...}{Additional arguments, for use in specific methods}
 }
