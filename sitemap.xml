@@ -10,6 +10,9 @@
     <loc>https://rphg2.maizegenetics.net/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://rphg2.maizegenetics.net/articles/metrics.html</loc>
+  </url>
+  <url>
     <loc>https://rphg2.maizegenetics.net/articles/rPHG2.html</loc>
   </url>
   <url>
@@ -49,6 +52,12 @@
     <loc>https://rphg2.maizegenetics.net/reference/PHGLocalCon.html</loc>
   </url>
   <url>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGMetrics-class.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/PHGMetrics.html</loc>
+  </url>
+  <url>
     <loc>https://rphg2.maizegenetics.net/reference/PHGServerCon-class.html</loc>
   </url>
   <url>
@@ -67,10 +76,19 @@
     <loc>https://rphg2.maizegenetics.net/reference/buildHaplotypeGraph.html</loc>
   </url>
   <url>
+    <loc>https://rphg2.maizegenetics.net/reference/cash-PHGMetrics-method.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/dot-DollarNames.PHGMetrics.html</loc>
+  </url>
+  <url>
     <loc>https://rphg2.maizegenetics.net/reference/filterRefRanges.html</loc>
   </url>
   <url>
     <loc>https://rphg2.maizegenetics.net/reference/filterSamples.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/grapes-T-grapes.html</loc>
   </url>
   <url>
     <loc>https://rphg2.maizegenetics.net/reference/hVcfFiles.html</loc>
@@ -94,6 +112,15 @@
     <loc>https://rphg2.maizegenetics.net/reference/javaRefObj.html</loc>
   </url>
   <url>
+    <loc>https://rphg2.maizegenetics.net/reference/metricsIds.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/metricsMetaData.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/metricsTable.html</loc>
+  </url>
+  <url>
     <loc>https://rphg2.maizegenetics.net/reference/numberOfChromosomes.html</loc>
   </url>
   <url>
@@ -104,6 +131,9 @@
   </url>
   <url>
     <loc>https://rphg2.maizegenetics.net/reference/phgType.html</loc>
+  </url>
+  <url>
+    <loc>https://rphg2.maizegenetics.net/reference/plotDot.html</loc>
   </url>
   <url>
     <loc>https://rphg2.maizegenetics.net/reference/port.html</loc>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,12 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/rPHG2.html">Get started</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/metrics.html">Load and visualize PHG metrics</a>
+  </div>
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -110,6 +116,16 @@
         <dd>Helper function to construct a <code>PHGLocalCon</code> object</dd>
       </dl><dl><dt>
           
+          <code><a href="PHGMetrics-class.html">show(<i>&lt;PHGMetrics&gt;</i>)</a></code> 
+        </dt>
+        <dd>A PHGMetrics Class</dd>
+      </dl><dl><dt>
+          
+          <code><a href="PHGMetrics.html">PHGMetrics()</a></code> 
+        </dt>
+        <dd>PHGMetrics object constructor</dd>
+      </dl><dl><dt>
+          
           <code><a href="PHGServerCon-class.html">show(<i>&lt;PHGServerCon&gt;</i>)</a></code> 
         </dt>
         <dd>An PHGServerCon Class</dd>
@@ -140,6 +156,16 @@
         <dd>Helper function to build HaplotypeGraph object</dd>
       </dl><dl><dt>
           
+          <code><a href="cash-PHGMetrics-method.html">`$`(<i>&lt;PHGMetrics&gt;</i>)</a></code> 
+        </dt>
+        <dd>Access Elements of PHGMetrics Objects by Name</dd>
+      </dl><dl><dt>
+          
+          <code><a href="dot-DollarNames.PHGMetrics.html">.DollarNames(<i>&lt;PHGMetrics&gt;</i>)</a></code> 
+        </dt>
+        <dd>Retrieve Names Matching a Pattern from PHGMetrics Objects</dd>
+      </dl><dl><dt>
+          
           <code><a href="filterRefRanges.html">filterRefRanges()</a></code> 
         </dt>
         <dd>Filter data by reference range</dd>
@@ -148,6 +174,11 @@
           <code><a href="filterSamples.html">filterSamples()</a></code> 
         </dt>
         <dd>Filter data by sample IDs</dd>
+      </dl><dl><dt>
+          
+          <code><a href="grapes-T-grapes.html">`%T%`</a></code> 
+        </dt>
+        <dd>User-defined function for pre-evaluated names in vectors</dd>
       </dl><dl><dt>
           
           <code><a href="hVcfFiles.html">hVcfFiles()</a></code> 
@@ -180,6 +211,21 @@
         <dd>Return <code>rJava</code> reference object</dd>
       </dl><dl><dt>
           
+          <code><a href="metricsIds.html">metricsIds()</a></code> <code><a href="metricsIds.html">`metricsIds&lt;-`()</a></code> 
+        </dt>
+        <dd>Return metrics table IDs</dd>
+      </dl><dl><dt>
+          
+          <code><a href="metricsMetaData.html">metricsMetaData()</a></code> 
+        </dt>
+        <dd>Return metric metadata</dd>
+      </dl><dl><dt>
+          
+          <code><a href="metricsTable.html">metricsTable()</a></code> <code><a href="metricsTable.html">`metricsTable&lt;-`()</a></code> 
+        </dt>
+        <dd>Return a metrics table</dd>
+      </dl><dl><dt>
+          
           <code><a href="numberOfChromosomes.html">numberOfChromosomes()</a></code> 
         </dt>
         <dd>Return number of chromosomes</dd>
@@ -198,6 +244,11 @@
           <code><a href="phgType.html">phgType()</a></code> 
         </dt>
         <dd>Return type of PHG connection</dd>
+      </dl><dl><dt>
+          
+          <code><a href="plotDot.html">plotDot()</a></code> 
+        </dt>
+        <dd>Generate dot plots</dd>
       </dl><dl><dt>
           
           <code><a href="port.html">port()</a></code> 

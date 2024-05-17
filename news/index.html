@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,12 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/rPHG2.html">Get started</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/metrics.html">Load and visualize PHG metrics</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -60,6 +66,19 @@
 </ul></li>
 <li>Created build system for website generation
 <ul><li><a href="https://rphg2.maizegenetics.net">rphg2.maizegenetics.net</a></li>
+</ul></li>
+<li>Added new class <code>PHGMetrics</code>
+<ul><li>Primary container for PHGv2 metrics data</li>
+</ul></li>
+<li>Added accessor methods for <code>PHGMetrics</code> objects:
+<ul><li><code><a href="../reference/metricsIds.html">metricsIds()</a></code></li>
+<li><code><a href="../reference/metricsTable.html">metricsTable()</a></code></li>
+<li><code><a href="../reference/metricsMetaData.html">metricsMetaData()</a></code></li>
+</ul></li>
+<li>Prior methods are also updatable</li>
+<li>Added visualization methods:
+<ul><li>
+<code><a href="../reference/plotDot.html">plotDot()</a></code> - collinearity plotter for alignment data</li>
 </ul></li>
 </ul></div>
     <div class="section level2">

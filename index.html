@@ -30,7 +30,7 @@
     
     <a class="navbar-brand me-2" href="index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,12 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="articles/rPHG2.html">Get started</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/metrics.html">Load and visualize PHG metrics</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
@@ -90,36 +96,26 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<div class="section level3">
-<h3 id="initialize-with-phgv2-jars">Initialize with PHGv2 JARs<a class="anchor" aria-label="anchor" href="#initialize-with-phgv2-jars"></a>
-</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/initPhg.html">initPhg</a></span><span class="op">(</span><span class="st">"my/phg/jar/path"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="create-a-connection">Create a connection<a class="anchor" aria-label="anchor" href="#create-a-connection"></a>
-</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">locCon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"my/hvcf/dir"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="reference/PHGLocalCon.html">PHGLocalCon</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="build-a-graph">Build a graph<a class="anchor" aria-label="anchor" href="#build-a-graph"></a>
-</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="va">locCon</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/buildHaplotypeGraph.html">buildHaplotypeGraph</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="read-data-into-r">Read data into R<a class="anchor" aria-label="anchor" href="#read-data-into-r"></a>
-</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">&lt;-</span> <span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/readPhgDataSet.html">readPhgDataSet</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="identify-areas-of-interest">Identify areas of interest<a class="anchor" aria-label="anchor" href="#identify-areas-of-interest"></a>
-</h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu">GRanges</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="co"># Initialize with PHGv2 JARs</span></span>
+<span><span class="fu"><a href="reference/initPhg.html">initPhg</a></span><span class="op">(</span><span class="st">"my/phg/jar/path"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Create a connection</span></span>
+<span><span class="va">locCon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"my/hvcf/dir"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="reference/PHGLocalCon.html">PHGLocalCon</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Build a graph</span></span>
+<span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="va">locCon</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/buildHaplotypeGraph.html">buildHaplotypeGraph</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Read data into R</span></span>
+<span><span class="va">phgDs</span> <span class="op">&lt;-</span> <span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/readPhgDataSet.html">readPhgDataSet</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Identify areas of interest</span></span>
+<span><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu">GRanges</span><span class="op">(</span></span>
 <span>    seqnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span><span class="op">)</span>,</span>
 <span>    ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">800</span><span class="op">)</span>,</span>
@@ -131,7 +127,6 @@
 <span>    <span class="fu"><a href="reference/filterSamples.html">filterSamples</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B73"</span>, <span class="st">"Ky21"</span>, <span class="st">"Mo17"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="reference/filterRefRanges.html">filterRefRanges</a></span><span class="op">(</span><span class="va">gr</span><span class="op">)</span></span></code></pre></div>
 </div>
-</div>
 <div class="section level2">
 <h2 id="lifecycle">Lifecycle<a class="anchor" aria-label="anchor" href="#lifecycle"></a>
 </h2>
@@ -142,7 +137,7 @@
 <h2 id="learning-rphg2">Learning rPHG2<a class="anchor" aria-label="anchor" href="#learning-rphg2"></a>
 </h2>
 <p>If installed locally, you can read the “Introduction to rPHG2” vignette by using:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"rPHG2"</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, the package’s <a href="https://rphg2.maizegenetics.net">website</a> is another great place to read up on function usage, code changes, and workflows.</p>
 </div>
