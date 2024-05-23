@@ -37,6 +37,7 @@ Imports:
     IRanges,
     jsonlite,
     methods,
+    patchwork,
     rJava,
     rlang,
     tibble,
