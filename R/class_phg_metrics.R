@@ -542,13 +542,74 @@ setMethod(
         }
 
         p <- plotDotFromMetrics(
-            df = metricsTable(object, metricId),
-            metricId = metricId,
+            df         = metricsTable(object, metricId),
+            metricId   = metricId,
             querySeqId = querySeqId,
-            refSeqId = refSeqId,
-            queryLab = queryLab,
-            refLab = refLab,
-            colorId = colorId
+            refSeqId   = refSeqId,
+            queryLab   = queryLab,
+            refLab     = refLab,
+            colorId    = colorId
+        )
+
+        return(p)
+    }
+)
+
+
+## ---
+#' @param object
+#' A \code{PHGMetrics} object containing the gVCF data.
+#' @param metricId
+#' A character vector specifying the ID of the metric to be plotted. Only a
+#' single ID is supported.
+#' @param f
+#' A formula object defining the plot.
+#' @param nRow
+#' An integer specifying the number of rows in the plot layout.
+#' @param nCol
+#' An integer specifying the number of columns in the plot layout.
+#' @param tag
+#' What tag type do you want passed to final plot?
+#'
+#' @return A plot object generated from the specified gVCF data and layout.
+#'
+#' @export
+setMethod(
+    f = "plotGvcf",
+    signature = signature(object = "PHGMetrics"),
+    definition = function(
+        object,
+        metricId = NULL,
+        f,
+        nRow = NULL,
+        nCol = NULL,
+        tag = "A"
+    ) {
+        if (length(metricId) > 1) {
+            rlang::abort("This method currently does not support multiple ID plotting")
+        }
+
+        if (is.null(metricId)) {
+            df <- metricsTable(object = object, type = "gvcf")
+
+            # Check if return object is data.frame (singular) or list (many)
+            # If "list" -> we need to return first data.frame element
+            if (!is(df, "data.frame")) {
+                df <- df[[1]]
+            }
+        } else {
+            if (!metricId %in% metricsIds(object, type = "gvcf")) {
+                rlang::abort("ID is not a valid gVCF table")
+            }
+            df <- metricsTable(object, metricId)
+        }
+
+        p <- plotGvcfFromMetrics(
+            df      = df,
+            formula = f,
+            nRow    = nRow,
+            nCol    = nCol,
+            tag     = tag
         )
 
         return(p)

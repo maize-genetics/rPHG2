@@ -32,6 +32,54 @@ BRAPI_PARAMS <- list(
 
 
 ## ----
+# Reference map for gVCF metrics
+GVCF_MAP <- data.frame(
+    id = c(
+        "ref_length",
+        "num_snps",
+        "num_ins",
+        "num_del",
+        "num_ns",
+        "num_bases_inserted",
+        "num_bases_deleted",
+        "percent_identity_with_ref",
+        "percent_mapped_to_ref",
+        "mean_insertion_size",
+        "median_insertion_size",
+        "largest_insertion",
+        "mean_deletion_size",
+        "median_deletion_size",
+        "largest_deletion"
+    ),
+    plt = c(
+        "Length of ref. seq.",
+        "# of SNPs",
+        "# of insertions",
+        "# of deletions",
+        "# of Ns",
+        "# of bases inserted",
+        "# of bases deleted",
+        "% identity",
+        "% mapped to ref",
+        "Mean insertion size",
+        "Mdn. insertion size",
+        "Largest insertion",
+        "Mean deletion size",
+        "Mdn. deletion size",
+        "Largest deletion"
+    ),
+    axs = c(
+        "bp", "N", "N", "N", "N", "N", "N", "%", "%",
+        "bp", "bp", "bp", "bp", "bp", "bp"
+    ),
+    typ = c(
+        "n", "n", "n", "n", "n", "n", "n", "p", "p",
+        "n", "n", "n", "n", "n", "n"
+    )
+)
+
+
+## ----
 # Commonly used JVM and PHG API classes
 PHG_JVM <- list(
     "ARRAY_LIST" = "java.util.ArrayList",
@@ -42,6 +90,7 @@ PHG_JVM <- list(
 
 
 ## ----
+# PHG metric headers and IDs
 PHG_METRICS <- list(
     "VALID_ANCHOR_HEADERS" = c(
         "refChr",
