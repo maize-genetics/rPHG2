@@ -520,7 +520,7 @@ setMethod(
     signature = signature(object = "PHGMetrics"),
     definition = function(
         object,
-        metricId,
+        metricId = NULL,
         querySeqId = NULL,
         refSeqId = NULL,
         queryLab = NULL,
@@ -533,16 +533,23 @@ setMethod(
             rlang::abort("This method currently does not support multiple ID plotting")
         }
 
-        if (length(metricId) == 0) {
-            rlang::abort("ID is not a valid AnchorWave table")
-        }
+        if (is.null(metricId)) {
+            df <- metricsTable(object = object, type = "align")
 
-        if (!metricId %in% metricsIds(object, type = "align")) {
-            rlang::abort("ID is not a valid AnchorWave table")
+            # Check if return object is data.frame (singular) or list (many)
+            # If "list" -> we need to return first data.frame element
+            if (!is(df, "data.frame")) {
+                df <- df[[1]]
+            }
+        } else {
+            if (!metricId %in% metricsIds(object, type = "align")) {
+                rlang::abort("ID is not a valid AnchorsPro table")
+            }
+            df <- metricsTable(object, metricId)
         }
 
         p <- plotDotFromMetrics(
-            df         = metricsTable(object, metricId),
+            df         = df,
             metricId   = metricId,
             querySeqId = querySeqId,
             refSeqId   = refSeqId,
@@ -573,6 +580,7 @@ setMethod(
 #'
 #' @return A plot object generated from the specified gVCF data and layout.
 #'
+#' @rdname plotGvcf
 #' @export
 setMethod(
     f = "plotGvcf",
