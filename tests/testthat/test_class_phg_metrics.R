@@ -290,10 +290,11 @@ test_that("PHGMetrics general dot plot tests", {
     expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, colorId = "score"), "ggplot"))
     expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, refSeqId = c("1", "2")), "ggplot"))
     expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, querySeqId = c("1", "2")), "ggplot"))
+    expect_true(is(plotDot(metBase), "ggplot"))
     expect_error(plotDot(metBase, metBase$toy_anchors_s01, colordId = "not_a_column"))
     expect_error(plotDot(metBase, metBase$toy_anchors_s01, refSeqId = "1", querySeqId = "2"))
     expect_error(plotDot(metBase, metBase$toy_gvcf_metrics))
-    expect_error(plotDot(metBase, metBase$invalid_selection), regexp = "ID is not a valid AnchorWave")
+    expect_error(plotDot(metBase, metBase$invalid_selection), regexp = "ID is not a valid AnchorWave table")
     expect_error(
         plotDot(
             object = metBase,
@@ -305,6 +306,20 @@ test_that("PHGMetrics general dot plot tests", {
             querySeqId = "2"
         )
     )
+
+})
+
+
+test_that("PHGMetrics general gVCF plot tests", {
+    metricDir <- system.file("extdata", package = "rPHG2")
+
+    metBase <- PHGMetrics(metricDir)
+    expect_true(is(plotGvcf(metBase, metBase$toy_gvcf_metrics), "ggplot"))
+    expect_true(is(plotGvcf(metBase), "ggplot"))
+    expect_true(is(plotGvcf(metBase, f = ALL ~ ALL), "ggplot"))
+    expect_true(is(plotGvcf(metBase, f = ALL ~ Vu01 + Vu05), "ggplot"))
+    expect_error(is(plotGvcf(metBase, f = ALL + CORE ~ ALL + Vu02), "ggplot"))
+    expect_error(is(plotGvcf(metBase, f = CORE + num_ns ~ ALL + Vu02), "ggplot"))
 
 })
 

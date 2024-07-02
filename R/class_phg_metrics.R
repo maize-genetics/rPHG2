@@ -542,8 +542,8 @@ setMethod(
                 df <- df[[1]]
             }
         } else {
-            if (!metricId %in% metricsIds(object, type = "align")) {
-                rlang::abort("ID is not a valid AnchorsPro table")
+            if (!metricId %in% metricsIds(object, type = "align") || length(metricId) == 0) {
+                rlang::abort("ID is not a valid AnchorWave table")
             }
             df <- metricsTable(object, metricId)
         }
@@ -588,7 +588,7 @@ setMethod(
     definition = function(
         object,
         metricId = NULL,
-        f,
+        f = NULL,
         nRow = NULL,
         nCol = NULL,
         tag = "A"
@@ -606,10 +606,14 @@ setMethod(
                 df <- df[[1]]
             }
         } else {
-            if (!metricId %in% metricsIds(object, type = "gvcf")) {
+            if (!metricId %in% metricsIds(object, type = "gvcf") || length(metricId) == 0) {
                 rlang::abort("ID is not a valid gVCF table")
             }
             df <- metricsTable(object, metricId)
+        }
+
+        if (is.null(f)) {
+            f <- CORE ~ ALL
         }
 
         p <- plotGvcfFromMetrics(
@@ -621,6 +625,111 @@ setMethod(
         )
 
         return(p)
+    }
+)
+
+
+## ----
+#' @param x
+#' A \code{PHGMetrics} object
+#'
+#' @importFrom GenomeInfoDb seqnames
+#' @export
+setMethod(
+    f = "seqnames",
+    signature = signature(x = "PHGMetrics"),
+    definition = function(x) {
+        tables <- metricsTable(x)
+
+        seqIds <- unlist(
+            lapply(tables, function(df) {
+                if ("query_chr" %in% names(df) && !is.null(df$query_chr)) {
+                    ids <- df$query_chr
+                }
+
+                if ("chrom" %in% names(df) && !is.null(df$chrom)) {
+                    ids <- df$chrom
+                    ids <- ids[ids != "ALL"]
+                }
+
+                return(ids)
+            })
+        )
+
+        return(unique(seqIds))
+    }
+)
+
+
+## ----
+#' Set Sequence Names for PHGMetrics Object
+#'
+#' This method replaces old IDs with new IDs in the `PHGMetrics` object.
+#' It ensures that both `metricAlign` and `metricGvcf` fields are updated
+#' with the new sequence names provided in the `value` data frame.
+#'
+#' @param x
+#' A `PHGMetrics` object.
+#' @param value
+#' A \code{data.frame} object containing `old_id` and `new_id` columns for ID
+#' replacement.
+#'
+#' @details
+#' The method first validates that the `value` data frame contains the
+#' necessary columns (`old_id` and `new_id`). Then, it replaces the old IDs
+#' with the new IDs in both `metricAlign` and `metricGvcf` fields of the
+#' `PHGMetrics` object. If a replacement ID is not found, the original ID is
+#' retained.
+#'
+#' @return The `PHGMetrics` object with updated sequence names.
+#'
+#' @examples
+#' \dontrun{
+#'   newIds <- data.frame(
+#'     old_id = c("1", "2", "3"),
+#'     new_id = c("A", "B", "C")
+#'   )
+#'
+#'   # Assume 'met' is a PHGMetrics object
+#'   seqnames(met) <- newIds
+#' }
+#'
+#' @importFrom GenomeInfoDb seqnames<-
+#' @export
+setMethod(
+    f = "seqnames<-",
+    signature = signature(x = "PHGMetrics"),
+    definition = function(x, value) {
+        if (is(value, "data.frame")) {
+            validIds <- c("old_id", "new_id")
+            if (any(!validIds %in% colnames(value))) {
+                rlang::abort("'data.frame' object does not contain correct IDs ('old_id', 'new_id')")
+            }
+        } else {
+            rlang::abort("Only 'data.frame' objects are currently allowed")
+        }
+
+        # Helper function to replace IDs
+        replaceIds <- function(x, slot_name, field, value) {
+            metrics <- slot(x, slot_name)
+            if (is.null(metrics) || length(metrics) == 0) return()
+            len <- if (is(metrics, "data.frame")) 1 else length(metrics)
+            for (i in seq_len(len)) {
+                oldIds <- as.character(metrics[[i]][[field]])
+                replacements <- setNames(value$new_id, value$old_id)
+                newIds <- ifelse(oldIds %in% names(replacements), replacements[oldIds], oldIds)
+                metrics[[i]][[field]] <- newIds
+            }
+            slot(x, slot_name) <<- metrics
+        }
+
+        # Replace IDs in metricAlign if it's not NULL
+        replaceIds(x, "metricAlign", "query_chr", value)
+
+        # Replace IDs in metricGvcf if it's not NULL
+        replaceIds(x, "metricGvcf", "chrom", value)
+
+        return(x)
     }
 )
 

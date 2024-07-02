@@ -7,7 +7,14 @@
 \usage{
 plotGvcf(object, ...)
 
-\S4method{plotGvcf}{PHGMetrics}(object, metricId = NULL, f, nRow = NULL, nCol = NULL, tag = "A")
+\S4method{plotGvcf}{PHGMetrics}(
+  object,
+  metricId = NULL,
+  f = NULL,
+  nRow = NULL,
+  nCol = NULL,
+  tag = "A"
+)
 }
 \arguments{
 \item{object}{A \code{PHGMetrics} object containing the gVCF data.}
