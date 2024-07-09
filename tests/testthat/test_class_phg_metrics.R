@@ -117,6 +117,26 @@ test_that("PHGMetrics general metric ID return and update tests", {
         object = metricsIds(metTest),
         expected = c("toy_anchors_s01", "new_gvcf_id")
     )
+
+    # seqnames
+    expect_equal(
+        object = seqnames(metBase),
+        expected = c(
+            "1", "2", "3",
+            "Vu01", "Vu02", "Vu03", "Vu04", "Vu05",
+            "Vu06", "Vu07", "Vu08", "Vu09", "Vu10",
+            "Vu11", "contig_206", "contig_178"
+        )
+    )
+
+    metTest <- metBase
+    expect_error(object = seqnames(metTest) <- data.frame(old_id = "error"))
+    expect_error(object = seqnames(metTest) <- c("another", "error"))
+    seqnames(metTest) <- data.frame(
+        old_id = c("Vu01", "Vu03", "1"),
+        new_id = c("CHR_NEW_01", "CHR_NEW_03", "ALGN_CHR_01")
+    )
+    expect_true(all(c("CHR_NEW_01", "CHR_NEW_03", "ALGN_CHR_01") %in% seqnames(metTest)))
 })
 
 
@@ -290,10 +310,11 @@ test_that("PHGMetrics general dot plot tests", {
     expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, colorId = "score"), "ggplot"))
     expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, refSeqId = c("1", "2")), "ggplot"))
     expect_true(is(plotDot(metBase, metBase$toy_anchors_s01, querySeqId = c("1", "2")), "ggplot"))
+    expect_true(is(plotDot(metBase), "ggplot"))
     expect_error(plotDot(metBase, metBase$toy_anchors_s01, colordId = "not_a_column"))
     expect_error(plotDot(metBase, metBase$toy_anchors_s01, refSeqId = "1", querySeqId = "2"))
     expect_error(plotDot(metBase, metBase$toy_gvcf_metrics))
-    expect_error(plotDot(metBase, metBase$invalid_selection), regexp = "ID is not a valid AnchorWave")
+    expect_error(plotDot(metBase, metBase$invalid_selection), regexp = "ID is not a valid AnchorWave table")
     expect_error(
         plotDot(
             object = metBase,
@@ -305,6 +326,24 @@ test_that("PHGMetrics general dot plot tests", {
             querySeqId = "2"
         )
     )
+
+})
+
+
+test_that("PHGMetrics general gVCF plot tests", {
+    metricDir <- system.file("extdata", package = "rPHG2")
+
+    metBase <- PHGMetrics(metricDir)
+    expect_true(is(plotGvcf(metBase, metBase$toy_gvcf_metrics), "ggplot"))
+    expect_error(is(plotGvcf(metBase, c(metBase$toy_gvcf_metrics, metBase$toy_anchors_s01)), "ggplot"))
+    expect_true(is(plotGvcf(metBase), "ggplot"))
+    expect_true(is(plotGvcf(metBase, f = ALL ~ ALL), "ggplot"))
+    expect_true(is(plotGvcf(metBase, f = ALL ~ Vu01 + Vu05), "ggplot"))
+    expect_true(is(plotGvcf(metBase, f = num_ns ~ Vu01 + Vu05), "ggplot"))
+    expect_error(is(plotGvcf(metBase, f = ALL + CORE ~ ALL + Vu02), "ggplot"))
+    expect_error(is(plotGvcf(metBase, f = CORE + num_ns ~ ALL + Vu02), "ggplot"))
+    expect_error(is(plotGvcf(metBase, f = num_nsss ~ ALL + Vu02), "ggplot"))
+    expect_error(is(plotGvcf(metBase, f = num_nsss ~ ALL), "ggplot"))
 
 })
 

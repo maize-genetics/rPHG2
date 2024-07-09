@@ -9,7 +9,7 @@ plotDot(object, ...)
 
 \S4method{plotDot}{PHGMetrics}(
   object,
-  metricId,
+  metricId = NULL,
   querySeqId = NULL,
   refSeqId = NULL,
   queryLab = NULL,

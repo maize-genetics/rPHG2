@@ -217,6 +217,60 @@ metMessenger <- function(
 
 
 ## ----
+# Parse Left and Right Hand Sides of a Formula
+#
+# This function parses a formula object and extracts the left-hand side (LHS)
+# and right-hand side (RHS) variables. It also checks if the keyword "ALL" is
+# used with other variables on either side of the formula and raises an error
+# if so.
+#
+# @param formula A formula object to be parsed.
+#
+# @return A list with two elements:
+# \describe{
+#   \item{lhs}{A character vector of variables on the left-hand side of the formula.}
+#   \item{rhs}{A character vector of variables on the right-hand side of the formula.}
+# }
+#
+# @examples
+# \dontrun{
+# formula <- y1 + y2 ~ x1 + x2 + x3
+# parsedVars <- parseFormula(formula)
+# print(parsedVars)
+#
+# # This will raise an error
+# try(parseFormula(ALL + y1 ~ x1 + ALL), silent = TRUE)
+# }
+parseFormula <- function(formula) {
+    # Extract the terms object from the formula
+    termsObj <- stats::terms(formula)
+
+    # Extract the response variables (LHS)
+    lhsVars <- all.vars(formula[[2]])
+
+    # Extract the predictor variables (RHS)
+    rhsVars <- all.vars(formula[[3]])
+
+    keywords <- c("ALL", "CORE")
+
+    errorMsg <- "The keywords 'ALL' and 'CORE' cannot be used with other variables"
+
+    # Check if keywords are used with other variables in LHS
+    if (any(keywords %in% lhsVars) && length(lhsVars) > 1) {
+        rlang::abort(errorMsg)
+    }
+
+    # Check if keywords are used with other variables in RHS
+    if (any(keywords %in% rhsVars) && length(rhsVars) > 1) {
+        rlang::abort(errorMsg)
+    }
+
+    # Return a list with LHS and RHS variables
+    return(list(lhs = lhsVars, rhs = rhsVars))
+}
+
+
+## ----
 # Read metric files (assumes tab-delimited structure)
 #
 # @param metricFiles A list of files

@@ -141,7 +141,7 @@ following information:
 * metrics tables (_add_)
 
 
-### Update IDs
+### Update metric IDs
 To update pre-existing names of tables in the object, we can use the 
 `metricsIds()` function in conjunction with the assignment (`<-`) operator
 by passing a named `character` vector, where the name of the vector is the
@@ -179,6 +179,42 @@ metricsIds(metData) <- nameMap
 metData |> metricsIds()
 ```
 
+### Update chromosome IDs
+To update pre-existing chromosome IDs found within a `PHGMetrics` object, we
+can use the `seqnames()` in conjunction with the assignment (`<-`) operator
+by passing a `data.frame` object that contains two columns:
+
+* `old_id` - old chromosome IDs already present in the object
+* `new_id` - the new name for the ID
+
+We can also use this function to return all global chromosome IDs from the
+object:
+
+```{r, echo=TRUE, eval=TRUE}
+# Make copy for example purposes
+metNew <- metData
+
+metNew |> seqnames()
+```
+
+To update, simply pass the `data.frame` object with the old and new ID maps
+to the `seqnames()` function:
+
+```{r, echo=TRUE, eval=TRUE}
+keyFile <- data.frame(
+    old_id = c("Vu01", "Vu03"),
+    new_id = c("CHR_01", "CHR_03")
+)
+
+seqnames(metNew) <- keyFile
+
+metNew |> seqnames()
+```
+
+As you can see, all instances of `"Vu01"` and `"Vu03"` have been globally
+changed to `"CHR_01"` and `"CHR_03"`.
+
+
 ### Update tables
 We can also add new tables to our existing `PHGMetrics` objects using the
 `metricsTable()` function by passing a named `list` object containing a
@@ -211,6 +247,8 @@ If you are satisfied with how the metrics data is loaded into R, we can
 directly visualize granular diagnostic plots using the `plot*` family of
 functions.
 
+
+### AnchorWave data
 For example, if I want to generate dot plots from alignment data, I can simply
 pass the `PHGMetrics` object to the function, `plotDot()`. Currently this
 can only plot one table at a time, so we must specify the alignment table
@@ -222,5 +260,139 @@ metData |> plotDot(metData$new_anchor_id)
 
 **Note**: This plot can only work on alignment (`type = "align"`) data and will
 throw an error if any gVCF-based metrics Ids are used.
+
+If only one AnchorWave table is loaded into memory, a user can also specify a
+more simpler approach:
+
+```{r, eval=FALSE, echo=TRUE}
+metData |> plotDot()
+```
+
+**Note**: If more than one table is loaded, this approach will still work, but
+will pick the first table/elemement in the internal `list` object.
+
+
+
+### gVCF metrics data
+We can also visualize gVCF data using the function `plotGvcf()`. This method
+provides granular means of visualizing various forms of metrics data found
+within the [gVCF metrics file](https://github.com/maize-genetics/phg_v2/blob/main/docs/qc_metrics.md#output).
+
+This method takes 3 primary components:
+
+* The `PHGMetrics` object
+* A metric ID
+* A gVCF metric ID $\sim$ contig ID formula
+
+A simple approach would be to pass the `PHGMetrics` object along with the
+specified metrics ID:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotGvcf(metData$new_gvcf_id)
+```
+
+Similar to the alignment approach, if you have just one table, you can also
+pass just the function, since it will dynamically pick the only table:
+
+```{r, eval=FALSE, echo=TRUE}
+metData |> plotGvcf()
+```
+
+
+#### Formula usage
+For more "granular" approaches, we can specify a formula (`f`) to dictate what
+types of metrics and chromosome IDs we want plotted using the following logic:
+
+```
+<gvcf metric ids> ~ <contig ids>
+```
+
+The following are valid metric IDs:
+
+| Metric ID                     | Description                                                                                |
+|-------------------------------|--------------------------------------------------------------------------------------------|
+| `ref_length`                  | The length of the reference sequence                                                       |
+| `num_snps`                    | The number of SNP records in the gVCF file for the given chromosome                        |
+| `num_ins`                     | The number of insertion records in the gVCF file                                           |
+| `num_del`                     | The number of deletion records in the gVCF file                                            |
+| `num_ns`                      | The number of N's/ambiguous bases in the assembly alignment                                |
+| `num_bases_inserted`          | The number of bases inserted relative to the reference sequence                            |
+| `num_bases_deleted`           | The number of bases deleted relative to the reference sequence                             |
+| `percent_identity_with_ref`   | The proportion of bases relative to refLength that are the same base as the reference base |
+| `percent_mapped_to_ref`       | The proportion of bases relative to refLength that are present in a gVCF record            |
+| `mean_insertion_size`         | The mean size of insertion records                                                         |
+| `median_insertion_size`       | The median size of insertion records                                                       |
+| `largest_insertion`           | The size of the largest insertion                                                          |
+| `mean_deletion_size`          | The mean size of deletion records                                                          |
+| `median_deletion_size`        | The median size of deletion records                                                        |
+| `largest_deletion`            | The size of the largest deletion                                                           |
+
+Due to the number of metric IDs, several "collection" IDs are also valid:
+
+| Collection ID | Description                                                                                                                                     |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ALL`         | Plots **all** prior metric IDs                                                                                                                  |
+| `CORE`        | Plots `num_snps`, `num_ins`, `num_del`, `num_ns`, `percent_identity_with_ref`, `percent_mapped_to_ref`, `largest_insertion`, `largest_deletion` |
+
+**Note**: Collection IDs may only be plotted one at a time or else an error
+will be thrown.
+
+For example, if I want to plot:
+
+* the length of the reference sequence (`ref_length`)
+* the number of deletions (`num_del`)
+
+...for chromsomes:
+
+* `Vu01`
+* `Vu05`
+
+...I can use the following formula syntax:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotGvcf(f = ref_length + num_del ~ Vu01 + Vu05)
+```
+
+I can also plot the cumulative `ALL` category which combines all chromosome
+metrics into one using the `ALL` keyword on the right-hand-side of the
+equation:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotGvcf(f = ref_length + num_del ~ ALL)
+```
+
+One thing you may have noticed is that the formula parameter is **not
+required**. If no formula is used, the default equation will be:
+
+```
+CORE ~ ALL
+```
+
+#### Dimensions
+We can also specify the dimensions of the plot components using two parameters:
+
+* number of rows (`nRow`)
+* number of columns (`nCol`)
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotGvcf(f = ref_length + num_del ~ ALL, nCol = 1)
+```
+
+#### Plot "tags"
+We can also modify the tagging type using symbolic identifiers via the `tag`
+parameter:
+
+| Symbol | Sub plot tag progression     |
+|--------|------------------------------|
+| `"A"`  | `"A"`, `"B"`, `"C"`, ...     |
+| `"a"`  | `"a"`, `"b"`, `"c"`, ...     |
+| `"1"`  | `"1"`, `"2"`, `"3"`, ...     |
+| `"I"`  | `"I"`, `"II"`, `"III"`, ...  |
+| `"i"`  | `"i"`, `"ii"`, `"iii"`, ...  |
+
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotGvcf(f = CORE ~ ALL, tag = "i")
+```
 
 

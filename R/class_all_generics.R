@@ -245,6 +245,20 @@ setGeneric("plotDot", function(object, ...) standardGeneric("plotDot"))
 
 
 ## ----
+#' @title Generate GVCF plots
+#'
+#' @description
+#' Generates general GVCF metrics plots for genome-wide GVCF statistics
+#'
+#' @param object an \code{rPHG2} metrics object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname plotGvcf
+#' @export
+setGeneric("plotGvcf", function(object, ...) standardGeneric("plotGvcf"))
+
+
+## ----
 #' @title Return port value
 #'
 #' @description
@@ -359,5 +373,15 @@ setGeneric("readSamples", function(object, ...) standardGeneric("readSamples"))
 #' @rdname serverInfo
 #' @export
 setGeneric("serverInfo", function(object, ...) standardGeneric("serverInfo"))
+
+
+## ----
+#' @importFrom GenomeInfoDb seqnames
+NULL
+
+
+## ----
+#' @importFrom GenomeInfoDb seqnames<-
+NULL
 
 
