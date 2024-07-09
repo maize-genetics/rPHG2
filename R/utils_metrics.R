@@ -243,7 +243,7 @@ metMessenger <- function(
 # }
 parseFormula <- function(formula) {
     # Extract the terms object from the formula
-    termsObj <- terms(formula)
+    termsObj <- stats::terms(formula)
 
     # Extract the response variables (LHS)
     lhsVars <- all.vars(formula[[2]])
@@ -261,7 +261,7 @@ parseFormula <- function(formula) {
     }
 
     # Check if keywords are used with other variables in RHS
-    if ("ALL" %in% lhsVars && length(rhsVars) > 1) {
+    if (any(keywords %in% rhsVars) && length(rhsVars) > 1) {
         rlang::abort(errorMsg)
     }
 

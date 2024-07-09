@@ -39,14 +39,15 @@ Imports:
     jsonlite,
     methods,
     patchwork,
+    rJava,
     rlang,
+    scales,
     tibble,
     tools,
     utils
 VignetteBuilder: knitr
 Suggests:
     knitr,
-    rJava,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

@@ -30,8 +30,8 @@ retained.
 \examples{
 \dontrun{
   newIds <- data.frame(
-    old_id = c("1", "2", "3"),
-    new_id = c("A", "B", "C")
+    old_id = c("old_1", "old_2", "old_3"),
+    new_id = c("new_01", "new_02", "new_03")
   )
 
   # Assume 'met' is a PHGMetrics object

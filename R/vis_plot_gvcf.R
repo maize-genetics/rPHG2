@@ -43,7 +43,7 @@ plotGvcfFromMetrics <- function(df, formula, nRow, nCol, tag) {
         filtGvcfMap <- GVCF_MAP[GVCF_MAP$id %in% lhsVars, ]
     }
 
-    if (length(filtGvcfMap) == 0) {
+    if (nrow(filtGvcfMap) == 0) {
         rlang::abort("No valid metrics found in left-hand side of equation")
     }
 

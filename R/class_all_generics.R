@@ -375,3 +375,13 @@ setGeneric("readSamples", function(object, ...) standardGeneric("readSamples"))
 setGeneric("serverInfo", function(object, ...) standardGeneric("serverInfo"))
 
 
+## ----
+#' @importFrom GenomeInfoDb seqnames
+NULL
+
+
+## ----
+#' @importFrom GenomeInfoDb seqnames<-
+NULL
+
+

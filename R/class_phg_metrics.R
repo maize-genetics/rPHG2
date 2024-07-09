@@ -630,9 +630,13 @@ setMethod(
 
 
 ## ----
+#' @title
+#' Return all contig IDs from metrics object
+#'
 #' @param x
 #' A \code{PHGMetrics} object
 #'
+#' @return A vector of unique contig IDs
 #' @importFrom GenomeInfoDb seqnames
 #' @export
 setMethod(
@@ -662,8 +666,10 @@ setMethod(
 
 
 ## ----
+#' @title
 #' Set Sequence Names for PHGMetrics Object
 #'
+#' @description
 #' This method replaces old IDs with new IDs in the `PHGMetrics` object.
 #' It ensures that both `metricAlign` and `metricGvcf` fields are updated
 #' with the new sequence names provided in the `value` data frame.
@@ -711,16 +717,16 @@ setMethod(
 
         # Helper function to replace IDs
         replaceIds <- function(x, slot_name, field, value) {
-            metrics <- slot(x, slot_name)
+            metrics <- methods::slot(x, slot_name)
             if (is.null(metrics) || length(metrics) == 0) return()
             len <- if (is(metrics, "data.frame")) 1 else length(metrics)
             for (i in seq_len(len)) {
                 oldIds <- as.character(metrics[[i]][[field]])
-                replacements <- setNames(value$new_id, value$old_id)
+                replacements <- stats::setNames(value$new_id, value$old_id)
                 newIds <- ifelse(oldIds %in% names(replacements), replacements[oldIds], oldIds)
                 metrics[[i]][[field]] <- newIds
             }
-            slot(x, slot_name) <<- metrics
+            methods::slot(x, slot_name) <<- metrics
         }
 
         # Replace IDs in metricAlign if it's not NULL
