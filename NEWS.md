@@ -1,3 +1,15 @@
+## rPHG 0.5
+* Added new visualization method, `plotGvcf()`:
+  + auto plotting various gVCF metrics
+  + granular metric support through formula subsetting
+* Added new accessor and setting method, `seqnames()`
+  + Returns all contig IDs found in a `PHGMetrics` object
+  + Setter version (`seqnames()<-`) will update old IDs found within a
+    `data.frame` object
+* Added new default methods to `plotGvcf()` and `plotDot()` for `PHGMetrics`
+  objects that only contain one alignment or gVCF dataset
+
+
 ## rPHG2 0.4
 * Added vignettes and README updates
   + `vignette("rPHG2")`
