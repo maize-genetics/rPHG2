@@ -2,8 +2,16 @@
 * Added new parameters to `plogtGvcf()`:
   + `mData` and `mVar`
   + allows user to override default sample color option with categorical data
-  + 
-  
+* Added new generic, `numberOfHaplotypes()`:
+  + returns the number of unique haplotypes found within each reference range or
+    the total value found within a `PHGDataSet` object
+* Added getters to `PHGDataSet` objects:
+  + `numberOfChromosomes()`
+  + `numberOfSamples()`
+  + `numberOfRefRanges()`
+* Changed functions and variables containing `taxa` to `samples`
+  + e.g., `numberOfTaxa()` is now `numberOfSamples()`
+* Format tweaks to `HaplotypeGraph` objects' `show()` method
 
 
 ## rPHG2 0.5

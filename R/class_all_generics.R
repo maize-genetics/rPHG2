@@ -189,6 +189,21 @@ setGeneric("numberOfChromosomes", function(object, ...) standardGeneric("numberO
 
 
 ## ----
+#' @title Return number of haplotypes
+#'
+#' @description
+#' Returns the number of haplotypes either for the whole dataset or by each
+#' individual reference range.
+#'
+#' @param object an \code{rPHG2} local or server connection object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname numberOfHaplotypes
+#' @export
+setGeneric("numberOfHaplotypes", function(object, ...) standardGeneric("numberOfHaplotypes"))
+
+
+## ----
 #' @title Return number of reference ranges
 #'
 #' @description
@@ -203,24 +218,25 @@ setGeneric("numberOfRefRanges", function(object, ...) standardGeneric("numberOfR
 
 
 ## ----
-#' @title Return number of taxa
+#' @title Return number of samples
 #'
 #' @description
-#' Returns the number of taxa for a given object
+#' Returns the number of samples for a given object
 #'
 #' @param object an \code{rPHG2} local or server connection object
 #' @param ... Additional arguments, for use in specific methods
 #'
-#' @rdname numberOfTaxa
+#' @rdname numberOfSamples
 #' @export
-setGeneric("numberOfTaxa", function(object, ...) standardGeneric("numberOfTaxa"))
+setGeneric("numberOfSamples", function(object, ...) standardGeneric("numberOfSamples"))
 
 
 ## ----
 #' @title Return type of PHG connection
 #'
 #' @description
-#' Returns the PHG type for a given \code{rPHG2} local or server connection object
+#' Returns the PHG type for a given \code{rPHG2} local or server connection
+#' object
 #'
 #' @param object an \code{rPHG2} connection object
 #' @param ... Additional arguments, for use in specific methods

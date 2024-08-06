@@ -149,6 +149,84 @@ setMethod(
 
 
 ## ----
+#' @param numberOfChromosomes
+#' A \code{character} vector of sample IDs
+#'
+#' @rdname numberOfChromosomes
+#' @export
+setMethod(
+    f = "numberOfChromosomes",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        return(length(unique(GenomeInfoDb::seqnames(readRefRanges(object)))))
+    }
+)
+
+
+## ----
+#' @param object
+#' A \code{\linkS4class{PHGDataSet}} object
+#' @param byRefRange
+#' If \code{TRUE}, a \code{tibble} object will created where each row is a
+#' count of unique haplotype IDs for every reference range. If \code{FALSE}, a
+#' global count of all haplotype IDs will be returned from the dataset.
+#'
+#' @rdname numberOfHaplotypes
+#' @export
+setMethod(
+    f = "numberOfHaplotypes",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, byRefRange = TRUE) {
+        if (byRefRange) {
+            hapIds <- readHapIds(object)
+            refRanges <- as.data.frame(readRefRanges(object))
+
+            uniqHaps <- data.frame(
+                rr_id   = colnames(hapIds),
+                n_haplo = apply(hapIds, 2, function(it) length(unique(na.omit(it))))
+            )
+
+            return(tibble::as_tibble(
+                merge(uniqHaps, refRanges, by = "rr_id")
+            ))
+        } else {
+            return(nrow(readHapIdMetaData(object)))
+        }
+    }
+)
+
+
+## ----
+#' @param numberOfRefRanges
+#' A \code{character} vector of sample IDs
+#'
+#' @rdname numberOfRefRanges
+#' @export
+setMethod(
+    f = "numberOfRefRanges",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        return(length(readRefRanges(object)))
+    }
+)
+
+
+## ----
+#' @param numberOfSamples
+#' A \code{character} vector of sample IDs
+#'
+#' @rdname numberOfSamples
+#' @export
+setMethod(
+    f = "numberOfSamples",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        return(length(readSamples(object)))
+    }
+)
+
+
+## ----
 #' @rdname readSamples
 #' @export
 setMethod(

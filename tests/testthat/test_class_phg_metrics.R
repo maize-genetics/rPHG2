@@ -334,12 +334,16 @@ test_that("PHGMetrics general gVCF plot tests", {
     metricDir <- system.file("extdata", package = "rPHG2")
     metBase <- PHGMetrics(metricDir)
 
+
+    # General expectations
     expect_true(is(plotGvcf(metBase, metBase$toy_gvcf_metrics), "ggplot"))
     expect_true(is(plotGvcf(metBase), "ggplot"))
     expect_true(is(plotGvcf(metBase, f = ALL ~ ALL), "ggplot"))
     expect_true(is(plotGvcf(metBase, f = ALL ~ Vu01 + Vu05), "ggplot"))
     expect_true(is(plotGvcf(metBase, f = num_ns ~ Vu01 + Vu05), "ggplot"))
 
+
+    # General error checks
     expect_error(plotGvcf(metBase, c(metBase$toy_gvcf_metrics, metBase$toy_anchors_s01)))
     expect_error(plotGvcf(metBase, f = ALL + CORE ~ ALL + Vu02))
     expect_error(plotGvcf(metBase, f = CORE + num_ns ~ ALL + Vu02))
@@ -347,7 +351,8 @@ test_that("PHGMetrics general gVCF plot tests", {
     expect_error(plotGvcf(metBase, f = num_nsss ~ ALL))
     expect_error(plotGvcf(metBase, f = ALL ~ BadChr02))
 
-    # Add metadata
+
+    # Add metadata checks
     mData <- data.frame(
         sample = c("Xb01", "Xb02", "Xb03"),
         tech = c("old", "new", "new"),

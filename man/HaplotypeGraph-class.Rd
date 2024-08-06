@@ -25,7 +25,7 @@ class to the console
 
 \item{\code{nRefRanges}}{Number of reference ranges}
 
-\item{\code{nTaxa}}{Number of taxa}
+\item{\code{nSamples}}{Number of samples}
 
 \item{\code{jHapGraph}}{An \code{rJava} \code{jobjRef} object representing a
 \code{HaplotypeGraph} class in the PHG API}

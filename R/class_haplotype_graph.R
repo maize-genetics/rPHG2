@@ -7,7 +7,7 @@
 #'
 #' @slot nChrom Number of chromosomes
 #' @slot nRefRanges Number of reference ranges
-#' @slot nTaxa Number of taxa
+#' @slot nSamples Number of samples
 #' @slot jHapGraph An \code{rJava} \code{jobjRef} object representing a
 #'    \code{HaplotypeGraph} class in the PHG API
 #' @slot jMemAddress An identifier string to the JVM memory space
@@ -20,14 +20,14 @@ setClass(
     slots = c(
         nChrom      = "integer",
         nRefRanges  = "integer",
-        nTaxa       = "integer",
+        nSamples    = "integer",
         jHapGraph   = "jobjRef",
         jMemAddress = "character"
     ),
     prototype = list(
         nChrom      = NA_integer_,
         nRefRanges  = NA_integer_,
-        nTaxa       = NA_integer_,
+        nSamples    = NA_integer_,
         jHapGraph   = rJava::.jnull(),
         jMemAddress = NA_character_
     )
@@ -96,7 +96,7 @@ buildHaplotypeGraph <- function(
         Class       = "HaplotypeGraph",
         nChrom      = jvmGraph$getContigs()$size(),
         nRefRanges  = jvmGraph$numberOfRanges(),
-        nTaxa       = jvmGraph$numberOfSamples(),
+        nSamples    = jvmGraph$numberOfSamples(),
         jHapGraph   = jvmGraph,
         jMemAddress = pointer
     )
@@ -129,9 +129,9 @@ setMethod(
                 "A ", cli::style_bold("HaplotypeGraph"), " object @ ",
                 cli::style_bold(cli::col_blue(javaMemoryAddress(object)))
             ),
-            paste0(" ", pointerSymbol, " # of ref ranges....: ", numberOfRefRanges(object)),
-            paste0(" ", pointerSymbol, " # of taxa..........: ", numberOfTaxa(object)),
-            paste0(" ", pointerSymbol, " # of chromosomes...: ", numberOfChromosomes(object))
+            paste0(" ", pointerSymbol, " # of ref ranges....: ", cli::style_bold(numberOfRefRanges(object))),
+            paste0(" ", pointerSymbol, " # of samples.......: ", cli::style_bold(numberOfSamples(object))),
+            paste0(" ", pointerSymbol, " # of chromosomes...: ", cli::style_bold(numberOfChromosomes(object)))
         )
 
         cat(msg, sep = "\n")
@@ -191,13 +191,13 @@ setMethod(
 
 
 ## ----
-#' @rdname numberOfTaxa
+#' @rdname numberOfSamples
 #' @export
 setMethod(
-    f = "numberOfTaxa",
+    f = "numberOfSamples",
     signature = signature(object = "HaplotypeGraph"),
     definition = function(object) {
-        return(object@nTaxa)
+        return(object@nSamples)
     }
 )
 
