@@ -577,6 +577,15 @@ setMethod(
 #' An integer specifying the number of columns in the plot layout.
 #' @param tag
 #' What tag type do you want passed to final plot?
+#' @param mData
+#' Add optional metadata \code{data.frame} object for categorical plotting.
+#' This object must contain a singular column named \code{sample}, \code{taxa},
+#' or \code{line} along with one or more columns containing categorical data
+#' for plotting.
+#' @param mVar
+#' If \code{mData} is specified, what categorical column do you want plotted? If
+#' \code{NULL}, the first non-\code{sample}/\code{taxa}/\code{line} column will
+#' be selected.
 #'
 #' @return A plot object generated from the specified gVCF data and layout.
 #'
@@ -591,7 +600,9 @@ setMethod(
         f = NULL,
         nRow = NULL,
         nCol = NULL,
-        tag = "A"
+        tag = "A",
+        mData = NULL,
+        mVar = NULL
     ) {
         if (length(metricId) > 1) {
             rlang::abort("This method currently does not support multiple ID plotting")
@@ -616,12 +627,51 @@ setMethod(
             f <- CORE ~ ALL
         }
 
+        if (!is.null(mData)) {
+            if (!is(mData, "data.frame")) {
+                rlang::abort("Object is not of type 'data.frame'")
+            }
+
+            validIdCols <- c("line", "sample", "taxa")
+            validCatCols <- colnames(mData)[!colnames(mData) %in% validIdCols]
+
+            mNames <- tolower(colnames(mData))
+            if (!any(validIdCols %in% mNames)) {
+                rlang::abort(
+                    c("No valid sample ID found. Must be one of the following:", validIdCols)
+                )
+            }
+
+            if (!is.null(mVar) && !mVar %in% validCatCols) {
+                rlang::abort("'mVar' parameter not found in 'mData' object")
+            }
+
+            subValid <- validIdCols[validIdCols %in% mNames]
+            if (length(subValid) > 1) {
+                rlang::warn(c("More than one valid sample ID found. Picking first one:", subValid[1]))
+
+                vIdCol <- subValid[1]
+                mData <- mData[colnames(mData) %in% c(subValid[1], validCatCols)]
+            } else {
+                vIdCol <- subValid
+            }
+
+            # If metadata variable is NULL, naively pick first one
+            if (is.null(mVar)) {
+                message("This is the mVar: ", validCatCols[1])
+                mVar <- validCatCols[1]
+            }
+        }
+
         p <- plotGvcfFromMetrics(
             df      = df,
             formula = f,
             nRow    = nRow,
             nCol    = nCol,
-            tag     = tag
+            tag     = tag,
+            vIdCol  = vIdCol,
+            mData   = mData,
+            mVar    = mVar
         )
 
         return(p)

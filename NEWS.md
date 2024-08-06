@@ -1,4 +1,12 @@
-## rPHG 0.5
+## rPHG2 0.6
+* Added new parameters to `plogtGvcf()`:
+  + `mData` and `mVar`
+  + allows user to override default sample color option with categorical data
+  + 
+  
+
+
+## rPHG2 0.5
 * Added new visualization method, `plotGvcf()`:
   + auto plotting various gVCF metrics
   + granular metric support through formula subsetting

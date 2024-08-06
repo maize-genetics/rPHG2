@@ -24,7 +24,16 @@
 # package.
 #
 # @return A combined plot of the specified GVCF metrics.
-plotGvcfFromMetrics <- function(df, formula, nRow, nCol, tag) {
+plotGvcfFromMetrics <- function(
+    df,
+    formula,
+    nRow,
+    nCol,
+    tag,
+    vIdCol,
+    mData,
+    mVar
+) {
     parsedForm <- parseFormula(formula)
     lhsVars <- parsedForm$lhs
     rhsVars <- parsedForm$rhs
@@ -47,6 +56,10 @@ plotGvcfFromMetrics <- function(df, formula, nRow, nCol, tag) {
         rlang::abort("No valid metrics found in left-hand side of equation")
     }
 
+    if (!any(unique(df$chrom) %in% rhsVars)) {
+        rlang::abort("No valid chromosome IDs found in right-hand side of equation")
+    }
+
     filtData <- df[df$chrom %in% rhsVars, ]
 
     if (any(rhsVars == "ALL")) {
@@ -58,8 +71,45 @@ plotGvcfFromMetrics <- function(df, formula, nRow, nCol, tag) {
         )
     }
 
+    # Join metadata to filtered GVCF data (if possible)
+    fillVar <- NULL
+    fillTxt <- NULL
+    ggGlobTheme <- NULL
+    if (!is.null(mData)) {
+        if (!any(mData[[vIdCol]] %in% filtData[["taxa"]])) {
+            rlang::abort("No valid sample IDs were identified in 'mData' parameter")
+        }
+        fillVar <- rlang::sym(mVar)
+        filtData <- tibble::as_tibble(
+            merge(
+                filtData, mData,
+                by.x  = "taxa",
+                by.y  = vIdCol,
+                all.x = TRUE
+            )
+        )
+        fillTxt <- mVar
+        ggGlobTheme <- ggplot2::theme(
+            axis.text.x = ggplot2::element_text(
+                angle = 45,
+                vjust = 1,
+                hjust = 1
+            )
+        )
+    } else {
+        fillVar <- rlang::sym("taxa")
+        fillTxt <- "Sample"
+        ggGlobTheme <- ggplot2::theme(
+            axis.text.x     = ggplot2::element_blank(),
+            axis.ticks.x    = ggplot2::element_blank(),
+            legend.position = "bottom"
+        )
+    }
+
     # Create a list to store individual plots
     plotList <- list()
+
+    print(filtData |> as.data.frame())
 
     # Loop through each column in "filtered" colKeepMap and create a bar plot
     for (i in seq_len(nrow(filtGvcfMap))) {
@@ -70,14 +120,14 @@ plotGvcfFromMetrics <- function(df, formula, nRow, nCol, tag) {
                 ggplot2::aes(
                     x = !!rlang::sym("taxa"),
                     y = !!rlang::sym(col),
-                    fill = !!rlang::sym("taxa")
+                    fill = !!fillVar
                 ) +
                 ggplot2::geom_bar(stat = "identity") +
                 ggplot2::labs(
                     title = row$plt,
                     x = NULL,
                     y = row$axs,
-                    fill = "Sample"
+                    fill = fillTxt
                 ) +
                 ggplot2::scale_y_continuous(
                     labels = scales::label_number(
@@ -85,11 +135,7 @@ plotGvcfFromMetrics <- function(df, formula, nRow, nCol, tag) {
                     )
                 ) +
                 ggplot2::theme_bw() +
-                ggplot2::theme(
-                    axis.text.x = ggplot2::element_blank(),
-                    axis.ticks.x = ggplot2::element_blank(),
-                    legend.position = "bottom"
-                ) +
+                ggGlobTheme +
                 facetLayer
 
             # Add plot to the list
@@ -100,11 +146,14 @@ plotGvcfFromMetrics <- function(df, formula, nRow, nCol, tag) {
     # Combine all plots into one using patchwork and add letters
     combinedPlot <- patchwork::wrap_plots(plotList, ncol = nCol, nrow = nRow) +
         patchwork::plot_annotation(tag_levels = tag) +
-        patchwork::plot_layout(guides = 'collect') &
+        patchwork::plot_layout(
+            guides = "collect",
+            axes   = "collect_x"
+        ) &
         ggplot2::theme(
             legend.position = "bottom",
-            plot.tag = ggplot2::element_text(face = 'bold'),
-            legend.title = ggplot2::element_text(face = "bold")
+            plot.tag        = ggplot2::element_text(face = "bold"),
+            legend.title    = ggplot2::element_text(face = "bold")
         )
 
     # Return the combined plot
