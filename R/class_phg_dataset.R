@@ -183,7 +183,7 @@ setMethod(
 
             uniqHaps <- data.frame(
                 rr_id   = colnames(hapIds),
-                n_haplo = apply(hapIds, 2, function(it) length(unique(stats::na.omit(it))))
+                n_haplo = apply(hapIds, 2, function(it) length(unique(it[it != "null"])))
             )
 
             return(tibble::as_tibble(
@@ -255,7 +255,7 @@ setMethod(
                 ) +
                 ggplot2::xlab("Position (bp)") +
                 ggplot2::ylab("Number of unique haplotypes") +
-                ggplot2::facet_wrap(~ seqnames) +
+                ggplot2::facet_wrap(~ seqnames, scales = "free_x") +
                 ggplot2::theme_bw()
         } else {
             refRanges <- readRefRanges(object)
