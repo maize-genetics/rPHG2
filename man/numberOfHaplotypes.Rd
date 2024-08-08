@@ -7,7 +7,7 @@
 \usage{
 numberOfHaplotypes(object, ...)
 
-\S4method{numberOfHaplotypes}{PHGDataSet}(object, byRefRange = TRUE)
+\S4method{numberOfHaplotypes}{PHGDataSet}(object, byRefRange = FALSE)
 }
 \arguments{
 \item{object}{A \code{\linkS4class{PHGDataSet}} object}

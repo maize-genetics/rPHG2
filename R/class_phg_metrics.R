@@ -658,7 +658,6 @@ setMethod(
 
             # If metadata variable is NULL, naively pick first one
             if (is.null(mVar)) {
-                message("This is the mVar: ", validCatCols[1])
                 mVar <- validCatCols[1]
             }
         }

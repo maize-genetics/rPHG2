@@ -106,12 +106,8 @@ plotGvcfFromMetrics <- function(
         )
     }
 
-    # Create a list to store individual plots
-    plotList <- list()
-
-    print(filtData |> as.data.frame())
-
     # Loop through each column in "filtered" colKeepMap and create a bar plot
+    plotList <- list()
     for (i in seq_len(nrow(filtGvcfMap))) {
         row <- filtGvcfMap[i, ]
         col <- row$id

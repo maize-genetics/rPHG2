@@ -176,7 +176,7 @@ setMethod(
 setMethod(
     f = "numberOfHaplotypes",
     signature = signature(object = "PHGDataSet"),
-    definition = function(object, byRefRange = TRUE) {
+    definition = function(object, byRefRange = FALSE) {
         if (byRefRange) {
             hapIds <- readHapIds(object)
             refRanges <- as.data.frame(readRefRanges(object))
@@ -222,6 +222,111 @@ setMethod(
     signature = signature(object = "PHGDataSet"),
     definition = function(object) {
         return(length(readSamples(object)))
+    }
+)
+
+
+## ----
+#' @param gr
+#' A \code{GenomicRanges} object for subsetting based on chromosome ID and
+#' start/stop positions (bp). If \code{NULL}, all haplotype counts will be
+#' plotted similar to a Manhattan plot. Defaults to \code{NULL}.
+#'
+#' @rdname plotHaploCounts
+#' @export
+setMethod(
+    f = "plotHaploCounts",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, gr = NULL) {
+        nHaplo <- numberOfHaplotypes(object, byRefRange = TRUE)
+        if (is.null(gr)) {
+            p <- ggplot2::ggplot(nHaplo) +
+                ggplot2::aes(x = start, y = n_haplo) +
+                ggplot2::geom_point() +
+                ggplot2::scale_y_continuous(
+                    breaks = seq_len(max(nHaplo$n_haplo)),
+                    limits = c(1, max(nHaplo$n_haplo))
+                ) +
+                ggplot2::scale_x_continuous(
+                    labels = scales::label_number(
+                        scale_cut = scales::cut_short_scale()
+                    )
+                ) +
+                ggplot2::xlab("Position (bp)") +
+                ggplot2::ylab("Number of unique haplotypes") +
+                ggplot2::facet_wrap(~ seqnames) +
+                ggplot2::theme_bw()
+
+            return(p)
+        } else {
+            refRanges <- readRefRanges(object)
+            if (!is(gr, "GRanges")) {
+                rlang::abort("'gr' object is not of type 'GRanges'")
+            }
+
+            gr$sub_id <- paste0("QR ", GenomeInfoDb::seqnames(gr), ":", IRanges::ranges(gr))
+
+            # Find overlaps
+            overlaps <- suppressWarnings(GenomicRanges::findOverlaps(refRanges, gr))
+            if (length(overlaps) == 0) {
+                rlang::abort("No reference ranges identified with given query")
+            }
+
+            # Filter based on overlaps
+            filtGr <- refRanges[queryHits(overlaps)]
+
+            # Add sub_id metadata
+            filtGr$sub_id <- gr$sub_id[subjectHits(overlaps)]
+            filtGrDf <- as.data.frame(filtGr)
+            filtGrDf <- merge(x = filtGrDf, y = nHaplo)
+
+            p <- ggplot2::ggplot(filtGrDf) +
+                ggplot2::aes(x = rr_id, y = n_haplo) +
+                ggplot2::geom_bar(stat = "identity") +
+                ggplot2::scale_y_continuous(breaks = seq(0, max(nHaplo$n_haplo), by = 1)) +
+                ggplot2::xlab("Reference range ID") +
+                ggplot2::ylab("Number of unique haplotypes") +
+                ggplot2::facet_grid(~ sub_id, scales = "free_x", space = "free") +
+                ggplot2::theme_bw() +
+                ggplot2::theme(
+                    axis.text.x = ggplot2::element_text(
+                        angle = 90,
+                        vjust = 0.5,
+                        hjust = 1
+                    )
+                )
+
+            return(p)
+        }
+    }
+)
+
+
+## ----
+#' @param drop
+#' Do you want unused unique count bins to be plotted? Defaults to \code{TRUE}.
+#'
+#' @rdname plotHaploDist
+#' @export
+setMethod(
+    f = "plotHaploDist",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, drop = FALSE) {
+        nHaplo <- numberOfHaplotypes(object, byRefRange = TRUE)
+        nHaplo$n_haplo <- factor(
+            x = nHaplo$n_haplo,
+            levels = seq_len(numberOfSamples(object))
+        )
+
+        p <- ggplot2::ggplot(nHaplo) +
+            ggplot2::aes(x = n_haplo) +
+            ggplot2::geom_bar() +
+            ggplot2::scale_x_discrete(drop = drop) +
+            ggplot2::labs(x = "Number of unique haplotypes", y = "Count") +
+            ggplot2::ggtitle("Haplotype count distributions") +
+            ggplot2::theme_bw()
+
+        return(p)
     }
 )
 

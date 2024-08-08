@@ -275,6 +275,35 @@ setGeneric("plotGvcf", function(object, ...) standardGeneric("plotGvcf"))
 
 
 ## ----
+#' @title Plot haplotype counts
+#'
+#' @description
+#' Plots the counts of unique haplotype IDs found in each reference range.
+#'
+#' @param object a \code{\linkS4class{PHGDataSet}} object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname plotHaploCounts
+#' @export
+setGeneric("plotHaploCounts", function(object, ...) standardGeneric("plotHaploCounts"))
+
+
+## ----
+#' @title Plot haplotype distribution
+#'
+#' @description
+#' Plots a general distribution of the number of unique haplotypes in a
+#' \code{\linkS4class{PHGDataSet}} object.
+#'
+#' @param object a \code{\linkS4class{PHGDataSet}} object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname plotHaploDist
+#' @export
+setGeneric("plotHaploDist", function(object, ...) standardGeneric("plotHaploDist"))
+
+
+## ----
 #' @title Return port value
 #'
 #' @description
