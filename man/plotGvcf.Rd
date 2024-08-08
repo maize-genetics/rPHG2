@@ -13,7 +13,9 @@ plotGvcf(object, ...)
   f = NULL,
   nRow = NULL,
   nCol = NULL,
-  tag = "A"
+  tag = "A",
+  mData = NULL,
+  mVar = NULL
 )
 }
 \arguments{
@@ -31,6 +33,15 @@ single ID is supported.}
 \item{nCol}{An integer specifying the number of columns in the plot layout.}
 
 \item{tag}{What tag type do you want passed to final plot?}
+
+\item{mData}{Add optional metadata \code{data.frame} object for categorical plotting.
+This object must contain a singular column named \code{sample}, \code{taxa},
+or \code{line} along with one or more columns containing categorical data
+for plotting.}
+
+\item{mVar}{If \code{mData} is specified, what categorical column do you want plotted? If
+\code{NULL}, the first non-\code{sample}/\code{taxa}/\code{line} column will
+be selected.}
 }
 \value{
 A plot object generated from the specified gVCF data and layout.

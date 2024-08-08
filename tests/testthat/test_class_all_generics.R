@@ -25,7 +25,7 @@ test_that("Generic methods for classes tests from JVM", {
     expect_true(is(numberOfChromosomes(graph), "numeric"))
     expect_true(is(numberOfRefRanges(graph), "numeric"))
     expect_equal(numberOfRefRanges(graph), 38)
-    expect_true(is(numberOfTaxa(graph), "numeric"))
-    expect_equal(numberOfTaxa(graph), 2)
+    expect_true(is(numberOfSamples(graph), "numeric"))
+    expect_equal(numberOfSamples(graph), 2)
 
 })

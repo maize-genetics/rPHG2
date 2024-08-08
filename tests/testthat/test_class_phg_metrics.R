@@ -332,19 +332,52 @@ test_that("PHGMetrics general dot plot tests", {
 
 test_that("PHGMetrics general gVCF plot tests", {
     metricDir <- system.file("extdata", package = "rPHG2")
-
     metBase <- PHGMetrics(metricDir)
+
+
+    # General expectations
     expect_true(is(plotGvcf(metBase, metBase$toy_gvcf_metrics), "ggplot"))
-    expect_error(is(plotGvcf(metBase, c(metBase$toy_gvcf_metrics, metBase$toy_anchors_s01)), "ggplot"))
     expect_true(is(plotGvcf(metBase), "ggplot"))
     expect_true(is(plotGvcf(metBase, f = ALL ~ ALL), "ggplot"))
     expect_true(is(plotGvcf(metBase, f = ALL ~ Vu01 + Vu05), "ggplot"))
     expect_true(is(plotGvcf(metBase, f = num_ns ~ Vu01 + Vu05), "ggplot"))
-    expect_error(is(plotGvcf(metBase, f = ALL + CORE ~ ALL + Vu02), "ggplot"))
-    expect_error(is(plotGvcf(metBase, f = CORE + num_ns ~ ALL + Vu02), "ggplot"))
-    expect_error(is(plotGvcf(metBase, f = num_nsss ~ ALL + Vu02), "ggplot"))
-    expect_error(is(plotGvcf(metBase, f = num_nsss ~ ALL), "ggplot"))
 
+
+    # General error checks
+    expect_error(plotGvcf(metBase, c(metBase$toy_gvcf_metrics, metBase$toy_anchors_s01)))
+    expect_error(plotGvcf(metBase, f = ALL + CORE ~ ALL + Vu02))
+    expect_error(plotGvcf(metBase, f = CORE + num_ns ~ ALL + Vu02))
+    expect_error(plotGvcf(metBase, f = num_nsss ~ ALL + Vu02))
+    expect_error(plotGvcf(metBase, f = num_nsss ~ ALL))
+    expect_error(plotGvcf(metBase, f = ALL ~ BadChr02))
+
+
+    # Add metadata checks
+    mData <- data.frame(
+        sample = c("Xb01", "Xb02", "Xb03"),
+        tech = c("old", "new", "new"),
+        treatment = c("a", "b", "a")
+    )
+    expect_true(is(plotGvcf(metBase, mData = mData), "ggplot"))
+    expect_true(is(plotGvcf(metBase, mData = mData, mVar = "tech"), "ggplot"))
+    expect_true(is(plotGvcf(metBase, mData = mData, mVar = "treatment"), "ggplot"))
+    expect_error(plotGvcf(metBase, mData = LETTERS))
+    expect_error(plotGvcf(metBase, mData = mtcars))
+    expect_error(plotGvcf(metBase, mData = mData, mVar = "tecch"))
+
+    mDataWarn <- data.frame(
+        sample = c("Xb01", "Xb02", "Xb03"),
+        line = c("Xb01", "Xb02", "Xb03"),
+        tech = c("old", "new", "new")
+    )
+    expect_warning(plotGvcf(metBase, mData = mDataWarn))
+
+    mDataError <- data.frame(
+        sample = c("Xb001", "Xb002", "Xb003"),
+        tech = c("old", "new", "new"),
+        treatment = c("a", "b", "a")
+    )
+    expect_error(plotGvcf(metBase, mData = mDataError))
 })
 
 

@@ -149,6 +149,188 @@ setMethod(
 
 
 ## ----
+#' @param numberOfChromosomes
+#' A \code{character} vector of sample IDs
+#'
+#' @rdname numberOfChromosomes
+#' @export
+setMethod(
+    f = "numberOfChromosomes",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        return(length(unique(GenomeInfoDb::seqnames(readRefRanges(object)))))
+    }
+)
+
+
+## ----
+#' @param object
+#' A \code{\linkS4class{PHGDataSet}} object
+#' @param byRefRange
+#' If \code{TRUE}, a \code{tibble} object will created where each row is a
+#' count of unique haplotype IDs for every reference range. If \code{FALSE}, a
+#' global count of all haplotype IDs will be returned from the dataset.
+#'
+#' @rdname numberOfHaplotypes
+#' @export
+setMethod(
+    f = "numberOfHaplotypes",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, byRefRange = FALSE) {
+        if (byRefRange) {
+            hapIds <- readHapIds(object)
+            refRanges <- as.data.frame(readRefRanges(object))
+
+            uniqHaps <- data.frame(
+                rr_id   = colnames(hapIds),
+                n_haplo = apply(hapIds, 2, function(it) length(unique(it[it != "null"])))
+            )
+
+            return(tibble::as_tibble(
+                merge(uniqHaps, refRanges, by = "rr_id")
+            ))
+        } else {
+            return(nrow(readHapIdMetaData(object)))
+        }
+    }
+)
+
+
+## ----
+#' @param numberOfRefRanges
+#' A \code{character} vector of sample IDs
+#'
+#' @rdname numberOfRefRanges
+#' @export
+setMethod(
+    f = "numberOfRefRanges",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        return(length(readRefRanges(object)))
+    }
+)
+
+
+## ----
+#' @param numberOfSamples
+#' A \code{character} vector of sample IDs
+#'
+#' @rdname numberOfSamples
+#' @export
+setMethod(
+    f = "numberOfSamples",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        return(length(readSamples(object)))
+    }
+)
+
+
+## ----
+#' @param gr
+#' A \code{GenomicRanges} object for subsetting based on chromosome ID and
+#' start/stop positions (bp). If \code{NULL}, all haplotype counts will be
+#' plotted similar to a Manhattan plot. Defaults to \code{NULL}.
+#'
+#' @rdname plotHaploCounts
+#' @export
+setMethod(
+    f = "plotHaploCounts",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, gr = NULL) {
+        nHaplo <- numberOfHaplotypes(object, byRefRange = TRUE)
+        p <- NULL
+        if (is.null(gr)) {
+            p <- ggplot2::ggplot(nHaplo) +
+                ggplot2::aes(x = !!rlang::sym("start"), y = !!rlang::sym("n_haplo")) +
+                ggplot2::geom_point() +
+                ggplot2::scale_y_continuous(
+                    breaks = seq_len(max(nHaplo$n_haplo)),
+                    limits = c(1, max(nHaplo$n_haplo))
+                ) +
+                ggplot2::scale_x_continuous(
+                    labels = scales::label_number(
+                        scale_cut = scales::cut_short_scale()
+                    )
+                ) +
+                ggplot2::xlab("Position (bp)") +
+                ggplot2::ylab("Number of unique haplotypes") +
+                ggplot2::facet_wrap(~ seqnames, scales = "free_x") +
+                ggplot2::theme_bw()
+        } else {
+            refRanges <- readRefRanges(object)
+            if (!is(gr, "GRanges")) {
+                rlang::abort("'gr' object is not of type 'GRanges'")
+            }
+
+            gr$sub_id <- paste0("QR ", GenomeInfoDb::seqnames(gr), ":", IRanges::ranges(gr))
+
+            # Find overlaps
+            overlaps <- suppressWarnings(GenomicRanges::findOverlaps(refRanges, gr))
+            if (length(overlaps) == 0) {
+                rlang::abort("No reference ranges identified with given query")
+            }
+
+            # Filter based on overlaps
+            filtGr <- refRanges[S4Vectors::queryHits(overlaps)]
+
+            # Add sub_id metadata
+            filtGr$sub_id <- gr$sub_id[S4Vectors::subjectHits(overlaps)]
+            filtGrDf <- as.data.frame(filtGr)
+            filtGrDf <- merge(x = filtGrDf, y = nHaplo)
+
+            p <- ggplot2::ggplot(filtGrDf) +
+                ggplot2::aes(x = !!rlang::sym("rr_id"), y = !!rlang::sym("n_haplo")) +
+                ggplot2::geom_bar(stat = "identity") +
+                ggplot2::scale_y_continuous(breaks = seq(0, max(nHaplo$n_haplo), by = 1)) +
+                ggplot2::xlab("Reference range ID") +
+                ggplot2::ylab("Number of unique haplotypes") +
+                ggplot2::facet_grid(~ sub_id, scales = "free_x", space = "free") +
+                ggplot2::theme_bw() +
+                ggplot2::theme(
+                    axis.text.x = ggplot2::element_text(
+                        angle = 90,
+                        vjust = 0.5,
+                        hjust = 1
+                    )
+                )
+        }
+
+        return(p)
+    }
+)
+
+
+## ----
+#' @param drop
+#' Do you want unused unique count bins to be plotted? Defaults to \code{TRUE}.
+#'
+#' @rdname plotHaploDist
+#' @export
+setMethod(
+    f = "plotHaploDist",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, drop = FALSE) {
+        nHaplo <- numberOfHaplotypes(object, byRefRange = TRUE)
+        nHaplo$n_haplo <- factor(
+            x = nHaplo$n_haplo,
+            levels = seq_len(numberOfSamples(object))
+        )
+
+        p <- ggplot2::ggplot(nHaplo) +
+            ggplot2::aes(x = !!rlang::sym("n_haplo")) +
+            ggplot2::geom_bar() +
+            ggplot2::scale_x_discrete(drop = drop) +
+            ggplot2::labs(x = "Number of unique haplotypes", y = "Count") +
+            ggplot2::ggtitle("Haplotype count distributions") +
+            ggplot2::theme_bw()
+
+        return(p)
+    }
+)
+
+
+## ----
 #' @rdname readSamples
 #' @export
 setMethod(

@@ -15,5 +15,6 @@ phgType(object, ...)
 \item{...}{Additional arguments, for use in specific methods}
 }
 \description{
-Returns the PHG type for a given \code{rPHG2} local or server connection object
+Returns the PHG type for a given \code{rPHG2} local or server connection
+object
 }
