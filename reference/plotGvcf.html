@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,9 @@
 <span>  f <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  nRow <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  nCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  tag <span class="op">=</span> <span class="st">"A"</span></span>
+<span>  tag <span class="op">=</span> <span class="st">"A"</span>,</span>
+<span>  mData <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mVar <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -89,6 +91,19 @@ single ID is supported.</p></dd>
 
 <dt id="arg-tag">tag<a class="anchor" aria-label="anchor" href="#arg-tag"></a></dt>
 <dd><p>What tag type do you want passed to final plot?</p></dd>
+
+
+<dt id="arg-mdata">mData<a class="anchor" aria-label="anchor" href="#arg-mdata"></a></dt>
+<dd><p>Add optional metadata <code>data.frame</code> object for categorical plotting.
+This object must contain a singular column named <code>sample</code>, <code>taxa</code>,
+or <code>line</code> along with one or more columns containing categorical data
+for plotting.</p></dd>
+
+
+<dt id="arg-mvar">mVar<a class="anchor" aria-label="anchor" href="#arg-mvar"></a></dt>
+<dd><p>If <code>mData</code> is specified, what categorical column do you want plotted? If
+<code>NULL</code>, the first non-<code>sample</code>/<code>taxa</code>/<code>line</code> column will
+be selected.</p></dd>
 
 </dl></div>
     <div class="section level2">

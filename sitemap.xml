@@ -40,11 +40,14 @@
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsMetaData.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsTable.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/numberOfChromosomes.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/numberOfHaplotypes.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/numberOfRefRanges.html</loc></url>
-<url><loc>https://rphg2.maizegenetics.net/reference/numberOfTaxa.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/numberOfSamples.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/phgType.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/plotDot.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/plotGvcf.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/plotHaploCounts.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/plotHaploDist.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/port.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/readHapIdMetaData.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/readHapIdPosMetaData.html</loc></url>

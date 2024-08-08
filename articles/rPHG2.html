@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,6 +143,12 @@ with the JVM.</p>
 <div class="section level3">
 <h3 id="server-connections">Server connections<a class="anchor" aria-label="anchor" href="#server-connections"></a>
 </h3>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>We are still actively working on this section and will not have the
+same compatibility as <a href="https://rphg.maizegenetics.net/articles/rphg_walkthrough.html#establishing-a-server-connection" class="external-link">rPHG</a>.
+Stay tuned for further details!</p>
+</blockquote>
 <p>Conversely, <em>server</em> locations are for databases served on
 publicly available web services leveraging the <a href="https://brapi.org/" class="external-link">Breeding API (BrAPI) endpoints</a>. Since this
 is a connection to a server, a URL path instead of a local file path
@@ -179,25 +185,43 @@ endpoints</a>, an exception will occur.</p>
 <div class="section level2">
 <h2 id="creating-jvm-objects">Creating JVM objects<a class="anchor" aria-label="anchor" href="#creating-jvm-objects"></a>
 </h2>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>This will require the <code>rJava</code> package to be installed
+along with a modern version of Java (e.g.,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≥</mo><annotation encoding="application/x-tex">\geq</annotation></semantics></math>
+v17) to work properly!</p>
+</blockquote>
 <p>Now that we have either a local or server-based connection object, we
 can convert the raw hVCF data into a <a href="https://github.com/maize-genetics/phg_v2/blob/main/src/main/kotlin/net/maizegenetics/phgv2/api/HaplotypeGraph.kt" class="external-link"><code>HaplotypeGraph</code></a>
-JVM object and bridge the Java reference pointer to R using the
-function, <code><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph()</a></code>:</p>
+JVM object and bridge the Java reference pointer to R. Before we build
+the JVM graph object, we need to initialize the JVM and add the JAR
+files to our environment that are found within the <a href="https://github.com/maize-genetics/phg_v2/releases" class="external-link">latest
+distribution</a> of PHGv2. If you have <strong>not</strong> downloaded
+this, please see instructions <a href="https://phg.maizegenetics.net/installation/#get-phgv2" class="external-link">here</a>
+before you continue! To initialize, run the following command:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/initPhg.html">initPhg</a></span><span class="op">(</span><span class="st">"phg/lib/path"</span><span class="op">)</span></span></code></pre></div>
+<p>…where <code>phg/lib/path</code> is the <code>lib</code> directory
+found within the decompressed release of PHGv2. Now that the JVM has
+been initialized, we can build the JVM graph using
+<code><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph()</a></code> using the local connection object as
+input:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="va">localCon</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">graph</span></span></code></pre></div>
-<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">3e78b6a5</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: 38</span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of taxa..........: 2</span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of chromosomes...: 2</span></span></code></pre>
+<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">28194a50</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of chromosomes...: <span style="font-weight: bold;">2</span></span></span></code></pre>
 <p>In the above example, we took the local connection object and passed
 it into a <code>HaplotypeGraph</code> constructor. Here, we have a basic
 class that contains a pointer object where we can direct data from Java
 to R:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/javaRefObj.html">javaRefObj</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@3e78b6a5}"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@28194a50}"</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="reading-data">Reading data<a class="anchor" aria-label="anchor" href="#reading-data"></a>
@@ -210,7 +234,7 @@ of <code>rPHG2</code> functions.</p>
 </h3>
 <p>To return a vector of sample IDs from the graph object, we can use
 the <code><a href="../reference/readSamples.html">readSamples()</a></code> function:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readSamples.html">readSamples</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "LineA" "LineB"</span></span></code></pre>
 </div>
@@ -222,7 +246,7 @@ graph object, we can use the <code><a href="../reference/readRefRanges.html">rea
 will return a <code>GRanges</code> object which is a common data class
 in the <a href="https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html" class="external-link"><code>GenomicRanges</code></a>
 package:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readRefRanges.html">readRefRanges</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## GRanges object with 38 ranges and 1 metadata column:</span></span>
 <span><span class="co">##        seqnames      ranges strand |         rr_id</span></span>
@@ -248,7 +272,7 @@ package:</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>×</mo><annotation encoding="application/x-tex">\times</annotation></semantics></math>
 reference range” <code>matrix</code> object, we can use the
 <code><a href="../reference/readHapIds.html">readHapIds()</a></code> function:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readHapIds.html">readHapIds</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Show only first 3 columns</span></span>
@@ -265,7 +289,7 @@ reference range” <code>matrix</code> object, we can use the
 </h3>
 <p>To return metadata for each haplotype ID as a <code>tibble</code>
 object, we can use the <code><a href="../reference/readHapIdMetaData.html">readHapIdMetaData()</a></code> function:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readHapIdMetaData.html">readHapIdMetaData</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 76 × 6</span></span></span>
 <span><span class="co">##    hap_id                 sample_name description source checksum ref_range_hash</span></span>
@@ -288,7 +312,7 @@ object, we can use the <code><a href="../reference/readHapIdMetaData.html">readH
 <p>To return positional information for each haplotype ID as another
 <code>tibble</code> object, we can use the
 <code><a href="../reference/readHapIdPosMetaData.html">readHapIdPosMetaData()</a></code> function:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readHapIdPosMetaData.html">readHapIdPosMetaData</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 76 × 5</span></span></span>
 <span><span class="co">##    hap_id                           contig_start contig_end start   end</span></span>
@@ -312,8 +336,9 @@ object, we can use the <code><a href="../reference/readHapIdMetaData.html">readH
 We can read all of the prior data simultaneously as
 <code>PHGDataSet</code> object which is an in-R-memory representation of
 all hVCF data:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readPhgDataSet.html">readPhgDataSet</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">&lt;-</span> <span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readPhgDataSet.html">readPhgDataSet</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">phgDs</span></span></code></pre></div>
 <pre><code><span><span class="co">## A <span style="font-weight: bold;">PHGDataSet</span> object</span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
@@ -348,9 +373,16 @@ specific reference range and/or sample(s). We can
 </ul>
 <p>If we were to represent this as an object in R called
 <code>phgDs</code>, it would look like the following diagram:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">phgDs</span></span></code></pre></div>
+<pre><code><span><span class="co">## A <span style="font-weight: bold;">PHGDataSet</span> object</span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of hap IDs.......: <span style="font-weight: bold;">76</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of asm regions...: <span style="font-weight: bold;">76</span></span></span></code></pre>
 <p><img src="img/filtering/mat_01.svg" fig.align="center"></p>
+<p>…where each individual colored cell is a haplotype ID.</p>
 <div class="section level3">
 <h3 id="filter-by-sample">Filter by sample<a class="anchor" aria-label="anchor" href="#filter-by-sample"></a>
 </h3>
@@ -365,7 +397,7 @@ following:</p>
 <li><code>Ky21</code></li>
 <li><code>Mo17</code></li>
 </ul>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/filterSamples.html">filterSamples</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B73"</span>, <span class="st">"Ky21"</span>, <span class="st">"Mo17"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="img/filtering/mat_02.svg" fig.align="center"></p>
 <p><strong>Note</strong>: If samples are added to the filter collection,
@@ -403,7 +435,7 @@ following genomic regions:</p>
 </table>
 <p>I can create the following <code>GRanges</code> object and pass that
 to the filter method:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu">GRanges</span><span class="op">(</span></span>
 <span>    seqnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span><span class="op">)</span>,</span>
 <span>    ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span></span>
@@ -421,7 +453,7 @@ to the filter method:</p>
 </h3>
 <p>Since we have two dimensions, we can filter simultaneously by
 “piping” or combining filter methods in one pass:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu">GRanges</span><span class="op">(</span></span>
 <span>    seqnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span><span class="op">)</span>,</span>
 <span>    ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span></span>
@@ -434,6 +466,115 @@ to the filter method:</p>
 <span>    <span class="fu"><a href="../reference/filterSamples.html">filterSamples</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B73"</span>, <span class="st">"Ky21"</span>, <span class="st">"Mo17"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/filterRefRanges.html">filterRefRanges</a></span><span class="op">(</span><span class="va">gr</span><span class="op">)</span></span></code></pre></div>
 <p><img src="img/filtering/mat_04.svg"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="summarize-and-visualize-data">Summarize and visualize data<a class="anchor" aria-label="anchor" href="#summarize-and-visualize-data"></a>
+</h2>
+<p>In addition to parsing multiple hVCF files into R data objects via a
+<code>PHGDataSet</code>, rPHG2 also provides functions to summarize and
+visualize data.</p>
+<div class="section level3">
+<h3 id="global-values">Global values<a class="anchor" aria-label="anchor" href="#global-values"></a>
+</h3>
+<p>To begin, we can return general values on the number of observations
+within our dataset using the <code>numberOf*</code> family of
+functions:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span></span></code></pre></div>
+<pre><code><span><span class="co">## A <span style="font-weight: bold;">PHGDataSet</span> object</span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of hap IDs.......: <span style="font-weight: bold;">76</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of asm regions...: <span style="font-weight: bold;">76</span></span></span></code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get number of samples/taxa</span></span>
+<span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/numberOfSamples.html">numberOfSamples</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 2</span></span></code></pre>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get number of chromosomes</span></span>
+<span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/numberOfChromosomes.html">numberOfChromosomes</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 2</span></span></code></pre>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get number of reference ranges</span></span>
+<span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/numberOfRefRanges.html">numberOfRefRanges</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 38</span></span></code></pre>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get number of haplotype IDs</span></span>
+<span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/numberOfHaplotypes.html">numberOfHaplotypes</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 76</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="get-counts-of-unique-haplotype-ids">Get counts of unique haplotype IDs<a class="anchor" aria-label="anchor" href="#get-counts-of-unique-haplotype-ids"></a>
+</h3>
+<p>To get the unique number of haplotypes per reference range in our
+<code>PHGDataSet</code> object, we can use
+<code><a href="../reference/numberOfHaplotypes.html">numberOfHaplotypes()</a></code> again, but set the internal parameter
+<code>byRefRange</code> to <code>TRUE</code>:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/numberOfHaplotypes.html">numberOfHaplotypes</a></span><span class="op">(</span>byRefRange <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 38 × 7</span></span></span>
+<span><span class="co">##    rr_id         n_haplo seqnames start   end width strand</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1:1-1000            2 1            1  <span style="text-decoration: underline;">1</span>000  <span style="text-decoration: underline;">1</span>000 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 1:1001-5500         2 1         <span style="text-decoration: underline;">1</span>001  <span style="text-decoration: underline;">5</span>500  <span style="text-decoration: underline;">4</span>500 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 1:11001-12000       2 1        <span style="text-decoration: underline;">11</span>001 <span style="text-decoration: underline;">12</span>000  <span style="text-decoration: underline;">1</span>000 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 1:12001-16500       2 1        <span style="text-decoration: underline;">12</span>001 <span style="text-decoration: underline;">16</span>500  <span style="text-decoration: underline;">4</span>500 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 1:16501-17500       2 1        <span style="text-decoration: underline;">16</span>501 <span style="text-decoration: underline;">17</span>500  <span style="text-decoration: underline;">1</span>000 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 1:17501-22000       2 1        <span style="text-decoration: underline;">17</span>501 <span style="text-decoration: underline;">22</span>000  <span style="text-decoration: underline;">4</span>500 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 1:22001-23000       2 1        <span style="text-decoration: underline;">22</span>001 <span style="text-decoration: underline;">23</span>000  <span style="text-decoration: underline;">1</span>000 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 1:23001-27500       2 1        <span style="text-decoration: underline;">23</span>001 <span style="text-decoration: underline;">27</span>500  <span style="text-decoration: underline;">4</span>500 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1:27501-28500       2 1        <span style="text-decoration: underline;">27</span>501 <span style="text-decoration: underline;">28</span>500  <span style="text-decoration: underline;">1</span>000 *     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 1:28501-33000       2 1        <span style="text-decoration: underline;">28</span>501 <span style="text-decoration: underline;">33</span>000  <span style="text-decoration: underline;">4</span>500 *     </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 28 more rows</span></span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="visualize-counts-of-unique-haplotype-ids">Visualize counts of unique haplotype IDs<a class="anchor" aria-label="anchor" href="#visualize-counts-of-unique-haplotype-ids"></a>
+</h3>
+<p>We can visualize the prior section using a member of the
+<code>plot*</code> family of functions, <code><a href="../reference/plotHaploCounts.html">plotHaploCounts()</a></code>.
+By default, this will produce a scatter plot of data found across all
+reference ranges in the reference genome (similar to a <a href="https://en.wikipedia.org/wiki/Manhattan_plot" class="external-link">Manhattan
+plot</a>):</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploCounts.html">plotHaploCounts</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="rPHG2_files/figure-html/unnamed-chunk-22-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>To get more “granular” views of specific regions within our data, we
+can pass a <code>GRanges</code> object from the package <a href="https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html" class="external-link"><code>GenomicRanges</code></a>
+to the <code>gr</code> parameter:</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># library(GenomicRanges)</span></span>
+<span></span>
+<span><span class="va">query</span> <span class="op">&lt;-</span> <span class="fu">GRanges</span><span class="op">(</span></span>
+<span>    seqnames <span class="op">=</span> <span class="st">"1"</span>, </span>
+<span>    ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span>start <span class="op">=</span> <span class="fl">50</span>, end <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploCounts.html">plotHaploCounts</a></span><span class="op">(</span>gr <span class="op">=</span> <span class="va">query</span><span class="op">)</span></span></code></pre></div>
+<p><img src="rPHG2_files/figure-html/unnamed-chunk-23-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>We can also query mutliple regions of interest simultaneously by
+adding more observations to the <code>query</code> object:</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># library(GenomicRanges)</span></span>
+<span></span>
+<span><span class="va">query</span> <span class="op">&lt;-</span> <span class="fu">GRanges</span><span class="op">(</span></span>
+<span>    seqnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span><span class="op">)</span>, </span>
+<span>    ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span>, end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">7500</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploCounts.html">plotHaploCounts</a></span><span class="op">(</span>gr <span class="op">=</span> <span class="va">query</span><span class="op">)</span></span></code></pre></div>
+<p><img src="rPHG2_files/figure-html/unnamed-chunk-24-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="visualize-distributions-of-unique-haplotype-ids">Visualize distributions of unique haplotype IDs<a class="anchor" aria-label="anchor" href="#visualize-distributions-of-unique-haplotype-ids"></a>
+</h3>
+<p>To get a more “global” estimate of unique haplotype ID distribution
+across the genome, we can us the function
+<code><a href="../reference/plotHaploDist.html">plotHaploDist()</a></code>:</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploDist.html">plotHaploDist</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="rPHG2_files/figure-html/unnamed-chunk-25-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

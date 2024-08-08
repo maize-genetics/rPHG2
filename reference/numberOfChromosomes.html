@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Return number of chromosomes</h1>
-      <small class="dont-index">Source: <a href="https://github.com/maize-genetics/rPHG2/blob/main/R/class_all_generics.R" class="external-link"><code>R/class_all_generics.R</code></a>, <a href="https://github.com/maize-genetics/rPHG2/blob/main/R/class_haplotype_graph.R" class="external-link"><code>R/class_haplotype_graph.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/maize-genetics/rPHG2/blob/main/R/class_all_generics.R" class="external-link"><code>R/class_all_generics.R</code></a>, <a href="https://github.com/maize-genetics/rPHG2/blob/main/R/class_haplotype_graph.R" class="external-link"><code>R/class_haplotype_graph.R</code></a>, <a href="https://github.com/maize-genetics/rPHG2/blob/main/R/class_phg_dataset.R" class="external-link"><code>R/class_phg_dataset.R</code></a></small>
       <div class="d-none name"><code>numberOfChromosomes.Rd</code></div>
     </div>
 
@@ -48,6 +48,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">numberOfChromosomes</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'HaplotypeGraph'</span></span>
+<span><span class="fu">numberOfChromosomes</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'PHGDataSet'</span></span>
 <span><span class="fu">numberOfChromosomes</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -61,6 +64,10 @@
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments, for use in specific methods</p></dd>
+
+
+<dt id="arg-numberofchromosomes">numberOfChromosomes<a class="anchor" aria-label="anchor" href="#arg-numberofchromosomes"></a></dt>
+<dd><p>A <code>character</code> vector of sample IDs</p></dd>
 
 </dl></div>
 

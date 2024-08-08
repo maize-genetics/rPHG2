@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,46 @@
       <small>Source: <a href="https://github.com/maize-genetics/rPHG2/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6" id="rphg2-06">rPHG2 0.6<a class="anchor" aria-label="anchor" href="#rphg2-06"></a></h2>
+<ul><li>Added new parameters to <code>plogtGvcf()</code>:
+<ul><li>
+<code>mData</code> and <code>mVar</code>
+</li>
+<li>allows user to override default sample color option with categorical data</li>
+</ul></li>
+<li>Added new generic, <code><a href="../reference/numberOfHaplotypes.html">numberOfHaplotypes()</a></code>:
+<ul><li>returns the number of unique haplotypes found within each reference range or the total value found within a <code>PHGDataSet</code> object</li>
+</ul></li>
+<li>Added getters to <code>PHGDataSet</code> objects:
+<ul><li><code><a href="../reference/numberOfChromosomes.html">numberOfChromosomes()</a></code></li>
+<li><code><a href="../reference/numberOfSamples.html">numberOfSamples()</a></code></li>
+<li><code><a href="../reference/numberOfRefRanges.html">numberOfRefRanges()</a></code></li>
+</ul></li>
+<li>Changed functions and variables containing <code>taxa</code> to <code>samples</code>
+<ul><li>e.g., <code>numberOfTaxa()</code> is now <code><a href="../reference/numberOfSamples.html">numberOfSamples()</a></code>
+</li>
+</ul></li>
+<li>Format tweaks to <code>HaplotypeGraph</code> objects’ <code>show()</code> method</li>
+<li>Added new function <code>plotHaploCount()</code>:
+<ul><li>Plots unique haplotype counts for all or given reference ranges</li>
+</ul></li>
+<li>Added new function <code><a href="../reference/plotHaploDist.html">plotHaploDist()</a></code>:
+<ul><li>Plots unique haplotype distribution for entire <code>PHGDataSet</code> object</li>
+</ul></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5" id="rphg2-05">rPHG2 0.5<a class="anchor" aria-label="anchor" href="#rphg2-05"></a></h2>
+<ul><li>Added new visualization method, <code><a href="../reference/plotGvcf.html">plotGvcf()</a></code>:
+<ul><li>auto plotting various gVCF metrics</li>
+<li>granular metric support through formula subsetting</li>
+</ul></li>
+<li>Added new accessor and setting method, <code>seqnames()</code>
+<ul><li>Returns all contig IDs found in a <code>PHGMetrics</code> object</li>
+<li>Setter version (<code>seqnames()&lt;-</code>) will update old IDs found within a <code>data.frame</code> object</li>
+</ul></li>
+<li>Added new default methods to <code><a href="../reference/plotGvcf.html">plotGvcf()</a></code> and <code><a href="../reference/plotDot.html">plotDot()</a></code> for <code>PHGMetrics</code> objects that only contain one alignment or gVCF dataset</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4" id="rphg2-04">rPHG2 0.4<a class="anchor" aria-label="anchor" href="#rphg2-04"></a></h2>
 <ul><li>Added vignettes and README updates

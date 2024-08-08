@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -667,6 +667,58 @@ the <code>tag</code> parameter:</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metData</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotGvcf.html">plotGvcf</a></span><span class="op">(</span>f <span class="op">=</span> <span class="va">CORE</span> <span class="op">~</span> <span class="va">ALL</span>, tag <span class="op">=</span> <span class="st">"i"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="metrics_files/figure-html/unnamed-chunk-24-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level4">
+<h4 id="adding-metadata">Adding metadata<a class="anchor" aria-label="anchor" href="#adding-metadata"></a>
+</h4>
+<p>If you want to color bars based additional categorical besides sample
+ID, you can pass a <code>data.frame</code> object to the parameter
+<code>mData</code>. This will need the following prerequisites:</p>
+<ol style="list-style-type: decimal">
+<li>A column named either <code>sample</code>, <code>taxa</code>,
+<strong>or</strong> <code>line</code>
+</li>
+<li>At least one more column containing a new categorical variable where
+each sample ID is represented.</li>
+</ol>
+<p>In the prior examples, I have 3 samples in my gVCF metrics data:</p>
+<ol style="list-style-type: decimal">
+<li><code>Xb01</code></li>
+<li><code>Xb02</code></li>
+<li><code>Xb03</code></li>
+</ol>
+<p>I will make a <code>data.frame</code> object with following columns,
+<code>sample</code> and <code>technology</code>, and
+<code>treatment</code>:</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">refData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    sample     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Xb01"</span>, <span class="st">"Xb02"</span>, <span class="st">"Xb03"</span><span class="op">)</span>,</span>
+<span>    technology <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"old"</span>, <span class="st">"new"</span>, <span class="st">"new"</span><span class="op">)</span>,</span>
+<span>    treatment  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">refData</span></span></code></pre></div>
+<pre><code><span><span class="co">##   sample technology treatment</span></span>
+<span><span class="co">## 1   Xb01        old         a</span></span>
+<span><span class="co">## 2   Xb02        new         a</span></span>
+<span><span class="co">## 3   Xb03        new         b</span></span></code></pre>
+<p>This can now be passed into the <code>mData</code> parameter of
+<code><a href="../reference/plotGvcf.html">plotGvcf()</a></code>:</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">metData</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotGvcf.html">plotGvcf</a></span><span class="op">(</span>f <span class="op">=</span> <span class="va">CORE</span> <span class="op">~</span> <span class="va">ALL</span>, mData <span class="op">=</span> <span class="va">refData</span><span class="op">)</span></span></code></pre></div>
+<p><img src="metrics_files/figure-html/unnamed-chunk-26-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>By default, this will pick the first non-sample column in the
+<code>data.frame</code> object, in this case, <code>technology</code>.
+We can also specify the column of interest (in case you have multiple
+columns within your <code>data.frame</code> object) using the
+<code>mVar</code> parameter:</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">metData</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotGvcf.html">plotGvcf</a></span><span class="op">(</span></span>
+<span>    f <span class="op">=</span> <span class="va">CORE</span> <span class="op">~</span> <span class="va">ALL</span>, </span>
+<span>    mData <span class="op">=</span> <span class="va">refData</span>,</span>
+<span>    mVar <span class="op">=</span> <span class="st">"treatment"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="metrics_files/figure-html/unnamed-chunk-27-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 </div>
