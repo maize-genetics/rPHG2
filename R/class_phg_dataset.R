@@ -183,7 +183,7 @@ setMethod(
 
             uniqHaps <- data.frame(
                 rr_id   = colnames(hapIds),
-                n_haplo = apply(hapIds, 2, function(it) length(unique(na.omit(it))))
+                n_haplo = apply(hapIds, 2, function(it) length(unique(stats::na.omit(it))))
             )
 
             return(tibble::as_tibble(
@@ -239,9 +239,10 @@ setMethod(
     signature = signature(object = "PHGDataSet"),
     definition = function(object, gr = NULL) {
         nHaplo <- numberOfHaplotypes(object, byRefRange = TRUE)
+        p <- NULL
         if (is.null(gr)) {
             p <- ggplot2::ggplot(nHaplo) +
-                ggplot2::aes(x = start, y = n_haplo) +
+                ggplot2::aes(x = !!rlang::sym("start"), y = !!rlang::sym("n_haplo")) +
                 ggplot2::geom_point() +
                 ggplot2::scale_y_continuous(
                     breaks = seq_len(max(nHaplo$n_haplo)),
@@ -256,8 +257,6 @@ setMethod(
                 ggplot2::ylab("Number of unique haplotypes") +
                 ggplot2::facet_wrap(~ seqnames) +
                 ggplot2::theme_bw()
-
-            return(p)
         } else {
             refRanges <- readRefRanges(object)
             if (!is(gr, "GRanges")) {
@@ -273,15 +272,15 @@ setMethod(
             }
 
             # Filter based on overlaps
-            filtGr <- refRanges[queryHits(overlaps)]
+            filtGr <- refRanges[S4Vectors::queryHits(overlaps)]
 
             # Add sub_id metadata
-            filtGr$sub_id <- gr$sub_id[subjectHits(overlaps)]
+            filtGr$sub_id <- gr$sub_id[S4Vectors::subjectHits(overlaps)]
             filtGrDf <- as.data.frame(filtGr)
             filtGrDf <- merge(x = filtGrDf, y = nHaplo)
 
             p <- ggplot2::ggplot(filtGrDf) +
-                ggplot2::aes(x = rr_id, y = n_haplo) +
+                ggplot2::aes(x = !!rlang::sym("rr_id"), y = !!rlang::sym("n_haplo")) +
                 ggplot2::geom_bar(stat = "identity") +
                 ggplot2::scale_y_continuous(breaks = seq(0, max(nHaplo$n_haplo), by = 1)) +
                 ggplot2::xlab("Reference range ID") +
@@ -295,9 +294,9 @@ setMethod(
                         hjust = 1
                     )
                 )
-
-            return(p)
         }
+
+        return(p)
     }
 )
 
@@ -319,7 +318,7 @@ setMethod(
         )
 
         p <- ggplot2::ggplot(nHaplo) +
-            ggplot2::aes(x = n_haplo) +
+            ggplot2::aes(x = !!rlang::sym("n_haplo")) +
             ggplot2::geom_bar() +
             ggplot2::scale_x_discrete(drop = drop) +
             ggplot2::labs(x = "Number of unique haplotypes", y = "Count") +

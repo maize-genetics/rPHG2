@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 )
 
 library(rPHG2)
+library(GenomicRanges)
 
 source("../tests/testthat/setup.R")
 ```
@@ -98,6 +99,13 @@ object interface with the JVM.
 
 
 ### Server connections
+
+> **Note**
+>
+> We are still actively working on this section and will not have the same
+> compatibility as [rPHG](https://rphg.maizegenetics.net/articles/rphg_walkthrough.html#establishing-a-server-connection).
+> Stay tuned for further details!
+
 Conversely, _server_ locations are for databases served on publicly available
 web services leveraging the [Breeding API (BrAPI) endpoints](https://brapi.org/).
 Since this is a connection to a server, a URL path instead of a local file
@@ -136,11 +144,28 @@ an exception will occur.
 
 ## Creating JVM objects
 
+> **Note**
+>
+> This will require the `rJava` package to be installed along with a modern
+> version of Java (e.g., $\geq$ v17) to work properly!
+
 Now that we have either a local or server-based connection object, we can
 convert the raw hVCF data into a 
 [`HaplotypeGraph`](https://github.com/maize-genetics/phg_v2/blob/main/src/main/kotlin/net/maizegenetics/phgv2/api/HaplotypeGraph.kt)
-JVM object and bridge the Java reference pointer to R using the function,
-`buildHaplotypeGraph()`:
+JVM object and bridge the Java reference pointer to R. Before we build the JVM 
+graph object, we need to initialize the JVM and add the JAR files to our 
+environment that are found within the [latest distribution](https://github.com/maize-genetics/phg_v2/releases) 
+of PHGv2. If you have **not** downloaded this, please see instructions
+[here](https://phg.maizegenetics.net/installation/#get-phgv2) before you
+continue! To initialize, run the following command:
+
+```{r, eval=FALSE, echo=TRUE}
+initPhg("phg/lib/path")
+```
+
+...where `phg/lib/path` is the `lib` directory found within the decompressed
+release of PHGv2. Now that the JVM has been initialized, we can build the JVM
+graph using `buildHaplotypeGraph()` using the local connection object as input:
 
 
 ```{r, eval=TRUE, echo=TRUE}
@@ -223,7 +248,8 @@ read all of the prior data simultaneously as `PHGDataSet` object which is
 an in-R-memory representation of all hVCF data:
 
 ```{r, eval=TRUE, echo=TRUE}
-graph |> readPhgDataSet()
+phgDs <- graph |> readPhgDataSet()
+phgDs
 ```
 
 If this object is created, we can use the prior `read*` methods to 
@@ -252,11 +278,13 @@ For the following examples, let's picture our primary data as a 2-dimensional
 If we were to represent this as an object in R called `phgDs`, it would look 
 like the following diagram:
 
-```{r, eval=FALSE, echo=TRUE}
+```{r, eval=TRUE, echo=TRUE}
 phgDs
 ```
 
 ![](img/filtering/mat_01.svg){fig.align="center"}
+
+...where each individual colored cell is a haplotype ID.
 
 
 ### Filter by sample
@@ -330,5 +358,94 @@ phgDs |>
 ```
 
 ![](img/filtering/mat_04.svg)
+
+
+
+## Summarize and visualize data
+
+In addition to parsing multiple hVCF files into R data objects via a 
+`PHGDataSet`, rPHG2 also provides functions to summarize and visualize data.
+
+
+### Global values
+
+To begin, we can return general values on the number of observations within
+our dataset using the `numberOf*` family of functions:
+
+```{r, eval=TRUE, echo=TRUE}
+phgDs
+
+# Get number of samples/taxa
+phgDs |> numberOfSamples()
+
+# Get number of chromosomes
+phgDs |> numberOfChromosomes()
+
+# Get number of reference ranges
+phgDs |> numberOfRefRanges()
+
+# Get number of haplotype IDs
+phgDs |> numberOfHaplotypes()
+```
+
+
+### Get counts of unique haplotype IDs
+To get the unique number of haplotypes per reference range in our `PHGDataSet`
+object, we can use `numberOfHaplotypes()` again, but set the internal parameter
+`byRefRange` to `TRUE`:
+
+```{r, eval=TRUE, echo=TRUE}
+phgDs |> numberOfHaplotypes(byRefRange = TRUE)
+```
+
+
+### Visualize counts of unique haplotype IDs
+We can visualize the prior section using a member of the `plot*` family of
+functions, `plotHaploCounts()`. By default, this will produce a scatter plot of
+data found across all reference ranges in the reference genome (similar to a
+[Manhattan plot](https://en.wikipedia.org/wiki/Manhattan_plot)):
+
+```{r, eval=TRUE, echo=TRUE}
+phgDs |> plotHaploCounts()
+```
+
+To get more "granular" views of specific regions within our data, we can
+pass a `GRanges` object from the package 
+[`GenomicRanges`](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html)
+to the `gr` parameter:
+
+```{r, eval=TRUE, echo=TRUE}
+# library(GenomicRanges)
+
+query <- GRanges(
+    seqnames = "1", 
+    ranges = IRanges(start = 50, end = 10000)
+)
+
+phgDs |> plotHaploCounts(gr = query)
+```
+
+We can also query mutliple regions of interest simultaneously by adding more
+observations to the `query` object:
+
+```{r, eval=TRUE, echo=TRUE}
+# library(GenomicRanges)
+
+query <- GRanges(
+    seqnames = c("1", "2"), 
+    ranges = IRanges(start = c(50, 50), end = c(10000, 7500))
+)
+
+phgDs |> plotHaploCounts(gr = query)
+```
+
+
+### Visualize distributions of unique haplotype IDs
+To get a more "global" estimate of unique haplotype ID distribution across the
+genome, we can us the function `plotHaploDist()`:
+
+```{r, eval=TRUE, echo=TRUE}
+phgDs |> plotHaploDist()
+```
 
 

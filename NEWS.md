@@ -12,6 +12,10 @@
 * Changed functions and variables containing `taxa` to `samples`
   + e.g., `numberOfTaxa()` is now `numberOfSamples()`
 * Format tweaks to `HaplotypeGraph` objects' `show()` method
+* Added new function `plotHaploCount()`:
+  + Plots unique haplotype counts for all or given reference ranges
+* Added new function `plotHaploDist()`:
+  + Plots unique haplotype distribution for entire `PHGDataSet` object
 
 
 ## rPHG2 0.5
