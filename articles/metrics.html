@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -671,9 +671,10 @@ the <code>tag</code> parameter:</p>
 <div class="section level4">
 <h4 id="adding-metadata">Adding metadata<a class="anchor" aria-label="anchor" href="#adding-metadata"></a>
 </h4>
-<p>If you want to color bars based additional categorical besides sample
-ID, you can pass a <code>data.frame</code> object to the parameter
-<code>mData</code>. This will need the following prerequisites:</p>
+<p>If you want to color bars based on additional categorical data
+besides sample ID, you can pass a <code>data.frame</code> object to the
+parameter <code>mData</code>. This will need the following
+prerequisites:</p>
 <ol style="list-style-type: decimal">
 <li>A column named either <code>sample</code>, <code>taxa</code>,
 <strong>or</strong> <code>line</code>
@@ -687,8 +688,8 @@ each sample ID is represented.</li>
 <li><code>Xb02</code></li>
 <li><code>Xb03</code></li>
 </ol>
-<p>I will make a <code>data.frame</code> object with following columns,
-<code>sample</code> and <code>technology</code>, and
+<p>I will make a <code>data.frame</code> object with following columns:
+<code>sample</code>, <code>technology</code>, and
 <code>treatment</code>:</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">refData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>

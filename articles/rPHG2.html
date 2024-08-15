@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -211,7 +211,7 @@ input:</p>
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="va">localCon</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">graph</span></span></code></pre></div>
-<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">28194a50</span></span></span>
+<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">7d7758be</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of chromosomes...: <span style="font-weight: bold;">2</span></span></span></code></pre>
@@ -221,7 +221,7 @@ class that contains a pointer object where we can direct data from Java
 to R:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/javaRefObj.html">javaRefObj</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@28194a50}"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@7d7758be}"</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="reading-data">Reading data<a class="anchor" aria-label="anchor" href="#reading-data"></a>
@@ -553,7 +553,7 @@ to the <code>gr</code> parameter:</p>
 <span></span>
 <span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploCounts.html">plotHaploCounts</a></span><span class="op">(</span>gr <span class="op">=</span> <span class="va">query</span><span class="op">)</span></span></code></pre></div>
 <p><img src="rPHG2_files/figure-html/unnamed-chunk-23-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>We can also query mutliple regions of interest simultaneously by
+<p>We can also query mutltiple regions of interest simultaneously by
 adding more observations to the <code>query</code> object:</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># library(GenomicRanges)</span></span>
@@ -565,6 +565,16 @@ adding more observations to the <code>query</code> object:</p>
 <span></span>
 <span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploCounts.html">plotHaploCounts</a></span><span class="op">(</span>gr <span class="op">=</span> <span class="va">query</span><span class="op">)</span></span></code></pre></div>
 <p><img src="rPHG2_files/figure-html/unnamed-chunk-24-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>Finally, we provide 3 separate “geometry” options for plotting using
+the <code>geom</code> parameter: * <code>"l"</code> - line plotting
+(e.g., <code>geom_line()</code>) (<em>default</em>) * <code>"b"</code> -
+bar plotting (e.g., <code>geom_bar()</code>) * <code>"p"</code> - point
+plotting (e.g., <code>geom_point()</code>)</p>
+<p>For example, if we want to switch this from a line plot to a bar
+plot, we can specify <code>geom = "b"</code>:</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploCounts.html">plotHaploCounts</a></span><span class="op">(</span>gr <span class="op">=</span> <span class="va">query</span>, geom <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="rPHG2_files/figure-html/unnamed-chunk-25-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="visualize-distributions-of-unique-haplotype-ids">Visualize distributions of unique haplotype IDs<a class="anchor" aria-label="anchor" href="#visualize-distributions-of-unique-haplotype-ids"></a>
@@ -572,9 +582,9 @@ adding more observations to the <code>query</code> object:</p>
 <p>To get a more “global” estimate of unique haplotype ID distribution
 across the genome, we can us the function
 <code><a href="../reference/plotHaploDist.html">plotHaploDist()</a></code>:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploDist.html">plotHaploDist</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="rPHG2_files/figure-html/unnamed-chunk-25-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="rPHG2_files/figure-html/unnamed-chunk-26-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
