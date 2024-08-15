@@ -69,9 +69,31 @@ test_that("PHGDataSet class construction tests", {
     ### expect 4 observations to overlap with successful query
     expect_equal(length(testPlot$data$rr_id), 4)
 
+    ## Geometry ('geom = ') tests
+    containsGeom <- function(plot, geomType) {
+        any(
+            sapply(plot$layers, function(layer) {
+                inherits(layer$geom, geomType)
+            })
+        )
+    }
+    expect_true(containsGeom(plotHaploCounts(pds, geom = "p"), "GeomPoint"))
+    expect_true(containsGeom(plotHaploCounts(pds, geom = "l"), "GeomPoint"))
+    expect_true(containsGeom(plotHaploCounts(pds, geom = "b"), "GeomPoint"))
+    expect_true(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "l"), "GeomLine"))
+    expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "l"), "GeomBar"))
+    expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "l"), "GeomPoint"))
+    expect_true(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "b"), "GeomBar"))
+    expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "b"), "GeomLine"))
+    expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "b"), "GeomPoint"))
+    expect_true(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "p"), "GeomPoint"))
+    expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "p"), "GeomBar"))
+    expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "p"), "GeomLine"))
+
     ## General errors
     expect_error(plotHaploCounts(pds, gr = mtcars))
     expect_error(plotHaploCounts(pds, gr = grQueryError))
+    expect_error(plotHaploCounts(pds, geom = "x"))
 })
 
 

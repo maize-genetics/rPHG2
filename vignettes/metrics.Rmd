@@ -397,9 +397,9 @@ metData |> plotGvcf(f = CORE ~ ALL, tag = "i")
 
 #### Adding metadata
 
-If you want to color bars based additional categorical besides sample ID, you
-can pass a `data.frame` object to the parameter `mData`. This will need the
-following prerequisites:
+If you want to color bars based on additional categorical data besides sample 
+ID, you can pass a `data.frame` object to the parameter `mData`. This will need 
+the following prerequisites:
 
 1. A column named either `sample`, `taxa`, **or** `line`
 2. At least one more column containing a new categorical variable where each
@@ -411,7 +411,7 @@ In the prior examples, I have 3 samples in my gVCF metrics data:
 2. `Xb02`
 3. `Xb03`
 
-I will make a `data.frame` object with following columns, `sample` and 
+I will make a `data.frame` object with following columns: `sample`, 
 `technology`, and `treatment`:
 
 ```{r eval=TRUE, echo=TRUE}
@@ -442,16 +442,5 @@ metData |> plotGvcf(
     mVar = "treatment"
 )
 ```
-
-
-
-
-
-
-
-
-
-
-
 
 

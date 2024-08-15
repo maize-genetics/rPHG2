@@ -7,17 +7,42 @@
 \usage{
 plotHaploCounts(object, ...)
 
-\S4method{plotHaploCounts}{PHGDataSet}(object, gr = NULL)
+\S4method{plotHaploCounts}{PHGDataSet}(object, gr = NULL, geom = "l")
 }
 \arguments{
 \item{object}{a \code{\linkS4class{PHGDataSet}} object}
 
 \item{...}{Additional arguments, for use in specific methods}
 
-\item{gr}{A \code{GenomicRanges} object for subsetting based on chromosome ID and
-start/stop positions (bp). If \code{NULL}, all haplotype counts will be
-plotted similar to a Manhattan plot. Defaults to \code{NULL}.}
+\item{gr}{A \code{GRanges} object specifying a genomic range for filtering the
+haplotype data. If \code{NULL}, the function will plot the data across the
+entire dataset.}
+
+\item{geom}{A character string specifying the type of geometric representation for the
+plot. Accepted values are:
+\itemize{
+\item \code{"l"} for lines (default),
+\item \code{"b"} for bars,
+\item \code{"p"} for points.
+}
+If an invalid value is provided, the function will raise an error.}
+}
+\value{
+A \code{ggplot} object visualizing the haplotype counts. When
+\code{gr} is \code{NULL}, the plot shows the number of unique haplotypes
+across reference positions. When \code{gr} is provided, the plot is filtered
+to display haplotype counts within the specified range.
 }
 \description{
 Plots the counts of unique haplotype IDs found in each reference range.
+}
+\details{
+When no genomic range is provided (i.e., \code{gr = NULL}), the function
+plots the number of unique haplotypes across the entire reference genome or
+dataset. This will default to point geometry regardless of the value
+provided within the \code{geom} parameter. If a genomic range is provided,
+it filters the data based on overlaps between the reference ranges in the
+dataset and the query range. In both cases, the resulting plot uses
+\code{ggplot2} for visualization, and different geometries can be selected
+via the \code{geom} parameter.
 }
