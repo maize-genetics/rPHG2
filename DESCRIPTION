@@ -1,6 +1,6 @@
 Package: rPHG2
 Title: R interface to PHGv2
-Version: 0.6
+Version: 0.6.1
 Authors@R:
     person(
         given = "Brandon",
@@ -41,6 +41,7 @@ Imports:
     patchwork,
     rJava,
     rlang,
+    S4Vectors,
     scales,
     tibble,
     tools,

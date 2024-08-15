@@ -425,7 +425,7 @@ query <- GRanges(
 phgDs |> plotHaploCounts(gr = query)
 ```
 
-We can also query mutliple regions of interest simultaneously by adding more
+We can also query mutltiple regions of interest simultaneously by adding more
 observations to the `query` object:
 
 ```{r, eval=TRUE, echo=TRUE}
@@ -437,6 +437,19 @@ query <- GRanges(
 )
 
 phgDs |> plotHaploCounts(gr = query)
+```
+
+Finally, we provide 3 separate "geometry" options for plotting using the `geom`
+parameter:
+* `"l"` - line plotting (e.g., `geom_line()`) (_default_)
+* `"b"` - bar plotting (e.g., `geom_bar()`)
+* `"p"` - point plotting (e.g., `geom_point()`)
+
+For example, if we want to switch this from a line plot to a bar plot, we can
+specify `geom = "b"`:
+
+```{r, eval=TRUE, echo=TRUE}
+phgDs |> plotHaploCounts(gr = query, geom = "b")
 ```
 
 

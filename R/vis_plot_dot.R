@@ -1,3 +1,4 @@
+## ----
 # Plot a Dot Plot from AnchorWave metrics
 #
 # @param df

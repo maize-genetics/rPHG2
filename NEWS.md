@@ -1,3 +1,9 @@
+## rPHG2 0.7
+* Added new parameter to `plotHaploCounts()`:
+  + `geom`
+  + allows user to specify a given geometry (line, bar, or point)
+
+
 ## rPHG2 0.6
 * Added new parameters to `plogtGvcf()`:
   + `mData` and `mVar`
