@@ -80,12 +80,16 @@ setValidity("HaplotypeGraph", function(object) {
 buildHaplotypeGraph <- function(
     phgLocalCon
 ) {
+    if (!isJvmInitialized()) {
+        rlang::abort("JVM is not initialized - please run 'initPhg()' with PHGv2 library path")
+    }
+
     if (!is(phgLocalCon, "PHGLocalCon")) {
-        stop("phgLocalCon object is not of type PHGLocalCon")
+        rlang::abort("phgLocalCon object is not of type PHGLocalCon")
     }
 
     if (!is.na(host(phgLocalCon))) {
-        stop("TileDB retrieval methods currently not implemented")
+        rlang::abort("TileDB retrieval methods currently not implemented")
     } else {
         jvmGraph <- hapGraphConstructor(hVcfFiles(phgLocalCon))
     }

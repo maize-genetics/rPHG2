@@ -26,7 +26,7 @@ getLatestReleaseUrl <- function(repo) {
 
     # Check if the request was successful
     if (httr::http_status(response)$category != "Success") {
-        stop(
+        rlang::abort(
             sprintf(
                 "Failed to fetch the latest release info for '%s'. HTTP status code: %s",
                 repo,
@@ -40,7 +40,7 @@ getLatestReleaseUrl <- function(repo) {
 
     # Check if the asset URL is available
     if (length(parsed$assets) == 0 || is.null(parsed$assets$browser_download_url)) {
-        stop(sprintf("No assets found in the latest release for '%s'.", repo))
+        rlang::abort(sprintf("No assets found in the latest release for '%s'.", repo))
     }
 
     assetUrl <- parsed$assets$browser_download_url
@@ -60,7 +60,7 @@ downloadJavaLibraries <- function(dir, repo = "maize-genetics/phg_v2") {
     libraryUrl <- tryCatch({
         getLatestReleaseUrl(repo)
     }, error = function(e) {
-        stop(sprintf("Error fetching latest release URL: %s", e$message))
+        rlang::abort(sprintf("Error fetching latest release URL: %s", e$message))
     })
 
     destFile <- file.path(dir, "phg_java_libs.tar.gz")
@@ -69,14 +69,14 @@ downloadJavaLibraries <- function(dir, repo = "maize-genetics/phg_v2") {
     tryCatch({
         utils::download.file(libraryUrl, destFile, mode = "wb")
     }, error = function(e) {
-        stop(sprintf("Error downloading the Java library from '%s': %s", libraryUrl, e$message))
+        rlang::abort(sprintf("Error downloading the Java library from '%s': %s", libraryUrl, e$message))
     })
 
     # Attempt to decompress the file with error handling
     tryCatch({
         utils::untar(destFile, exdir = dir)
     }, error = function(e) {
-        stop(sprintf("Error decompressing the Java library archive: %s", e$message))
+        rlang::abort(sprintf("Error decompressing the Java library archive: %s", e$message))
     })
 }
 
@@ -91,6 +91,17 @@ phgLibPath <- file.path(phgLibDir, "phg", "lib")
 
 ## Download and decompress ----
 downloadJavaLibraries(phgLibDir)
+
+
+## Test pre-initialization ----
+test_that("JVM init checker works", {
+    expect_false(isJvmInitialized())
+
+    hVcfFileDir <- system.file("extdata", package = "rPHG2")
+    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
+    locCon      <- PHGLocalCon(hVcfFiles)
+    expect_error(buildHaplotypeGraph(locCon))
+})
 
 
 ## Initialize JVM and add PHGv2 JARs to classpath ----

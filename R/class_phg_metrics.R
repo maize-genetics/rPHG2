@@ -55,7 +55,7 @@ PHGMetrics <- function(paths = NULL, metadata = NULL) {
 
     # V02 - if no files or directories exist: exception
     if (length(dirFilt) == 0 && length(filFilt) == 0) {
-        stop("No valid paths given")
+        rlang::abort("No valid paths given")
     }
 
     # V03 - recursively pull metric files from directories (if found)
@@ -93,7 +93,7 @@ PHGMetrics <- function(paths = NULL, metadata = NULL) {
 
     # V07 - if no .tsv or .anchorspro files are identified: exception
     if (length(gvcfMet) == 0 && length(algnMet) == 0) {
-        stop("No valid gVCF or AnchorWave files detected from paths")
+        rlang::abort("No valid gVCF or AnchorWave files detected from paths")
     }
 
     # If files are fully vetted: read into memory and add to list
@@ -366,7 +366,7 @@ setMethod(
         }
 
         if (!name %in% metricsIds(object) && !is.null(name)) {
-            stop("Provided 'name' not found in object")
+            rlang::abort("Provided 'name' not found in object")
         }
 
         if (!is.null(name) && is.null(type)) {
@@ -383,7 +383,7 @@ setMethod(
 
         if (!is.null(type) && is.null(name)) {
             if (!type %in% PHG_METRICS$VALID_METRICS_IDS) {
-                stop("Provided 'type' not a valid metrics ID")
+                rlang::abort("Provided 'type' not a valid metrics ID")
             }
 
             metrics <- switch (type,

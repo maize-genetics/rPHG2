@@ -144,7 +144,7 @@ PHGServerCon <- function(
 
     # Check if at least mandatory serverinfo endpoint can be called
     if (!brapiEndpointExists(url)) {
-        stop("Cannot resolve mandatory endpoint: {serverinfo}", call. = FALSE)
+        rlang::abort("Cannot resolve mandatory endpoint: {serverinfo}", call. = FALSE)
     }
 
     methods::new(

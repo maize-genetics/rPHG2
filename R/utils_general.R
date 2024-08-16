@@ -10,6 +10,35 @@ camelToSnake <- function(x) {
 
 
 ## ----
+# Check if the JVM is Initialized
+#
+# @description
+# This function checks whether the Java Virtual Machine (JVM) has been
+# initialized using the `rJava` package.
+#
+# The function attempts to retrieve the current Java version by calling a Java
+# method. If the JVM is not initialized, an error is caught, and the function
+# returns `FALSE`. If the JVM is initialized, it returns `TRUE`.
+#
+# @return
+# A logical value indicating whether the JVM has been initialized. Returns
+# `TRUE` if the JVM is initialized, otherwise `FALSE`.
+isJvmInitialized <- function() {
+    tryCatch({
+        # Attempt to get the current Java version
+        javaVersion <- rJava::.jcall(
+            obj       = "java/lang/System",
+            returnSig =  "S",
+            method    = "getProperty", "java.version"
+        )
+        return(TRUE)
+    }, error = function(e) {
+        return(FALSE)
+    })
+}
+
+
+## ----
 #' @title
 #' User-defined function for pre-evaluated names in vectors
 #'

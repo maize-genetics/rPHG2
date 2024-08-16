@@ -3,7 +3,8 @@
 ## ----
 # Find text lines for validation sans "comments"
 #
-# @filePath plain text file to check
+# @param filePath
+# plain text file to check
 findFirstNonCommentLine <- function(filePath) {
     connection <- file(filePath, open = "r")
     firstLine <- NULL
@@ -23,6 +24,7 @@ findFirstNonCommentLine <- function(filePath) {
 ## ----
 # Generate a Colored and Formatted Message Based on Success or Failure
 #
+# @description
 # This function creates a custom message incorporating user-defined
 # actions, notes, and a success indicator. It uses color coding to
 # distinguish between successful and warning messages. If the operation
@@ -98,11 +100,37 @@ validateHeaders <- function(line, validHeaders, delimiter = "\t") {
 
 # /// Primary functions /////////////////////////////////////////////
 
+## ----
+# Apply Custom Grey Color to Text
+#
+# @description
+# This function applies a custom grey ANSI style to the input text using the
+# specified grey shade.
+#
+# The function generates a grey color based on the `shade` parameter and then
+# uses the `cli::make_ansi_style` function to apply the corresponding ANSI
+# styling to the text. The styled text is returned with the specified grey
+# shade.
+#
+# @param text
+# A character string. The text to be styled with a grey color.
+# @param shade
+# An integer (default is 50). The shade of grey to apply, which should be
+# between 0 and 100.
+#
+# @return The input text styled with the specified grey shade, returned as a
+# character string with ANSI styling.
+#
+# @examples
+# # Example usage
+# colCustGrey("This is grey text", shade = 70)
+# colCustGrey("This is darker grey text", shade = 30)
 colCustGrey <- function(text, shade = 50) {
     greyColor <- paste0("grey", shade)
     style <- cli::make_ansi_style(greyColor)
     style(text)
 }
+
 
 ## ----
 # Helper function to display dimensions of metrics

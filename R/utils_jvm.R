@@ -44,7 +44,7 @@ initPhg <- function(phgPath, verbose = TRUE) {
 # @param kl A PHG/Kotlin RList object
 kotlinListToRDataFrame <- function(kl) {
     if (!grepl("phgv2_r_list", kl$toString())) {
-        stop("Object does not have a 'RList' signature")
+        rlang::abort("Object does not have a 'RList' signature")
     }
 
     rdf <- kl$getMatrixData() |>
@@ -63,7 +63,7 @@ kotlinListToRDataFrame <- function(kl) {
 # @param kmat A PHG/Kotlin (Int|Dbl|String)Matrix object
 kotlin2DArrayToRMatrix <- function(kmat) {
     if (!grepl("MatrixWithNames", kmat$getClass()$toString())) {
-        stop("Object does not have a 'MatrixWithNames' signature")
+        rlang::abort("Object does not have a 'MatrixWithNames' signature")
     }
 
     rmat <- kmat$getMatrixData() |> rJava::.jevalArray(simplify = TRUE)
