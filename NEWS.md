@@ -2,14 +2,17 @@
 * Added new parameter to `plotHaploCounts()`:
   + `geom`
   + allows user to specify a given geometry (line, bar, or point)
+* Added new conditionals for to `buildHaplotypeGraph()`:
+  + Checks to see if the JVM is initialized. If not, it will cause an exception 
+    and direct user to run `initPhg()`
 
 
 ## rPHG2 0.6
 * Added new parameters to `plogtGvcf()`:
   + `mData` and `mVar`
-  + allows user to override default sample color option with categorical data
+  + Allows user to override default sample color option with categorical data
 * Added new generic, `numberOfHaplotypes()`:
-  + returns the number of unique haplotypes found within each reference range or
+  + Returns the number of unique haplotypes found within each reference range or
     the total value found within a `PHGDataSet` object
 * Added getters to `PHGDataSet` objects:
   + `numberOfChromosomes()`
@@ -26,8 +29,8 @@
 
 ## rPHG2 0.5
 * Added new visualization method, `plotGvcf()`:
-  + auto plotting various gVCF metrics
-  + granular metric support through formula subsetting
+  + Auto plotting various gVCF metrics
+  + Granular metric support through formula subsetting
 * Added new accessor and setting method, `seqnames()`
   + Returns all contig IDs found in a `PHGMetrics` object
   + Setter version (`seqnames()<-`) will update old IDs found within a
@@ -76,10 +79,12 @@
 * Added new function `readHapIdMetaData()`
   + Reads ALT header metadata for each haplotype ID from a connection object
 * Added new function `readHapIdPosMetaData()`
-  + Reads ALT header positional metadata for each haplotype ID from a connection object
+  + Reads ALT header positional metadata for each haplotype ID from a 
+    connection object
 * Added new function `readSamples()`
   + Reads sample IDs from a connection object
 * Added new function `readRefRanges()`
-  + Read reference range positional information as a `GRanges` object from a connection object
+  + Reads reference range positional information as a `GRanges` object from a 
+    connection object
 
 
