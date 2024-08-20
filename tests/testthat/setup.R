@@ -94,13 +94,13 @@ downloadJavaLibraries(phgLibDir)
 
 
 ## Test pre-initialization ----
-test_that("JVM init checker works", {
-    expect_false(isJvmInitialized())
+testthat::test_that("JVM init checker works", {
+    testthat::expect_false(rPHG2:::isJvmInitialized())
 
     hVcfFileDir <- system.file("extdata", package = "rPHG2")
     hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
-    locCon      <- PHGLocalCon(hVcfFiles)
-    expect_error(buildHaplotypeGraph(locCon))
+    locCon      <- rPHG2::PHGLocalCon(hVcfFiles)
+    testthat::expect_error(rPHG2::buildHaplotypeGraph(locCon))
 })
 
 

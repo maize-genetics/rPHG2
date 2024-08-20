@@ -2,18 +2,23 @@
 % Please edit documentation in R/class_all_generics.R, R/class_phg_con_server.R
 \name{brapiVersion}
 \alias{brapiVersion}
+\alias{classPath}
 \alias{brapiVersion,PHGServerCon-method}
 \title{Return BrAPI version ID}
 \usage{
 brapiVersion(object, ...)
 
+classPath(object, ...)
+
 \S4method{brapiVersion}{PHGServerCon}(object)
 }
 \arguments{
-\item{object}{an \code{rPHG2} local or server connection object}
+\item{object}{an \code{rPHG2 JvmStats} object}
 
 \item{...}{Additional arguments, for use in specific methods}
 }
 \description{
 Returns the version ID for a BrAPI-compliant PHG server
+
+Returns a list of JAR files from an added class path for JVM use.
 }

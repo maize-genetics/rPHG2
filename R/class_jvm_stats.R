@@ -29,21 +29,6 @@
 #' "GB").
 #'
 #' @return An object of class \code{JvmStats}.
-#' @example
-#' \dontrun{
-#' # Create an instance of the JvmStats class
-#' jvm_stats <- new(
-#'     "JvmStats",
-#'     nJars       = 12,
-#'     javaVersion = "17",
-#      phgVersion  = "2.4.1",
-#      maxMem      = 2147483648,
-#      totMem      = 1073741824,
-#'     freeMem     = 536870912,
-#'     allocMem    = 1073741824,
-#'     memUnit     = "bytes"
-#' )
-#' }
 #'
 #' @name JvmStats-class
 #' @rdname JvmStats-class
@@ -54,6 +39,7 @@ setClass(
         nJars       = "integer",
         javaVersion = "character",
         phgVersion  = "character",
+        classPath   = "character",
         maxMem      = "numeric",
         totMem      = "numeric",
         freeMem     = "numeric",
@@ -132,9 +118,9 @@ jvmStats <- function() {
     javaVersion <- rJava::.jcall("java/lang/System", "S", "getProperty", "java.version")
 
     # Attempt to get PHG version
-    genUtils <- rJava::J("net.maizegenetics.phgv2.utils.GeneralUtilitiesKt")
+    genUtils <- rJava::J(PHG_JVM$GEN_UTILS)
     if (!any(grepl("phgVersion()", names(genUtils)))) {
-        phgVersion <- "Upgrade to current version!"
+        phgVersion <- paste0(cli::symbol$leq, " 2.4.1.155")
     } else {
         phgVersion <- genUtils$phgVersion()
     }
@@ -152,6 +138,7 @@ jvmStats <- function() {
         nJars       = nJars,
         javaVersion = javaVersion,
         phgVersion  = phgVersion,
+        classPath   = classPath,
         maxMem      = maxMem,
         totMem      = totMem,
         freeMem     = freeMem,
@@ -186,7 +173,7 @@ setMethod(
         pointerSymbol <- cli::col_green(cli::symbol$pointer)
 
         msg <- c(
-            cli::style_bold("JVM Stats:"),
+            cli::style_bold("General Stats:"),
             paste0(" ", pointerSymbol, " # of JARs......: ", cli::style_bold(object@nJars)),
             paste0(" ", pointerSymbol, " Java version...: ", cli::style_bold(object@javaVersion)),
             paste0(" ", pointerSymbol, " PHG version....: ", cli::style_bold(object@phgVersion)),
@@ -201,6 +188,114 @@ setMethod(
         cat(msg, sep = "\n")
     }
 )
+
+
+
+# /// Methods (general) /////////////////////////////////////////////
+
+## ----
+#' @rdname javaVersion
+#' @export
+setMethod(
+    f = "classPath",
+    signature = signature(object = "JvmStats"),
+    definition = function(object) {
+        return(object@classPath)
+    }
+)
+
+
+## ----
+#' @rdname javaVersion
+#' @export
+setMethod(
+    f = "javaVersion",
+    signature = signature(object = "JvmStats"),
+    definition = function(object) {
+        return(object@javaVersion)
+    }
+)
+
+
+## ----
+#' @rdname jvmMemStats
+#' @export
+setMethod(
+    f = "jvmMemStats",
+    signature = signature(object = "JvmStats"),
+    definition = function(object) {
+        return(
+            list(
+                "max_memory"   = object@maxMem,
+                "total_memory" = object@totMem,
+                "free_memory"  = object@freeMem,
+                "alloc_memory" = object@allocMem
+            )
+        )
+    }
+)
+
+
+## ----
+#' @rdname numberOfJars
+#' @export
+setMethod(
+    f = "numberOfJars",
+    signature = signature(object = "JvmStats"),
+    definition = function(object) {
+        return(object@nJars)
+    }
+)
+
+
+## ----
+#' @param granular
+#' Should a \code{list} object be returned with major/minor/build/patch values?
+#' Defaults to \code{FALSE}
+#'
+#' @rdname phgVersion
+#' @export
+setMethod(
+    f = "phgVersion",
+    signature = signature(object = "JvmStats"),
+    definition = function(object, granular = FALSE) {
+        phgVersion <- object@phgVersion
+
+        if (phgVersion == "\u2264 2.4.1") {
+            if (granular) {
+                return(
+                    list(
+                        "major" = NA,
+                        "minor" = NA,
+                        "build" = NA,
+                        "patch" = NA,
+                        "note"  = "Build is older than v2.4.1"
+                    )
+                )
+            } else {
+                return("<= 2.4.1.155")
+            }
+        } else {
+            if (granular) {
+                vSplit <- unlist(strsplit(phgVersion, "\\."))
+                return(
+                    list(
+                        "major" = vSplit[1],
+                        "minor" = vSplit[2],
+                        "patch" = vSplit[3],
+                        "build" = vSplit[4]
+                    )
+                )
+            } else {
+                return(phgVersion)
+            }
+        }
+    }
+)
+
+
+
+
 
 
 

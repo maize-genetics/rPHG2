@@ -90,8 +90,8 @@ setMethod(
     signature = "PHGLocalCon",
     definition = function(object) {
         pointerSymbol <- cli::col_green(cli::symbol$pointer)
-        present <- cli::col_green(cli::symbol$radio_on)
-        absent  <- cli::col_grey(cli::symbol$radio_off)
+        present <- cli::col_green(cli::symbol$square_small_filled)
+        absent  <- cli::col_grey(cli::symbol$square_small)
 
         dbUriStatus <- ifelse(is.na(object@host), absent, present)
 
@@ -103,7 +103,7 @@ setMethod(
 
         msg <- c(
             paste0("A ", cli::style_bold("PHGLocalCon"), " connection object"),
-            paste0(" ", pointerSymbol, " DB URI....   : ", dbUriStatus),
+            paste0(" ", pointerSymbol, " DB URI.......: ", dbUriStatus),
             paste0(" ", pointerSymbol, " hVCF Files...: ", hVcfStatus)
         )
 
