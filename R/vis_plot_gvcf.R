@@ -33,7 +33,8 @@ plotGvcfFromMetrics <- function(
     vIdCol,
     mData,
     mVar,
-    colorOverride
+    colorOverride,
+    sampleOrder
 ) {
     parsedForm <- parseFormula(formula)
     lhsVars <- parsedForm$lhs
@@ -106,6 +107,15 @@ plotGvcfFromMetrics <- function(
                 hjust = 1
             )
         )
+    }
+
+    # Filter/order data.frame based on 'sampleOrder' parameter
+    if (!is.null(sampleOrder)) {
+        if (!any(sampleOrder %in% unique(filtData$taxa))) {
+            rlang::abort("No sample IDs in 'sampleOrder' were found in base data")
+        }
+        filtData <- filtData[filtData$taxa %in% sampleOrder, ]
+        filtData$taxa <- factor(filtData$taxa, levels = sampleOrder)
     }
 
 

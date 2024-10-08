@@ -589,6 +589,11 @@ setMethod(
 #' @param colorOverride
 #' If \code{colorOverride} is specified, all default colors will be overridden
 #' with specified classic color or hex-based RGB value (e.g., \code{#000FFF}).
+#' @param sampleOrder
+#' A \code{character} vector of sample IDs for manual order override. If
+#' \code{sampleOrder} is specified, bars will be ordered based on order in
+#' vector object. Additionally, this can be used as a method to subset the
+#' base set for a given number of selected samples.
 #'
 #' @return A plot object generated from the specified gVCF data and layout.
 #'
@@ -606,7 +611,8 @@ setMethod(
         tag = "A",
         mData = NULL,
         mVar = NULL,
-        colorOverride = NULL
+        colorOverride = NULL,
+        sampleOrder = NULL
     ) {
         if (length(metricId) > 1) {
             rlang::abort("This method currently does not support multiple ID plotting")
@@ -680,6 +686,18 @@ setMethod(
             }
         }
 
+        if (!is.null(sampleOrder)) {
+            if (!is.character(sampleOrder)) {
+                rlang::abort("'sampleOrder' is not of type 'character'")
+            }
+
+            if (any(duplicated(sampleOrder))) {
+                rlang::warn("Duplicate elements detected in 'sampleOrder' - retaining unique elements...")
+
+                sampleOrder <- unique(sampleOrder)
+            }
+        }
+
         p <- plotGvcfFromMetrics(
             df            = df,
             formula       = f,
@@ -689,7 +707,8 @@ setMethod(
             vIdCol        = vIdCol,
             mData         = mData,
             mVar          = mVar,
-            colorOverride = colorOverride
+            colorOverride = colorOverride,
+            sampleOrder   = sampleOrder
         )
 
         return(p)

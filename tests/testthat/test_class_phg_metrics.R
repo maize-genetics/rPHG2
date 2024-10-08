@@ -378,6 +378,27 @@ test_that("PHGMetrics general gVCF plot tests", {
         treatment = c("a", "b", "a")
     )
     expect_error(plotGvcf(metBase, mData = mDataError))
+
+
+    # Color overrides
+    expect_error(plotGvcf(metBase, colorOverride = 1))
+    expect_error(plotGvcf(metBase, colorOverride = c("purple", "yellow")))
+    expect_error(plotGvcf(metBase, colorOverride = c("greeeeeeen")))
+    expect_true(is(plotGvcf(metBase, colorOverride = "green"), "ggplot"))
+
+
+    # Sample order
+    expect_error(plotGvcf(metBase, sampleOrder = 1))
+    expect_error(plotGvcf(metBase, sampleOrder = "Xb0111"))
+    expect_warning(plotGvcf(metBase, sampleOrder = c("Xb03", "Xb03", "Xb02")))
+
+    sOrdTest <- plotGvcf(metBase, sampleOrder = c("Xb03", "Xb01"))
+    expect_true(is(sOrdTest, "ggplot"))
+    expect_equal(levels(sOrdTest[[1]]$data$taxa), c("Xb03", "Xb01"))
 })
+
+
+
+
 
 

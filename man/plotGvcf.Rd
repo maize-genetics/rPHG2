@@ -16,7 +16,8 @@ plotGvcf(object, ...)
   tag = "A",
   mData = NULL,
   mVar = NULL,
-  colorOverride = NULL
+  colorOverride = NULL,
+  sampleOrder = NULL
 )
 }
 \arguments{
@@ -46,6 +47,11 @@ be selected.}
 
 \item{colorOverride}{If \code{colorOverride} is specified, all default colors will be overridden
 with specified classic color or hex-based RGB value (e.g., \code{#000FFF}).}
+
+\item{sampleOrder}{A \code{character} vector of sample IDs for manual order override. If
+\code{sampleOrder} is specified, bars will be ordered based on order in
+vector object. Additionally, this can be used as a method to subset the
+base set for a given number of selected samples.}
 }
 \value{
 A plot object generated from the specified gVCF data and layout.

@@ -9,6 +9,31 @@ createRMethodInterface <- function() {
 
 
 ## ----
+getLatestPhgVersion <- function() {
+
+    apiUrl <- "https://api.github.com/repos/maize-genetics/phg_v2/releases/latest"
+    response <- httr::GET(apiUrl)
+
+    # Check if the request was successful
+    if (httr::http_status(response)$category != "Success") {
+        rlang::abort(
+            sprintf(
+                "Failed to fetch the latest release info for '%s'. HTTP status code: %s",
+                repo,
+                httr::http_status(response)$reason
+            )
+        )
+    }
+
+    responseContent <- httr::content(response, "text")
+    parsed <- jsonlite::fromJSON(responseContent)
+
+
+    return(parsed$tag_name)
+}
+
+
+## ----
 # Constructor for instantiating a PHGv2 HaplotypeGraph object
 #
 # @param l A list of hVCF files
@@ -24,17 +49,31 @@ hapGraphConstructor <- function(l) {
 
 
 ## ----
-#' Initialize JVM and add class path (for R&D purposes only)
-#'
-#' @param phgPath path to PHGv2 lib folder
-#' @param verbose Display all JARs added classpath? Defaults to FALSE.
-#'
-#' @export
-initPhg <- function(phgPath, verbose = TRUE) {
-    rJava::.jinit()
-    rJava::.jaddClassPath(dir(phgPath, full.names = TRUE))
-
-    if (verbose) message("PHG JARs added to class path")
+# Check if the JVM is Initialized
+#
+# @description
+# This function checks whether the Java Virtual Machine (JVM) has been
+# initialized using the `rJava` package.
+#
+# The function attempts to retrieve the current Java version by calling a Java
+# method. If the JVM is not initialized, an error is caught, and the function
+# returns `FALSE`. If the JVM is initialized, it returns `TRUE`.
+#
+# @return
+# A logical value indicating whether the JVM has been initialized. Returns
+# `TRUE` if the JVM is initialized, otherwise `FALSE`.
+isJvmInitialized <- function() {
+    tryCatch({
+        # Attempt to get the current Java version
+        javaVersion <- rJava::.jcall(
+            obj       = "java/lang/System",
+            returnSig =  "S",
+            method    = "getProperty", "java.version"
+        )
+        return(TRUE)
+    }, error = function(e) {
+        return(FALSE)
+    })
 }
 
 
