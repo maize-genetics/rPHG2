@@ -43,34 +43,38 @@ initPhg <- function(phgPath, check = TRUE) {
         cliSuccess <- cli::col_green(cli::symbol$tick)
         cliInform  <- cli::col_blue(cli::symbol$info)
         cliWarn    <- cli::col_red(cli::symbol$warning)
+        cliBullet  <- cli::symbol$bullet
 
         jvmMsg <- NULL
         if (jvmMajor < 17) {
             errMsg <- paste0("Your Java version is out of date (", cli::style_bold(jvmVersion), "). Version ", cli::style_bold(cli::symbol$geq, " 17 "), "is needed.")
             rlang::abort(errMsg)
         } else {
-            jvmMsg <- paste0(cliInform, " Using Java version ", cli::style_bold(jvmVersion))
+            jvmMsg <- paste0("  ", cliBullet, " Java version...: ", cli::style_bold(jvmVersion))
         }
 
         cliCurrent <- cli::style_bold(currentPhgVersion)
+        loadMsg <- paste0(cliSuccess, " PHG JARs added to class path")
         if (currentPhgVersion != latestPhgVersion) {
             cliLatest  <- paste0(cli::style_bold("Latest version: "), cli::style_bold(cli::col_green(latestPhgVersion)))
-            phgVMsg <- paste0(
-                cliWarn, cli::style_bold(" Note: "), "current version of PHGv2 (", cliCurrent, ") ",
+            phgWarnMsg <- paste0(
+                "  ", cli::symbol$line, "\n", "  ", cliWarn, " ", cli::style_bold(cli::symbol$sup_1), "Current version of PHGv2 (", cliCurrent, ") ",
                 "is out of date (", cliLatest, ")\n",
                 paste0(
-                    "  ", cli::col_blue(cli::symbol$arrow_right),
+                    "    ", cli::col_blue(cli::symbol$arrow_right),
                     " consider updating (",
                     cli::col_blue("https://github.com/maize-genetics/phg_v2/releases/latest"),
                     ")"
                 )
             )
+            phgVMsg <- paste0("  ", cliBullet, " PHG version....: ", cliCurrent)
+            loadMsg <- paste0(loadMsg, cli::style_bold(cli::symbol$sup_1))
         } else {
-            phgVMsg <- paste0(cliSuccess, " Using latest version of PHGv2 (", cliCurrent, ")")
+            phgVMsg <- paste0("  ", cliBullet, " PHG version....: ", cliCurrent)
+            phgWarnMsg <- NULL
         }
 
-        loadMsg <- paste0(cliSuccess, " PHG JARs added to class path")
-        msg <- c(phgVMsg, jvmMsg, loadMsg)
+        msg <- c(loadMsg, jvmMsg, phgVMsg, phgWarnMsg)
         cat(msg, sep = "\n")
     }
 }
