@@ -131,7 +131,7 @@ jvmStats <- function() {
     maxMem   <- round(rJava::.jcall(runtime, "J", "maxMemory") / gbConv, 3)
     totMem   <- round(rJava::.jcall(runtime, "J", "totalMemory") / gbConv, 3)
     freeMem  <- round(rJava::.jcall(runtime, "J", "freeMemory") / gbConv, 3)
-    allocMem <- totMem - freeMem
+    allocMem <- round(totMem - freeMem, 3)
 
     new(
         Class       = "JvmStats",

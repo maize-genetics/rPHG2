@@ -586,6 +586,9 @@ setMethod(
 #' If \code{mData} is specified, what categorical column do you want plotted? If
 #' \code{NULL}, the first non-\code{sample}/\code{taxa}/\code{line} column will
 #' be selected.
+#' @param colorOverride
+#' If \code{colorOverride} is specified, all default colors will be overridden
+#' with specified classic color or hex-based RGB value (e.g., \code{#000FFF}).
 #'
 #' @return A plot object generated from the specified gVCF data and layout.
 #'
@@ -602,7 +605,8 @@ setMethod(
         nCol = NULL,
         tag = "A",
         mData = NULL,
-        mVar = NULL
+        mVar = NULL,
+        colorOverride = NULL
     ) {
         if (length(metricId) > 1) {
             rlang::abort("This method currently does not support multiple ID plotting")
@@ -662,15 +666,30 @@ setMethod(
             }
         }
 
+        if (!is.null(colorOverride)) {
+            if (!is.character(colorOverride)) {
+                rlang::abort("'colorOverride' is not of type 'character'")
+            }
+
+            if (length(colorOverride) != 1) {
+                rlang::abort("'colorOverride' parameter can only be of length '1'")
+            }
+
+            if (!isValidColor(colorOverride)) {
+                rlang::abort("value given for 'colorOverride' is not a valid color")
+            }
+        }
+
         p <- plotGvcfFromMetrics(
-            df      = df,
-            formula = f,
-            nRow    = nRow,
-            nCol    = nCol,
-            tag     = tag,
-            vIdCol  = vIdCol,
-            mData   = mData,
-            mVar    = mVar
+            df            = df,
+            formula       = f,
+            nRow          = nRow,
+            nCol          = nCol,
+            tag           = tag,
+            vIdCol        = vIdCol,
+            mData         = mData,
+            mVar          = mVar,
+            colorOverride = colorOverride
         )
 
         return(p)
