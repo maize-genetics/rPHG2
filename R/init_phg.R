@@ -12,6 +12,10 @@
 #'
 #' @export
 initPhg <- function(phgPath, check = TRUE) {
+    if (!is.character(phgPath) || !dir.exists(phgPath)) {
+        rlang::abort("PHG library path ('phgPath') provided does not exist")
+    }
+
     if (!"phg_v2.jar" %in% dir(phgPath)) {
         rlang::abort("Cannot find 'phg_v2.jar' in library path")
     }

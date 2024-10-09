@@ -8,8 +8,6 @@ test_that("JVM utility tests", {
         kotlin2DArrayToRMatrix(negControl1),
         regexp = "Object does not have a \'MatrixWithNames\' signature"
     )
-
-    expect_silent(initPhg(phgLibPath, verbose = FALSE))
 })
 
 

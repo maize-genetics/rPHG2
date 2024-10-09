@@ -101,10 +101,18 @@ testthat::test_that("JVM init checker works", {
     hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
     locCon      <- rPHG2::PHGLocalCon(hVcfFiles)
     testthat::expect_error(rPHG2::buildHaplotypeGraph(locCon))
+    testthat::expect_error(rPHG2::initPhg(locCon))
+    testthat::expect_error(rPHG2::initPhg(hVcfFileDir))
 })
 
 
 ## Initialize JVM and add PHGv2 JARs to classpath ----
 initPhg(phgLibPath)
+
+
+## Test post-initialization ----
+testthat::test_that("JVM init checker works", {
+    testthat::expect_error(rPHG2::initPhg(phgLibPath))
+})
 
 
