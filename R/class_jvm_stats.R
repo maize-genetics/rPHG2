@@ -129,7 +129,7 @@ jvmStats <- function() {
 
     # Get memory profile
     runtime  <- rJava::.jcall("java/lang/Runtime", "Ljava/lang/Runtime;", "getRuntime")
-    gbConv   <- 1024 ^ 3
+    gbConv   <- 1073741824 # 1024 ^ 3
     maxMem   <- round(rJava::.jcall(runtime, "J", "maxMemory") / gbConv, 3)
     totMem   <- round(rJava::.jcall(runtime, "J", "totalMemory") / gbConv, 3)
     freeMem  <- round(rJava::.jcall(runtime, "J", "freeMemory") / gbConv, 3)
