@@ -12,6 +12,8 @@
 #' @slot phgVersion
 #' A character string representing the version of PHG (Practical Haplotype
 #' Graph).
+#' @slot classPath
+#' A character vector representing the JAR files found in the class path.
 #' @slot maxMem
 #' A numeric value representing the maximum amount of memory (in bytes) that
 #' the JVM can use.
@@ -133,7 +135,7 @@ jvmStats <- function() {
     freeMem  <- round(rJava::.jcall(runtime, "J", "freeMemory") / gbConv, 3)
     allocMem <- round(totMem - freeMem, 3)
 
-    new(
+    methods::new(
         Class       = "JvmStats",
         nJars       = nJars,
         javaVersion = javaVersion,
@@ -165,7 +167,9 @@ jvmStats <- function() {
 #' (maximum memory, total memory, free memory, and allocated memory) in a human-readable format.
 #' Memory values are shown in the respective units (e.g., bytes, MB, GB) defined in the object.
 #'
-#' @export
+#' @docType methods
+#' @rdname JvmStats-class
+#' @aliases show,JvmStats-method
 setMethod(
     f = "show",
     signature = "JvmStats",

@@ -18,8 +18,7 @@ getLatestPhgVersion <- function() {
     if (httr::http_status(response)$category != "Success") {
         rlang::abort(
             sprintf(
-                "Failed to fetch the latest release info for '%s'. HTTP status code: %s",
-                repo,
+                "Failed to fetch the latest release info for PHGv2. HTTP status code: %s",
                 httr::http_status(response)$reason
             )
         )

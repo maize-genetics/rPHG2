@@ -3,13 +3,28 @@
 \docType{class}
 \name{JvmStats-class}
 \alias{JvmStats-class}
+\alias{show,JvmStats-method}
 \title{A JvmStats Class}
+\usage{
+\S4method{show}{JvmStats}(object)
+}
+\arguments{
+\item{object}{An object of class \code{JvmStats}.}
+}
 \value{
 An object of class \code{JvmStats}.
 }
 \description{
 An S4 class to represent statistics related to the Java Virtual Machine
 (JVM).
+
+Displays JVM statistics in a formatted manner.
+}
+\details{
+This method provides a structured and formatted output of the JVM statistics. It displays
+the number of JARs, the Java version, the PHG version, and detailed memory statistics
+(maximum memory, total memory, free memory, and allocated memory) in a human-readable format.
+Memory values are shown in the respective units (e.g., bytes, MB, GB) defined in the object.
 }
 \section{Slots}{
 
@@ -20,6 +35,8 @@ An S4 class to represent statistics related to the Java Virtual Machine
 
 \item{\code{phgVersion}}{A character string representing the version of PHG (Practical Haplotype
 Graph).}
+
+\item{\code{classPath}}{A character vector representing the JAR files found in the class path.}
 
 \item{\code{maxMem}}{A numeric value representing the maximum amount of memory (in bytes) that
 the JVM can use.}

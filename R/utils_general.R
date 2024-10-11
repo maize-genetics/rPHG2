@@ -15,7 +15,7 @@ isValidColor <- function(color) {
         pattern = "^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
         x = color
     )
-    isNamedColor <- color %in% colors()
+    isNamedColor <- color %in% grDevices::colors()
 
     return(isHex || isNamedColor)
 }
