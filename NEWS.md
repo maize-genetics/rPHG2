@@ -5,6 +5,15 @@
 * Added new conditionals for to `buildHaplotypeGraph()`:
   + Checks to see if the JVM is initialized. If not, it will cause an exception 
     and direct user to run `initPhg()`
+* Added new class `JvmStats`:
+  + Returns internal Java and PHG versions and memory information for JVM
+    session
+  + Can be instantiated using the `jvmStats()` constructor function
+* Added new checks for `initPhg()`
+* Added new parameters to `plotGvcf()` function:
+  + `colorOverride`: Overrides bar color based on given user defined color
+  + `sampleOrder`: Overrides default bar ordering based on user defined
+    `character` vector
 
 
 ## rPHG2 0.6
