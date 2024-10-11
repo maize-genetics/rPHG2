@@ -396,7 +396,6 @@ metData |> plotGvcf(f = CORE ~ ALL, tag = "i")
 ```
 
 #### Adding metadata
-
 If you want to color bars based on additional categorical data besides sample 
 ID, you can pass a `data.frame` object to the parameter `mData`. This will need 
 the following prerequisites:
@@ -441,6 +440,51 @@ metData |> plotGvcf(
     mData = refData,
     mVar = "treatment"
 )
+```
+
+
+#### Overriding color
+To override default bar coloring (e.g., if you have many samples) to one
+specified color, you can use the `colorOverride` parameter:
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotGvcf(colorOverride = "#73beff")
+```
+
+This parameter can also accept R's default color IDs (i.e., values from the 
+`grDevices` `colors()` / `colours()` function):
+
+```{r, eval=TRUE, echo=TRUE}
+metData |> plotGvcf(colorOverride = "forestgreen")
+```
+
+
+#### Overriding and filtering sample order
+To override the default lexicographic order of sample IDs, you can use the
+`sampleOrder` parameter by first defining a `character` vector of specified
+order. In the prior examples, the internal sample order is defined as follows:
+
+```
+Xb01, Xb02, Xb03
+```
+
+...if I want to reorder this (e.g., `Xb03`, `Xb01`, `Xb02`), I can use the
+following example:
+
+```{r, eval=TRUE, echo=TRUE}
+newOrder <- c("Xb03", "Xb01", "Xb02")
+
+metData |> plotGvcf(sampleOrder = newOrder)
+```
+
+We can also use this parameter for subsetting samples. For example, If I want
+to subset the plot to only show values for samples `Xb03` and `Xb01` and
+keep them in that order, I can specify the vector as follows:
+
+```{r, eval=TRUE, echo=TRUE}
+newOrder <- c("Xb03", "Xb01")
+
+metData |> plotGvcf(sampleOrder = newOrder)
 ```
 
 

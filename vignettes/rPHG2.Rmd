@@ -155,15 +155,19 @@ convert the raw hVCF data into a
 JVM object and bridge the Java reference pointer to R. Before we build the JVM 
 graph object, we need to initialize the JVM and add the JAR files to our 
 environment that are found within the [latest distribution](https://github.com/maize-genetics/phg_v2/releases) 
-of PHGv2. If you have **not** downloaded this, please see instructions
+of PHGv2. 
+
+**Note:** If you have **not** downloaded this, _please_ see instructions
 [here](https://phg.maizegenetics.net/installation/#get-phgv2) before you
-continue! To initialize, run the following command:
+continue! 
+
+To initialize, run the following command:
 
 ```{r, eval=FALSE, echo=TRUE}
-initPhg("phg/lib/path")
+initPhg("phg/path/to/lib")
 ```
 
-...where `phg/lib/path` is the `lib` directory found within the decompressed
+...where `phg/path/to/lib` is the `lib` directory found within the decompressed
 release of PHGv2. Now that the JVM has been initialized, we can build the JVM
 graph using `buildHaplotypeGraph()` using the local connection object as input:
 
@@ -181,6 +185,25 @@ pointer object where we can direct data from Java to R:
 ```{r, eval=TRUE, echo=TRUE}
 graph |> javaRefObj()
 ```
+
+### Returning version and memory values
+Since we need to construct an interface to a local instance of Java, errors
+may arise due to several issues. Two common causes are version issues and
+memory allocated to the JVM. For debugging and monitoring purposes, we can
+use the `jvmStats()` function which create a instance of a `JvmStats` object.
+
+```{r, eval=TRUE, echo=TRUE}
+javaStats <- jvmStats()
+
+javaStats
+```
+
+This object contains several values:
+
+* Total number of PHGv2 JAR files added to the class path
+* Your local Java version
+* The current PHGv2 version added to the class path
+* Current memory allocation to the JVM (recorded in gigabytes [`GB`])
 
 
 
