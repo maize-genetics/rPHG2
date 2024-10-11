@@ -4,13 +4,15 @@
 \alias{initPhg}
 \title{Initialize JVM and add class path}
 \usage{
-initPhg(phgPath, check = TRUE)
+initPhg(phgPath, check = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{phgPath}{Path to PHGv2 lib folder}
 
-\item{check}{Checks for latest PHGv2 release and correct Java version. Defaults to
-\code{TRUE}.}
+\item{check}{Checks for latest PHGv2 release. This will need a working internet
+connection. Defaults to \code{TRUE}.}
+
+\item{verbose}{Should check messages be printed to console? Defaults to \code{TRUE}}
 }
 \description{
 This function is needed for all PHGv2 API-related tasks (e.g., building

@@ -7,11 +7,13 @@
 #' @param phgPath
 #' Path to PHGv2 lib folder
 #' @param check
-#' Checks for latest PHGv2 release and correct Java version. Defaults to
-#' \code{TRUE}.
+#' Checks for latest PHGv2 release. This will need a working internet
+#' connection. Defaults to \code{TRUE}.
+#' @param verbose
+#' Should check messages be printed to console? Defaults to \code{TRUE}
 #'
 #' @export
-initPhg <- function(phgPath, check = TRUE) {
+initPhg <- function(phgPath, check = TRUE, verbose = TRUE) {
     if (!is.character(phgPath) || !dir.exists(phgPath)) {
         rlang::abort("PHG library path ('phgPath') provided does not exist")
     }
@@ -34,51 +36,59 @@ initPhg <- function(phgPath, check = TRUE) {
         }
     )
 
+    # Set up CLI message components
+    #   Note: I **know** there are easier ways of accomplishing this but I
+    #         need to do this 'ad-hoc' for JupyterHub notebooks!
+    cliSuccess <- cli::col_green(cli::symbol$tick)
+    cliInform  <- cli::col_blue(cli::symbol$info)
+    cliWarn    <- cli::col_red(cli::symbol$warning)
+    cliBullet  <- cli::symbol$bullet
+
+    # Get version stats
+    jvmStats   <- jvmStats()
+
+    # Get PHG version messages / set up load message
+    loadMsg           <- paste0(cliSuccess, " PHG JARs added to class path")
+    currentPhgVersion <- phgVersion(jvmStats)
+    cliCurrent        <- cli::style_bold(currentPhgVersion)
+    phgMsg            <- paste0("  ", cliBullet, " PHG version....: ", cliCurrent)
+    phgWarnMsg        <- NULL
+
+    # Java version check for >= 17 / message setup
+    jvmVersion <- javaVersion(jvmStats)
+    jvmMajor   <- as.numeric(unlist(strsplit(jvmVersion, "\\."))[1])
+    jvmMsg     <- paste0("  ", cliBullet, " Java version...: ", cli::style_bold(jvmVersion))
+    if (jvmMajor < 17) {
+        errMsg <- paste0(
+            "Your Java version is out of date (", cli::style_bold(jvmVersion), "). Version ",
+            cli::style_bold(cli::symbol$geq, " 17 "), "is needed."
+        )
+        rlang::abort(errMsg)
+    }
+
+    # Latest PHG version check
+    #   Note: based on 'check' parameter since this is internet-dependent
     if (check) {
-        jvmStats          <- jvmStats()
-        jvmVersion        <- javaVersion(jvmStats)
-        currentPhgVersion <- phgVersion(jvmStats)
-        latestPhgVersion  <- rPHG2:::getLatestPhgVersion()
-
-        jvmMajor <- as.numeric(unlist(strsplit(jvmVersion, "\\."))[1])
-
-        # Note: I **know** there are easier ways of accomplishing this but I
-        #       need to do this 'ad-hoc' for JupyterHub notebooks!
-        cliSuccess <- cli::col_green(cli::symbol$tick)
-        cliInform  <- cli::col_blue(cli::symbol$info)
-        cliWarn    <- cli::col_red(cli::symbol$warning)
-        cliBullet  <- cli::symbol$bullet
-
-        jvmMsg <- NULL
-        if (jvmMajor < 17) {
-            errMsg <- paste0("Your Java version is out of date (", cli::style_bold(jvmVersion), "). Version ", cli::style_bold(cli::symbol$geq, " 17 "), "is needed.")
-            rlang::abort(errMsg)
-        } else {
-            jvmMsg <- paste0("  ", cliBullet, " Java version...: ", cli::style_bold(jvmVersion))
-        }
-
-        cliCurrent <- cli::style_bold(currentPhgVersion)
-        loadMsg <- paste0(cliSuccess, " PHG JARs added to class path")
+        latestPhgVersion  <- getLatestPhgVersion() # internet needed
         if (currentPhgVersion != latestPhgVersion) {
             cliLatest  <- paste0(cli::style_bold("Latest version: "), cli::style_bold(cli::col_green(latestPhgVersion)))
-            phgWarnMsg <- paste0(
-                "  ", cli::symbol$line, "\n", "  ", cliWarn, " ", cli::style_bold(cli::symbol$sup_1), "Current version of PHGv2 (", cliCurrent, ") ",
-                "is out of date (", cliLatest, ")\n",
-                paste0(
-                    "    ", cli::col_blue(cli::symbol$arrow_right),
-                    " consider updating (",
-                    cli::col_blue("https://github.com/maize-genetics/phg_v2/releases/latest"),
-                    ")"
-                )
+            phgWarnMsg <- sprintf(
+                "  %s\n  %s %sCurrent version of PHGv2 (%s) is out of date (%s)\n    %s consider updating (%s)",
+                cli::symbol$line,
+                cliWarn,
+                cli::style_bold(cli::symbol$sup_1),
+                cliCurrent,
+                cliLatest,
+                cli::col_blue(cli::symbol$arrow_right),
+                cli::col_blue("https://github.com/maize-genetics/phg_v2/releases/latest")
             )
-            phgVMsg <- paste0("  ", cliBullet, " PHG version....: ", cliCurrent)
             loadMsg <- paste0(loadMsg, cli::style_bold(cli::symbol$sup_1))
-        } else {
-            phgVMsg <- paste0("  ", cliBullet, " PHG version....: ", cliCurrent)
-            phgWarnMsg <- NULL
         }
 
-        msg <- c(loadMsg, jvmMsg, phgVMsg, phgWarnMsg)
+    }
+
+    if (verbose) {
+        msg <- c(loadMsg, jvmMsg, phgMsg, phgWarnMsg)
         cat(msg, sep = "\n")
     }
 }
