@@ -190,7 +190,7 @@ graph |> javaRefObj()
 Since we need to construct an interface to a local instance of Java, errors
 may arise due to several issues. Two common causes are version issues and
 memory allocated to the JVM. For debugging and monitoring purposes, we can
-use the `jvmStats()` function which create a instance of a `JvmStats` object.
+use the `jvmStats()` function which creates a instance of a `JvmStats` object.
 
 ```{r, eval=TRUE, echo=TRUE}
 javaStats <- jvmStats()
