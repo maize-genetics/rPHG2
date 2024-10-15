@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,22 @@
 <ul><li><code>geom</code></li>
 <li>allows user to specify a given geometry (line, bar, or point)</li>
 </ul></li>
+<li>Added new conditionals for to <code><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph()</a></code>:
+<ul><li>Checks to see if the JVM is initialized. If not, it will cause an exception and direct user to run <code><a href="../reference/initPhg.html">initPhg()</a></code>
+</li>
+</ul></li>
+<li>Added new class <code>JvmStats</code>:
+<ul><li>Returns internal Java and PHG versions and memory information for JVM session</li>
+<li>Can be instantiated using the <code><a href="../reference/jvmStats.html">jvmStats()</a></code> constructor function</li>
+</ul></li>
+<li>Added new checks for <code><a href="../reference/initPhg.html">initPhg()</a></code>
+</li>
+<li>Added new parameters to <code><a href="../reference/plotGvcf.html">plotGvcf()</a></code> function:
+<ul><li>
+<code>colorOverride</code>: Overrides bar color based on given user defined color</li>
+<li>
+<code>sampleOrder</code>: Overrides default bar ordering based on user defined <code>character</code> vector</li>
+</ul></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6" id="rphg2-06">rPHG2 0.6<a class="anchor" aria-label="anchor" href="#rphg2-06"></a></h2>
@@ -51,10 +67,10 @@
 <ul><li>
 <code>mData</code> and <code>mVar</code>
 </li>
-<li>allows user to override default sample color option with categorical data</li>
+<li>Allows user to override default sample color option with categorical data</li>
 </ul></li>
 <li>Added new generic, <code><a href="../reference/numberOfHaplotypes.html">numberOfHaplotypes()</a></code>:
-<ul><li>returns the number of unique haplotypes found within each reference range or the total value found within a <code>PHGDataSet</code> object</li>
+<ul><li>Returns the number of unique haplotypes found within each reference range or the total value found within a <code>PHGDataSet</code> object</li>
 </ul></li>
 <li>Added getters to <code>PHGDataSet</code> objects:
 <ul><li><code><a href="../reference/numberOfChromosomes.html">numberOfChromosomes()</a></code></li>
@@ -76,8 +92,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5" id="rphg2-05">rPHG2 0.5<a class="anchor" aria-label="anchor" href="#rphg2-05"></a></h2>
 <ul><li>Added new visualization method, <code><a href="../reference/plotGvcf.html">plotGvcf()</a></code>:
-<ul><li>auto plotting various gVCF metrics</li>
-<li>granular metric support through formula subsetting</li>
+<ul><li>Auto plotting various gVCF metrics</li>
+<li>Granular metric support through formula subsetting</li>
 </ul></li>
 <li>Added new accessor and setting method, <code>seqnames()</code>
 <ul><li>Returns all contig IDs found in a <code>PHGMetrics</code> object</li>
@@ -146,7 +162,7 @@
 <ul><li>Reads sample IDs from a connection object</li>
 </ul></li>
 <li>Added new function <code><a href="../reference/readRefRanges.html">readRefRanges()</a></code>
-<ul><li>Read reference range positional information as a <code>GRanges</code> object from a connection object</li>
+<ul><li>Reads reference range positional information as a <code>GRanges</code> object from a connection object</li>
 </ul></li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -158,7 +174,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,9 @@
 <span>  nCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tag <span class="op">=</span> <span class="st">"A"</span>,</span>
 <span>  mData <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  mVar <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  mVar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  colorOverride <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sampleOrder <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -105,6 +107,18 @@ for plotting.</p></dd>
 <code>NULL</code>, the first non-<code>sample</code>/<code>taxa</code>/<code>line</code> column will
 be selected.</p></dd>
 
+
+<dt id="arg-coloroverride">colorOverride<a class="anchor" aria-label="anchor" href="#arg-coloroverride"></a></dt>
+<dd><p>If <code>colorOverride</code> is specified, all default colors will be overridden
+with specified classic color or hex-based RGB value (e.g., <code>#000FFF</code>).</p></dd>
+
+
+<dt id="arg-sampleorder">sampleOrder<a class="anchor" aria-label="anchor" href="#arg-sampleorder"></a></dt>
+<dd><p>A <code>character</code> vector of sample IDs for manual order override. If
+<code>sampleOrder</code> is specified, bars will be ordered based on order in
+vector object. Additionally, this can be used as a method to subset the
+base set for a given number of selected samples.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -120,7 +134,7 @@ be selected.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

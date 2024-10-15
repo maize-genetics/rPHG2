@@ -9,6 +9,7 @@
 <url><loc>https://rphg2.maizegenetics.net/news/index.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/HaplotypeGraph-class.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/HaplotypeGraph-validity.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/JvmStats-class.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/PHGCon-class.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/PHGCon-validity.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/PHGDataSet-class.html</loc></url>
@@ -36,14 +37,19 @@
 <url><loc>https://rphg2.maizegenetics.net/reference/initPhg.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/javaMemoryAddress.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/javaRefObj.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/javaVersion.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/jvmMemStats.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/jvmStats.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsIds.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsMetaData.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsTable.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/numberOfChromosomes.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/numberOfHaplotypes.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/numberOfJars.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/numberOfRefRanges.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/numberOfSamples.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/phgType.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/phgVersion.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/plotDot.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/plotGvcf.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/plotHaploCounts.html</loc></url>
