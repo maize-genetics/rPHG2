@@ -10,6 +10,18 @@ camelToSnake <- function(x) {
 
 
 ## ----
+isValidColor <- function(color) {
+    isHex <- grepl(
+        pattern = "^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
+        x = color
+    )
+    isNamedColor <- color %in% grDevices::colors()
+
+    return(isHex || isNamedColor)
+}
+
+
+## ----
 #' @title
 #' User-defined function for pre-evaluated names in vectors
 #'

@@ -131,7 +131,7 @@ parseJSON <- function(url, verbose = FALSE) {
     )
 
     if (is.na(res)) {
-        stop("Could not resolve BrAPI endpoint")
+        rlang::abort("Could not resolve BrAPI endpoint")
     }
 
     return(res)

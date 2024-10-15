@@ -18,7 +18,7 @@ filterRefRangesFromPhgDataSet <- function(object, gRanges) {
         IRanges::subsetByOverlaps(refRanges, gRanges)
     )
     if (length(fRefRanges) == 0) {
-        stop("No reference ranges identified with given query")
+        rlang::abort("No reference ranges identified with given query")
     }
 
     # Filter hap ID matrix by ref range column

@@ -27,6 +27,20 @@ setGeneric("brapiVersion", function(object, ...) standardGeneric("brapiVersion")
 
 
 ## ----
+#' @title Return JAR files from class path
+#'
+#' @description
+#' Returns a list of JAR files from an added class path for JVM use.
+#'
+#' @param object an \code{rPHG2 JvmStats} object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname brapiVersion
+#' @export
+setGeneric("classPath", function(object, ...) standardGeneric("classPath"))
+
+
+## ----
 #' @title Filter data by reference range
 #'
 #' @description
@@ -111,6 +125,21 @@ setGeneric("javaMemoryAddress", function(object, ...) standardGeneric("javaMemor
 
 
 ## ----
+#' @title Return Java version
+#'
+#' @description
+#' This generic function retrieves the Java version associated with the
+#' specified object.
+#'
+#' @param object an \code{rPHG2 JvmStats} object
+#' @param ... Additional arguments passed to methods.
+#'
+#' @rdname javaVersion
+#' @export
+setGeneric("javaVersion", function(object, ...) standardGeneric("javaVersion"))
+
+
+## ----
 #' @title Return \code{rJava} reference object
 #'
 #' @description
@@ -122,6 +151,20 @@ setGeneric("javaMemoryAddress", function(object, ...) standardGeneric("javaMemor
 #' @rdname javaRefObj
 #' @export
 setGeneric("javaRefObj", function(object, ...) standardGeneric("javaRefObj"))
+
+
+## ----
+#' @title Return JVM memory stats
+#'
+#' @description
+#' Returns the set memory stats for initialized JVM session
+#'
+#' @param object an \code{rPHG2 JvmStats} object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname jvmMemStats
+#' @export
+setGeneric("jvmMemStats", function(object, ...) standardGeneric("jvmMemStats"))
 
 
 ## ----
@@ -204,6 +247,20 @@ setGeneric("numberOfHaplotypes", function(object, ...) standardGeneric("numberOf
 
 
 ## ----
+#' @title Return number of JAR files in class path
+#'
+#' @description
+#' Returns the number of JAR files for a given \code{JvmStats} object
+#'
+#' @param object an \code{rPHG2 JvmStats} object
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname numberOfJars
+#' @export
+setGeneric("numberOfJars", function(object, ...) standardGeneric("numberOfJars"))
+
+
+## ----
 #' @title Return number of reference ranges
 #'
 #' @description
@@ -244,6 +301,21 @@ setGeneric("numberOfSamples", function(object, ...) standardGeneric("numberOfSam
 #' @rdname phgType
 #' @export
 setGeneric("phgType", function(object, ...) standardGeneric("phgType"))
+
+
+## ----
+#' @title Return PHG version
+#'
+#' @description
+#' This generic function retrieves the PHG version associated with the
+#' specified object.
+#'
+#' @param object an \code{rPHG2 JvmStats} object
+#' @param ... Additional arguments passed to methods.
+#'
+#' @rdname phgVersion
+#' @export
+setGeneric("phgVersion", function(object, ...) standardGeneric("phgVersion"))
 
 
 ## ----

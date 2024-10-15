@@ -55,7 +55,7 @@ PHGMetrics <- function(paths = NULL, metadata = NULL) {
 
     # V02 - if no files or directories exist: exception
     if (length(dirFilt) == 0 && length(filFilt) == 0) {
-        stop("No valid paths given")
+        rlang::abort("No valid paths given")
     }
 
     # V03 - recursively pull metric files from directories (if found)
@@ -93,7 +93,7 @@ PHGMetrics <- function(paths = NULL, metadata = NULL) {
 
     # V07 - if no .tsv or .anchorspro files are identified: exception
     if (length(gvcfMet) == 0 && length(algnMet) == 0) {
-        stop("No valid gVCF or AnchorWave files detected from paths")
+        rlang::abort("No valid gVCF or AnchorWave files detected from paths")
     }
 
     # If files are fully vetted: read into memory and add to list
@@ -366,7 +366,7 @@ setMethod(
         }
 
         if (!name %in% metricsIds(object) && !is.null(name)) {
-            stop("Provided 'name' not found in object")
+            rlang::abort("Provided 'name' not found in object")
         }
 
         if (!is.null(name) && is.null(type)) {
@@ -383,7 +383,7 @@ setMethod(
 
         if (!is.null(type) && is.null(name)) {
             if (!type %in% PHG_METRICS$VALID_METRICS_IDS) {
-                stop("Provided 'type' not a valid metrics ID")
+                rlang::abort("Provided 'type' not a valid metrics ID")
             }
 
             metrics <- switch (type,
@@ -586,6 +586,14 @@ setMethod(
 #' If \code{mData} is specified, what categorical column do you want plotted? If
 #' \code{NULL}, the first non-\code{sample}/\code{taxa}/\code{line} column will
 #' be selected.
+#' @param colorOverride
+#' If \code{colorOverride} is specified, all default colors will be overridden
+#' with specified classic color or hex-based RGB value (e.g., \code{#000FFF}).
+#' @param sampleOrder
+#' A \code{character} vector of sample IDs for manual order override. If
+#' \code{sampleOrder} is specified, bars will be ordered based on order in
+#' vector object. Additionally, this can be used as a method to subset the
+#' base set for a given number of selected samples.
 #'
 #' @return A plot object generated from the specified gVCF data and layout.
 #'
@@ -602,7 +610,9 @@ setMethod(
         nCol = NULL,
         tag = "A",
         mData = NULL,
-        mVar = NULL
+        mVar = NULL,
+        colorOverride = NULL,
+        sampleOrder = NULL
     ) {
         if (length(metricId) > 1) {
             rlang::abort("This method currently does not support multiple ID plotting")
@@ -662,15 +672,43 @@ setMethod(
             }
         }
 
+        if (!is.null(colorOverride)) {
+            if (!is.character(colorOverride)) {
+                rlang::abort("'colorOverride' is not of type 'character'")
+            }
+
+            if (length(colorOverride) != 1) {
+                rlang::abort("'colorOverride' parameter can only be of length '1'")
+            }
+
+            if (!isValidColor(colorOverride)) {
+                rlang::abort("value given for 'colorOverride' is not a valid color")
+            }
+        }
+
+        if (!is.null(sampleOrder)) {
+            if (!is.character(sampleOrder)) {
+                rlang::abort("'sampleOrder' is not of type 'character'")
+            }
+
+            if (any(duplicated(sampleOrder))) {
+                rlang::warn("Duplicate elements detected in 'sampleOrder' - retaining unique elements...")
+
+                sampleOrder <- unique(sampleOrder)
+            }
+        }
+
         p <- plotGvcfFromMetrics(
-            df      = df,
-            formula = f,
-            nRow    = nRow,
-            nCol    = nCol,
-            tag     = tag,
-            vIdCol  = vIdCol,
-            mData   = mData,
-            mVar    = mVar
+            df            = df,
+            formula       = f,
+            nRow          = nRow,
+            nCol          = nCol,
+            tag           = tag,
+            vIdCol        = vIdCol,
+            mData         = mData,
+            mVar          = mVar,
+            colorOverride = colorOverride,
+            sampleOrder   = sampleOrder
         )
 
         return(p)

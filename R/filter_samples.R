@@ -13,7 +13,7 @@ filterSamplesFromPhgDataSet <- function(object, sampleIds) {
     # Filter for samples in ID vector
     fSamples <- samples[samples %in% sampleIds]
     if (length(fSamples) == 0) {
-        stop("No samples identified with given query")
+        rlang::abort("No samples identified with given query")
     }
 
     # Generate a regex pattern for row subsetting

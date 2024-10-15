@@ -32,7 +32,9 @@ plotGvcfFromMetrics <- function(
     tag,
     vIdCol,
     mData,
-    mVar
+    mVar,
+    colorOverride,
+    sampleOrder
 ) {
     parsedForm <- parseFormula(formula)
     lhsVars <- parsedForm$lhs
@@ -72,23 +74,32 @@ plotGvcfFromMetrics <- function(
     }
 
     # Join metadata to filtered GVCF data (if possible)
-    fillVar <- NULL
-    fillTxt <- NULL
-    ggGlobTheme <- NULL
-    if (!is.null(mData)) {
-        if (!any(mData[[vIdCol]] %in% filtData[["taxa"]])) {
-            rlang::abort("No valid sample IDs were identified in 'mData' parameter")
-        }
-        fillVar <- rlang::sym(mVar)
-        filtData <- tibble::as_tibble(
-            merge(
-                filtData, mData,
-                by.x  = "taxa",
-                by.y  = vIdCol,
-                all.x = TRUE
+    fillVar <- rlang::sym("taxa")
+    fillTxt <- "Sample"
+    ggGlobTheme <- ggplot2::theme(
+        axis.text.x     = ggplot2::element_blank(),
+        axis.ticks.x    = ggplot2::element_blank(),
+        legend.position = "bottom"
+    )
+
+    # Process metadata and color override conditions
+    if (!is.null(mData) || !is.null(colorOverride)) {
+        if (!is.null(mData)) {
+            if (!any(mData[[vIdCol]] %in% filtData[["taxa"]])) {
+                rlang::abort("No valid sample IDs were identified in 'mData' parameter")
+            }
+            fillVar <- rlang::sym(mVar)
+            filtData <- tibble::as_tibble(
+                merge(
+                    filtData, mData,
+                    by.x  = "taxa",
+                    by.y  = vIdCol,
+                    all.x = TRUE
+                )
             )
-        )
-        fillTxt <- mVar
+            fillTxt <- mVar
+        }
+
         ggGlobTheme <- ggplot2::theme(
             axis.text.x = ggplot2::element_text(
                 angle = 45,
@@ -96,14 +107,22 @@ plotGvcfFromMetrics <- function(
                 hjust = 1
             )
         )
+    }
+
+    # Filter/order data.frame based on 'sampleOrder' parameter
+    if (!is.null(sampleOrder)) {
+        if (!any(sampleOrder %in% unique(filtData$taxa))) {
+            rlang::abort("No sample IDs in 'sampleOrder' were found in base data")
+        }
+        filtData <- filtData[filtData$taxa %in% sampleOrder, ]
+        filtData$taxa <- factor(filtData$taxa, levels = sampleOrder)
+    }
+
+
+    if (is.null(colorOverride)) {
+        ggBar <- ggplot2::geom_bar(stat = "identity")
     } else {
-        fillVar <- rlang::sym("taxa")
-        fillTxt <- "Sample"
-        ggGlobTheme <- ggplot2::theme(
-            axis.text.x     = ggplot2::element_blank(),
-            axis.ticks.x    = ggplot2::element_blank(),
-            legend.position = "bottom"
-        )
+        ggBar <- ggplot2::geom_bar(stat = "identity", fill = colorOverride)
     }
 
     # Loop through each column in "filtered" colKeepMap and create a bar plot
@@ -118,7 +137,7 @@ plotGvcfFromMetrics <- function(
                     y = !!rlang::sym(col),
                     fill = !!fillVar
                 ) +
-                ggplot2::geom_bar(stat = "identity") +
+                ggBar +
                 ggplot2::labs(
                     title = row$plt,
                     x = NULL,
