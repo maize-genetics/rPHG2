@@ -4,6 +4,14 @@
 \name{PHGLocalCon-class}
 \alias{PHGLocalCon-class}
 \alias{show,PHGLocalCon-method}
+\alias{TODO}
+\alias{-}
+\alias{implement}
+\alias{with}
+\alias{direct}
+\alias{calls}
+\alias{to}
+\alias{TileDB}
 \title{A PHGLocalCon Class}
 \usage{
 \S4method{show}{PHGLocalCon}(object)

@@ -54,18 +54,47 @@ setValidity("PHGLocalCon", function(object) {
 #' DB data for a given set of PHG-related methods.
 #'
 #' @param hVcfFiles
-#' A list of \href{https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md}{hVCF}
-#' files as a \code{character} vector
+#' A path to a directory or file containing valid \href{https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md}{hVCF}
+#' files (ending in either \code{.h.vcf} or \code{.h.vcf.gz}) as a
+#' \code{character} vector
 #'
 #' @export
 PHGLocalCon <- function(hVcfFiles) {
-    # This is probably overkill right now, but will revisit once the TileDB
-    # C API is better integrated in PHGv2...
+    # TODO - This is probably overkill right now, but will revisit once the TileDB
+    #        C API is better integrated in PHGv2...
+
+    # Initial type checking
+    if (!is.vector(hVcfFiles) || !is.character(hVcfFiles)) {
+        rlang::abort("Input is not a valid 'character' vector")
+    }
+
+    # Check if directory or files exist
+    procFiles <- NULL
+    hvcfExtPattern <- "\\.h\\.vcf(\\.gz)?$"
+    if (any(dir.exists(hVcfFiles))) {
+        # Get all files ending with .h.vcf or .h.vcf.gz in the directory
+        procFiles <- list.files(
+            path       = hVcfFiles,
+            pattern    = hvcfExtPattern,
+            full.names = TRUE
+        )
+
+        if (length(procFiles) == 0) {
+            rlang::abort("No files ending with .h.vcf or .h.vcf.gz found in provided directory")
+        }
+    } else if (any(file.exists(hVcfFiles))) {
+        if (any(grepl(hvcfExtPattern, hVcfFiles))) {
+            procFiles <- hVcfFiles[grepl(hvcfExtPattern, hVcfFiles)]
+        }
+    } else {
+        rlang::abort("The input path is neither a valid directory nor a valid file")
+    }
+
     methods::new(
         Class     = "PHGLocalCon",
         phgType   = "local",
         host      = NA_character_, # making this NA for now
-        hVcfFiles = normalizePath(hVcfFiles)
+        hVcfFiles = normalizePath(procFiles)
     )
 }
 
@@ -93,6 +122,7 @@ setMethod(
         present <- cli::col_green(cli::symbol$square_small_filled)
         absent  <- cli::col_grey(cli::symbol$square_small)
 
+        #' TODO - implement with direct calls to TileDB
         dbUriStatus <- ifelse(is.na(object@host), absent, present)
 
         if (any(is.na(object@hVcfFiles))) {

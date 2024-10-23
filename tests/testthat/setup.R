@@ -112,7 +112,9 @@ initPhg(phgLibPath)
 
 ## Test post-initialization ----
 testthat::test_that("JVM init checker works", {
-    testthat::expect_error(rPHG2::initPhg(phgLibPath))
+    msg <- utils::capture.output(rPHG2::initPhg(phgLibPath))
+
+    testthat::expect_match(msg[1], "PHGv2 JARs already added to class path" )
 })
 
 

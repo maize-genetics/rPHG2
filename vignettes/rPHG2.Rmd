@@ -94,6 +94,15 @@ localCon <- hVcfFiles |> PHGLocalCon()
 localCon
 ```
 
+Additionally, if you have a **directory** of valid hVCF files, you can simply
+pass the directory path to the constructor. In the following example, I will
+point to the `extdata` data directory _without_ pointing to singular hVCF files
+that is found within the package:
+
+```{r, eval=TRUE, echo=TRUE}
+system.file("extdata", package = "rPHG2") |> PHGLocalCon()
+```
+
 From here, we can move to the [next section](#creating-jvm-objects) to create a `HaplotypeGraph`
 object interface with the JVM.
 
