@@ -183,7 +183,7 @@ setMethod(
 
             uniqHaps <- data.frame(
                 rr_id   = colnames(hapIds),
-                n_haplo = apply(hapIds, 2, function(it) length(unique(it[it != "null"])))
+                n_haplo = apply(hapIds, 2, function(it) length(unique(it[!is.na(it)])))
             )
 
             return(tibble::as_tibble(

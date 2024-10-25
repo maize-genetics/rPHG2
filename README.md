@@ -7,9 +7,9 @@
 <!-- badges: end -->
 
 `rPHG2` is a system to interact with and retrieve information from **version 2** 
-of the Practical Haplotype Graph (PHGv2) - a general, graph-based, computational 
-framework for genotype inference. This is accomplished by leveraging the 
-[Breeding](https://brapi.org/) and 
+of the [Practical Haplotype Graph (PHGv2)](https://phg.maizegenetics.net/) - a 
+general, graph-based, computational framework for genotype inference. This is 
+accomplished by leveraging the [Breeding](https://brapi.org/) and 
 [PHG](https://github.com/maize-genetics/phg_v2) APIs.
 
 ## Installation
@@ -30,8 +30,7 @@ initPhg("my/phg/jar/path")
 
 
 # Create a connection
-locCon <- list.files("my/hvcf/dir") |>
-    PHGLocalCon()
+locCon <- PHGLocalCon("my/hvcf/dir")
 
 
 # Build a graph

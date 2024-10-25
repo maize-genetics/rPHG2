@@ -13,6 +13,10 @@ hapIdsFromJvmGraph <- function(jvmGraph, nThreads) {
     jm <- interface$getHapIdMatrixFromGraph(jvmGraph, nThreads)
     rm <- jm |> kotlin2DArrayToRMatrix()
 
+    # Convert missing IDs to R NAs
+    missingValues <- c("", "null")
+    rm[rm %in% missingValues] <- NA
+
     return(rm)
 }
 

@@ -14,6 +14,15 @@
 #'
 #' @export
 initPhg <- function(phgPath, check = TRUE, verbose = TRUE) {
+    # Set up CLI message components
+    #   Note: I **know** there are easier ways of accomplishing this but I
+    #         need to do this 'ad-hoc' for JupyterHub notebooks!
+    cliSuccess <- cli::col_green(cli::symbol$tick)
+    cliInform  <- cli::col_blue(cli::symbol$info)
+    cliNote    <- cli::col_red(cli::symbol$warning)
+    cliWarn    <- cli::col_red(cli::symbol$cross)
+    cliBullet  <- cli::symbol$bullet
+
     if (!is.character(phgPath) || !dir.exists(phgPath)) {
         rlang::abort("PHG library path ('phgPath') provided does not exist")
     }
@@ -22,33 +31,27 @@ initPhg <- function(phgPath, check = TRUE, verbose = TRUE) {
         rlang::abort("Cannot find 'phg_v2.jar' in library path")
     }
 
+    # Check if JVM is already initialized - if it is, show warning message and
+    # move on
+    loadMsg <- paste0(cliSuccess, " PHG JARs added to class path")
     if (isJvmInitialized() && "phg_v2.jar" %in% basename(rJava::.jclassPath())) {
-        rlang::abort("PHGv2 JARs already added to class path")
+        loadMsg <- paste0(cliWarn, " PHGv2 JARs already added to class path - skipping...")
+    } else {
+        tryCatch(
+            {
+                rJava::.jinit()
+                rJava::.jaddClassPath(dir(phgPath, full.names = TRUE))
+            },
+            error = function(e) {
+                rlang::abort("Java initialization or class path addition failed", parent = e)
+            }
+        )
     }
-
-    tryCatch(
-        {
-            rJava::.jinit()
-            rJava::.jaddClassPath(dir(phgPath, full.names = TRUE))
-        },
-        error = function(e) {
-            rlang::abort("Java initialization or class path addition failed", parent = e)
-        }
-    )
-
-    # Set up CLI message components
-    #   Note: I **know** there are easier ways of accomplishing this but I
-    #         need to do this 'ad-hoc' for JupyterHub notebooks!
-    cliSuccess <- cli::col_green(cli::symbol$tick)
-    cliInform  <- cli::col_blue(cli::symbol$info)
-    cliWarn    <- cli::col_red(cli::symbol$warning)
-    cliBullet  <- cli::symbol$bullet
 
     # Get version stats
     jvmStats   <- jvmStats()
 
     # Get PHG version messages / set up load message
-    loadMsg           <- paste0(cliSuccess, " PHG JARs added to class path")
     currentPhgVersion <- phgVersion(jvmStats)
     cliCurrent        <- cli::style_bold(currentPhgVersion)
     phgMsg            <- paste0("  ", cliBullet, " PHG version....: ", cliCurrent)
@@ -75,7 +78,7 @@ initPhg <- function(phgPath, check = TRUE, verbose = TRUE) {
             phgWarnMsg <- sprintf(
                 "  %s\n  %s %sCurrent version of PHGv2 (%s) is out of date (%s)\n    %s consider updating (%s)",
                 cli::symbol$line,
-                cliWarn,
+                cliNote,
                 cli::style_bold(cli::symbol$sup_1),
                 cliCurrent,
                 cliLatest,
