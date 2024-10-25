@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,16 @@
       <small>Source: <a href="https://github.com/maize-genetics/rPHG2/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8" id="rphg2-08">rPHG2 0.8<a class="anchor" aria-label="anchor" href="#rphg2-08"></a></h2>
+<ul><li>Fixed missing IDs returned in <code><a href="../reference/readHapIds.html">readHapIds()</a></code> method calls.
+<ul><li>missing values (i.e., <code>"null"</code>) now return as <code>NA</code>s in the matrix object</li>
+</ul></li>
+<li>Removed <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">rlang::abort()</a></code> condition in <code><a href="../reference/initPhg.html">initPhg()</a></code>
+<ul><li>Now returns “warning” message instead of low-level <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> procedure</li>
+</ul></li>
+<li>Modified the <code><a href="../reference/PHGLocalCon.html">PHGLocalCon()</a></code> constructor to now take in either files or a directory path</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7" id="rphg2-07">rPHG2 0.7<a class="anchor" aria-label="anchor" href="#rphg2-07"></a></h2>
 <ul><li>Added new parameter to <code><a href="../reference/plotHaploCounts.html">plotHaploCounts()</a></code>:

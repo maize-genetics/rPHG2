@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   metrics: metrics.html
   rPHG2: rPHG2.html
-last_built: 2024-10-15T14:04Z
+last_built: 2024-10-25T14:06Z
 urls:
   reference: https://rphg2.maizegenetics.net/reference
   article: https://rphg2.maizegenetics.net/articles
