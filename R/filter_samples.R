@@ -25,7 +25,8 @@ filterSamplesFromPhgDataSet <- function(object, sampleIds) {
             hapIds       = fHapIds,
             refRanges    = readRefRanges(object), # no need to filter this
             hapIdMeta    = hapIdMeta[hapIdMeta$hap_id %in% fHapIds, ],
-            hapIdMetaPos = hapIdPosMeta[hapIdPosMeta$hap_id %in% fHapIds, ]
+            hapIdMetaPos = hapIdPosMeta[hapIdPosMeta$hap_id %in% fHapIds, ],
+            dbUri        = host(object)
         )
     )
 }

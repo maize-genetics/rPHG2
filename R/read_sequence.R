@@ -1,13 +1,15 @@
-#' @param pds
-#' A \code{PHGDataSet} object containing the pangenome data.
-#' @param rrId
-#' Reference range ID to query sequences. Default is \code{NULL}.
-#' @param hapId
-#' Haplotype ID to query sequences. Default is \code{NULL}.
-#' @param pad
-#' Number of base pairs to pad upstream and . Default is \code{0}.
-#'
-#' @return A BioString object containing the retrieved sequence(s).
+# Read sequence data via AGC from a PHGDataSet object
+#
+# @param pds
+# A \code{PHGDataSet} object containing the pangenome data.
+# @param rrId
+# Reference range ID to query sequences. Default is \code{NULL}.
+# @param hapId
+# Haplotype ID to query sequences. Default is \code{NULL}.
+# @param pad
+# Number of base pairs to pad upstream and . Default is \code{0}.
+#
+# @return A BioString object containing the retrieved sequence(s).
 readSequenceFromPds <- function(pds, rrId = NULL, hapId = NULL, pad = 0) {
     if(is.null(rrId) && is.null(hapId)) {
         rlang::abort("'rrId' and 'hapId' cannot both be null")
