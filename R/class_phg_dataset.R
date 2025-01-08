@@ -23,6 +23,8 @@
 #' A `tibble` object containing metadata associated with haplotype identifiers.
 #' @slot hapIdMetaPos
 #' A `tibble` object containing positional metadata for haplotype identifiers.
+#' @slot dbUri
+#' A character representation of the PHGv2 DB instance
 #'
 #'
 #' @name PHGDataSet-class
@@ -35,14 +37,16 @@ setClass(
         refRanges    = "GRanges",
         hapIds       = "matrix",
         hapIdMeta    = "tbl_df",
-        hapIdMetaPos = "tbl_df"
+        hapIdMetaPos = "tbl_df",
+        dbUri        = "character"
     ),
     prototype = list(
         samples      = character(),
         refRanges    = GenomicRanges::GRanges(),
         hapIds       = matrix(character()),
         hapIdMeta    = tibble::tibble(),
-        hapIdMetaPos = tibble::tibble()
+        hapIdMetaPos = tibble::tibble(),
+        dbUri        = NA_character_
     )
 )
 
@@ -53,11 +57,18 @@ setClass(
 #' @description
 #' \code{PHGDataSet} is the primary container for housing hVCF data.
 #'
-#' @param samples Sample IDs
-#' @param refRanges What type of PHG connection is this?
-#' @param hapIds Haplotype sequence IDs
-#' @param hapIdMeta Metadata for haplotype IDs
-#' @param hapIdMetaPos Positional metadata for haplotype IDs
+#' @param samples
+#' Sample IDs
+#' @param refRanges
+#' What type of PHG connection is this?
+#' @param hapIds
+#' Haplotype sequence IDs
+#' @param hapIdMeta
+#' Metadata for haplotype IDs
+#' @param hapIdMetaPos
+#' Positional metadata for haplotype IDs
+#' @param dbUri
+#' PHGv2 DB path
 #'
 #' @return A \code{PHGDataSet} object.
 #'
@@ -67,7 +78,8 @@ PHGDataSet <- function(
         hapIds,
         refRanges,
         hapIdMeta,
-        hapIdMetaPos
+        hapIdMetaPos,
+        dbUri
 ) {
     methods::new(
         Class        = "PHGDataSet",
@@ -75,7 +87,8 @@ PHGDataSet <- function(
         hapIds       = hapIds,
         refRanges    = refRanges,
         hapIdMeta    = hapIdMeta,
-        hapIdMetaPos = hapIdMetaPos
+        hapIdMetaPos = hapIdMetaPos,
+        dbUri        = dbUri
     )
 }
 
@@ -144,6 +157,18 @@ setMethod(
     signature = signature(object = "PHGDataSet"),
     definition = function(object, sampleIds) {
         filterSamplesFromPhgDataSet(object, sampleIds)
+    }
+)
+
+
+## ----
+#' @rdname host
+#' @export
+setMethod(
+    f = "host",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        object@dbUri
     }
 )
 

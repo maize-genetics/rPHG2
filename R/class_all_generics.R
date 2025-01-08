@@ -479,6 +479,20 @@ setGeneric("readSamples", function(object, ...) standardGeneric("readSamples"))
 
 
 ## ----
+#' @title Return DNA sequence data
+#'
+#' @description
+#' Gets DNA sequence from a \code{PHGDataSet}
+#'
+#' @param object an \code{rPHG2} PHG data set
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname readSequence
+#' @export
+setGeneric("readSequence", function(object, ...) standardGeneric("readSequence"))
+
+
+## ----
 #' @title Return server information
 #'
 #' @description
