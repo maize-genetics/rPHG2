@@ -1,5 +1,4 @@
 ## ----
-# @title
 # Convert a FASTA character vector to a DNAStringSet object
 #
 # @description
@@ -49,6 +48,33 @@ rawFastaToBioString <- function(faSeq) {
 }
 
 
+## ----
+# Run AGC commands via a system call
+#
+# @description
+# This function builds a command-line call to an AGC binary and runs
+# it. It returns any output from the command. If a path or command is
+# invalid, an error or warning is raised.
+#
+# @param agcPath
+# A character string with the path to the AGC file. If it is not found, an
+# error is raised.
+# @param command
+# A character string with the AGC command to run. Valid values are
+# \code{c("listset", "getctg", "getset")}.
+# @param argV
+# A character vector of extra arguments for AGC. Defaults to \code{NULL}.
+#
+# @details
+# This function first checks if \code{agcPath} exists. If not, an error
+# is raised. It then checks the \code{"agc_path"} option, which should
+# point to the AGC binary. If unset, an error is raised. Finally, it
+# calls \code{system2()} with the constructed command and returns
+# the output.
+#
+# @return
+# A character vector of the AGC command output. If an error
+# occurs, a descriptive message is raised.
 agcCore <- function(
         agcPath,
         command = c("listset", "getctg", "getset"),
@@ -87,6 +113,27 @@ agcCore <- function(
 }
 
 
+## ----
+# Construct an AGC query from haplotype metadata
+#
+# @description
+# This function reads metadata from the PDS object and returns an
+# AGC query string of the form "contig@sample:start-end".
+#
+# @param pds
+# A PDS object containing haplotype metadata.
+# @param h
+# A value specifying the haplotype ID.
+# @param pad
+# An integer for expanding the query range; default 0.
+#
+# @details
+# Reads positional (hap_id positions) and metadata (hap_id info)
+# to build a string suitable for AGC. The positions are adjusted
+# by the 'pad' value.
+#
+# @return
+# A character string for an AGC query.
 genHapIdAgcQuery <- function(pds, h, pad = 0) {
     hPos <- readHapIdPosMetaData(pds)
     hMet <- readHapIdMetaData(pds)
