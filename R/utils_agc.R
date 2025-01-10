@@ -86,7 +86,7 @@ agcCore <- function(
 
     rlang::arg_match(command)
 
-    agcBinPath <- getOption("agc_path")
+    agcBinPath <- getOption("phgv2_agc_path")
     if (is.null(agcBinPath)) {
         rlang::abort("Cannot find binary path to AGC")
     }
