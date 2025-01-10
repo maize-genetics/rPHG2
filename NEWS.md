@@ -1,10 +1,11 @@
 ## rPHG2 0.8
-* Fixed missing IDs returned in `readHapIds()` method calls.
+* Fixed missing IDs returned in `readHapIds()` method calls:
   + missing values (i.e., `"null"`) now return as `NA`s in the matrix object
-* Removed `rlang::abort()` condition in `initPhg()`
+* Removed `rlang::abort()` condition in `initPhg()`:
   + Now returns "warning" message instead of low-level `stop()` procedure
 * Modified the `PHGLocalCon()` constructor to now take in either files or a
   directory path
+* Fixed plotting bug in `plotHaploCounts()` `geom` parameter
 
 
 ## rPHG2 0.7

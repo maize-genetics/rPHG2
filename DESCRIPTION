@@ -1,6 +1,6 @@
 Package: rPHG2
 Title: R interface to PHGv2
-Version: 0.7.1
+Version: 0.8.0
 Authors@R:
     person(
         given = "Brandon",
