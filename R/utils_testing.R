@@ -70,11 +70,11 @@ createMockCondaInstallation <- function(
 #' downloadAgcBinary(destDir = "myAgcDir", version = "0.4.0")
 #' }
 downloadAgcBinary <- function(
-        destDir,
-        version = "3.2.1",
-        machine = tolower(Sys.info()[["machine"]]),
-        osName  = tolower(Sys.info()[["sysname"]]),
-        verbose = TRUE
+    destDir,
+    version = "3.2.1",
+    machine = tolower(Sys.info()[["machine"]]),
+    osName  = tolower(Sys.info()[["sysname"]]),
+    verbose = TRUE
 ) {
     # Pre-check platform → suffix mapping
     fileMap <- list(
