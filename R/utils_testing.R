@@ -134,13 +134,46 @@ downloadAgcBinary <- function(
 }
 
 
+## ----
+# Create an AGC archive from FASTA files
+#
+# @description
+# Calls the AGC binary to compress multiple FASTA files
+# into an AGC archive. The AGC path is read from
+# `options("phgv2_agc_path")`.
+#
+# @param fastas
+# Vector of FASTA file paths (.fa or .fasta).
+# @param agcId
+# Character string for the output AGC file name.
+#
+# @return
+# Integer exit status from the `system2()` call.
+makeAgc <- function(fastas, agcId) {
+    # Get path to AGC binary from options
+    agcBinPath <- getOption("phgv2_agc_path")
+    if (is.null(agcBinPath)) {
+        rlang::abort("AGC binary path not found.")
+    }
+    agcBinPath <- normalizePath(agcBinPath)
 
+    # Verify that all inputs are FASTA files
+    if (!all(grepl("\\.fa$|\\.fasta$", fastas))) {
+        rlang::abort(
+            "All input files must be .fa or .fasta"
+        )
+    }
 
+    # Build arguments for system2
+    agcArgs <- c(
+        "create",
+        paste(fastas, collapse = " "),
+        ">",
+        agcId
+    )
 
-
-
-
-
-
+    # Run the AGC command
+    system2(agcBinPath, agcArgs)
+}
 
 
