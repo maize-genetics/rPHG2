@@ -78,8 +78,8 @@ test_that("PHGDataSet class construction tests", {
         )
     }
     expect_true(containsGeom(plotHaploCounts(pds, geom = "p"), "GeomPoint"))
-    expect_true(containsGeom(plotHaploCounts(pds, geom = "l"), "GeomPoint"))
-    expect_true(containsGeom(plotHaploCounts(pds, geom = "b"), "GeomPoint"))
+    expect_true(containsGeom(plotHaploCounts(pds, geom = "l"), "GeomLine"))
+    expect_true(containsGeom(plotHaploCounts(pds, geom = "b"), "GeomBar"))
     expect_true(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "l"), "GeomLine"))
     expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "l"), "GeomBar"))
     expect_false(containsGeom(plotHaploCounts(pds, gr = grQuery, geom = "l"), "GeomPoint"))
