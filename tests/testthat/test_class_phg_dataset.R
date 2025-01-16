@@ -3,7 +3,6 @@ test_that("PHGDataSet class construction tests", {
     hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
     locCon      <- PHGLocalCon(hVcfFiles)
 
-
     graph <- buildHaplotypeGraph(locCon)
     pds   <- readPhgDataSet(graph)
     locConOutput <- utils::capture.output(pds)

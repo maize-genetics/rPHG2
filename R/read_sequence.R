@@ -21,14 +21,14 @@ readSequenceFromPds <- function(pds, rrId = NULL, hapId = NULL, pad = 0) {
 
     if (!is.null(rrId)) {
         hapMat <- readHapIds(pds)
-        ids <- hapMat[colnames(hapMat) == rrId]
+        ids <- hapMat[, colnames(hapMat) == rrId]
     } else {
         ids <- hapId
     }
 
     result <- vapply(
         ids[!is.na(ids)],
-        function(id) genHapIdAgcQuery(pds, h = id, pad = 0),
+        function(id) rPHG2:::genHapIdAgcQuery(pds, h = id, pad = pad),
         FUN.VALUE = character(1)
     )
 

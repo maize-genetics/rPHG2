@@ -109,7 +109,8 @@ options("phgv2_agc_path" = file.path(phgLibDir, "agc_bin", "agc"))
 makeAgc(
     fastas = list.files(
         path    = system.file("extdata", "fasta", package = "rPHG2"),
-        pattern = "\\.fa$"
+        pattern = "\\.fa$",
+        full.names = TRUE
     ),
     agcId = file.path(phgLibDir, "assemblies.agc")
 )
@@ -119,10 +120,15 @@ agcVanillaPath <- file.path(phgLibDir, "agc_bin", "agc")
 agcFilePath    <- file.path(phgLibDir, "assemblies.agc")
 
 
+## Mock PHG DB instance ----
+dir.create(file.path(phgLibDir, "gvcf_dataset"))
+dir.create(file.path(phgLibDir, "hvcf_dataset"))
+
+
 
 # --- Initial testing -----------------------------------------------
 
-## Test pre-JVM-initialization ----
+## Test *PRE*-JVM-initialization ----
 testthat::test_that("JVM init checker works", {
     testthat::expect_false(rPHG2:::isJvmInitialized())
 
@@ -139,7 +145,7 @@ testthat::test_that("JVM init checker works", {
 initPhg(phgLibPath)
 
 
-## Test post-JVM-initialization ----
+## Test *POST*-JVM-initialization ----
 testthat::test_that("JVM init checker works", {
     msg <- utils::capture.output(rPHG2::initPhg(phgLibPath))
 

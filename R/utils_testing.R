@@ -26,6 +26,9 @@ createMockCondaInstallation <- function(
     envsDir <- file.path(baseDir, "envs")
     dir.create(envsDir, showWarnings = FALSE)
 
+    metaDir <- file.path(baseDir, "conda-meta")
+    dir.create(metaDir, showWarnings = FALSE)
+
     envDir <- file.path(envsDir, condaEnvName)
     dir.create(envDir, showWarnings = FALSE)
 
@@ -85,7 +88,7 @@ downloadAgcBinary <- function(
     osCpu  <- paste(osName, machine, sep = "_")
     suffix <- fileMap[[osCpu]]
     if (is.null(suffix)) {
-        stop("Unsupported chip architecture for this OS: ", osCpu)
+        rlang::abort("Unsupported chip architecture for this OS: ", osCpu)
     }
 
     # Normalize the destination directory

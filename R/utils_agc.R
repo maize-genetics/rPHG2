@@ -30,13 +30,24 @@ rawFastaToBioString <- function(faSeq) {
 
     # Extract the headers (removing the '>' symbol)
     sequenceNames <- sub("^>", "", faSeq[headerIndices])
+    if (length(sequenceNames) == 0) {
+        sequenceNames <- NULL
+    }
 
-    # Extract the sequence lines for each contig
-    contigSequences <- mapply(
-        function(start, end) paste(faSeq[(start + 1):end], collapse = ""),
-        start = headerIndices,
-        end = c(headerIndices[-1] - 1, length(faSeq)) # Handles the last contig
-    )
+    # Determine the ranges for sequences corresponding to each header
+    startIndices <- headerIndices + 1
+    endIndices <- c(headerIndices[-1] - 1, length(faSeq))
+
+    # Extract sequences, ensuring empty sequences are handled
+    contigSequences <- vapply(seq_along(startIndices), function(i) {
+        if (startIndices[i] > endIndices[i]) {
+            # No sequence lines present
+            return("")
+        } else {
+            # Concatenate sequence lines
+            return(paste(faSeq[startIndices[i]:endIndices[i]], collapse = ""))
+        }
+    }, character(1)) # Specify the output type and length as a character vector of length 1
 
     # Create a DNAStringSet object
     dnaStringSet <- Biostrings::DNAStringSet(contigSequences)
@@ -92,24 +103,22 @@ agcCore <- function(
     }
     agcBinPath <- normalizePath(agcBinPath)
 
-    argV <- c(
+    if (command == "getctg" && is.null(argV)) {
+        rlang::abort("'getctg' command needs coordinate locations")
+    }
+
+    argVString <- c(
         command,
         agcPath,
         argV
     )
 
-    tryCatch(
-        {
-            output <- system2(agcBinPath, args = argV, stdout = TRUE)
-            return(output)
-        },
-        error = function(err) {
-            rlang::abort(paste("An error occurred while running the AGC command:", err$message))
-        },
-        warning = function(warn) {
-            rlang::warn(paste("A warning occurred while running the AGC command:", warn$message))
-        }
-    )
+    output <- system2(agcBinPath, args = argVString, stdout = TRUE)
+    if (length(output) == 0) {
+        return(NULL)
+    } else {
+        return(output)
+    }
 }
 
 
@@ -132,6 +141,9 @@ agcCore <- function(
 # to build a string suitable for AGC. The positions are adjusted
 # by the 'pad' value.
 #
+# **NOTE**: we are not checking for end-boundary conditions (e.g., 'pad+')
+# since the AGC program already has convenient checks for these cases
+#
 # @return
 # A character string for an AGC query.
 genHapIdAgcQuery <- function(pds, h, pad = 0) {
@@ -141,9 +153,12 @@ genHapIdAgcQuery <- function(pds, h, pad = 0) {
     resPos <- hPos[hPos$hap_id == h, ]
     resMet <- hMet[hMet$hap_id == h, ]
 
+    # Check for negative bounds
+    resPosStart <- max(0, resPos$start - 1 - pad)
+
     resAgc <- paste0(
         resPos$contig_start, "@", resMet$sample_name, ":",
-        resPos$start - 1 - pad, "-", resPos$end - 1 + pad
+        resPosStart, "-", resPos$end - 1 + pad
     )
 
     return(resAgc)
