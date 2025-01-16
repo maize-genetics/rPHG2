@@ -3,6 +3,7 @@
 # This script will perform the following actions:
 #   1. Download and decompress the latest version of PHGv2 JARs
 #   2. Initialize the JVM and add PHGv2 libraries to class path
+#   3. Retrieve and setup AGC binaries dynamically (based on OS and CPU)
 
 
 # --- Functions -----------------------------------------------------
@@ -93,7 +94,35 @@ phgLibPath <- file.path(phgLibDir, "phg", "lib")
 downloadJavaLibraries(phgLibDir)
 
 
-## Test pre-initialization ----
+## AGC retrieval and setup ----
+createMockCondaInstallation(
+    baseDir      = file.path(phgLibDir, "mock_conda"),
+    condaEnvName = "phgv2-conda",
+    verbose      = TRUE
+)
+downloadAgcBinary(phgLibDir)
+file.copy(
+    from = file.path(phgLibDir, "agc_bin", "agc"),
+    to   = file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", "agc")
+)
+options("phgv2_agc_path" = file.path(phgLibDir, "agc_bin", "agc"))
+makeAgc(
+    fastas = list.files(
+        path    = system.file("extdata", "fasta", package = "rPHG2"),
+        pattern = "\\.fa$"
+    ),
+    agcId = file.path(phgLibDir, "assemblies.agc")
+)
+options("phgv2_agc_path" = NULL)
+agcCondaPath   <- file.path(phgLibDir, "mock_conda")
+agcVanillaPath <- file.path(phgLibDir, "agc_bin", "agc")
+agcFilePath    <- file.path(phgLibDir, "assemblies.agc")
+
+
+
+# --- Initial testing -----------------------------------------------
+
+## Test pre-JVM-initialization ----
 testthat::test_that("JVM init checker works", {
     testthat::expect_false(rPHG2:::isJvmInitialized())
 
@@ -110,11 +139,22 @@ testthat::test_that("JVM init checker works", {
 initPhg(phgLibPath)
 
 
-## Test post-initialization ----
+## Test post-JVM-initialization ----
 testthat::test_that("JVM init checker works", {
     msg <- utils::capture.output(rPHG2::initPhg(phgLibPath))
 
     testthat::expect_match(msg[1], "PHGv2 JARs already added to class path" )
+})
+
+
+## Test AGC retrieval and setup ----
+testthat::test_that("AGC retrieval and setup works", {
+    expect_true(dir.exists(file.path(phgLibDir, "mock_conda")))
+    expect_true(dir.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda")))
+    expect_true(dir.exists(file.path(phgLibDir, "agc_bin")))
+    expect_true(file.exists(file.path(phgLibDir, "agc_bin", "agc")))
+    expect_true(file.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", "agc")))
+    expect_true(file.exists(file.path(phgLibDir, "assemblies.agc")))
 })
 
 

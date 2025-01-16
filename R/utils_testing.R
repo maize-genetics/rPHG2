@@ -45,30 +45,28 @@ createMockCondaInstallation <- function(
 
 
 ## ----
-#' Download the AGC binary for the current operating system and architecture
-#'
-#' @description
-#' This function detects the OS and, if on macOS, checks whether
-#' the machine is arm64 (e.g., Apple Silicon) or x86_64 (Intel).
-#' It then downloads the matching AGC binary from GitHub for
-#' the specified version (e.g., "0.3.1") and extracts it into
-#' the specified directory.
-#'
-#' @param destDir
-#' A character string specifying where to save and unpack the AGC binary.
-#' Defaults to \code{tempdir()}.
-#' @param version
-#' A character string specifying the AGC release version (without the leading
-#' "v").
-#'
-#' @return
-#' The path to the extracted AGC binary directory, returned invisibly.
-#'
-#' @examples
-#' \dontrun{
-#' downloadAgcBinary() # Downloads version 0.3.1 for your OS/architecture
-#' downloadAgcBinary(destDir = "myAgcDir", version = "0.4.0")
-#' }
+# Download the AGC binary for the current operating system and architecture
+#
+# @description
+# This function detects the OS and, if on macOS, checks whether
+# the machine is arm64 (e.g., Apple Silicon) or x86_64 (Intel).
+# It then downloads the matching AGC binary from GitHub for
+# the specified version (e.g., "0.3.1") and extracts it into
+# the specified directory.
+#
+# @param destDir
+# A character string specifying where to save and unpack the AGC binary.
+# Defaults to \code{tempdir()}.
+# @param version
+# A character string specifying the AGC release version (without the leading
+# "v").
+#
+# @details
+# This function will create a default directory called \code{agc_bin}. This
+# cannot be changed!
+#
+# @return
+# The path to the extracted AGC binary directory, returned invisibly.
 downloadAgcBinary <- function(
     destDir,
     version = "3.2.1",
