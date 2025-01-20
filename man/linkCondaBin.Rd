@@ -26,7 +26,7 @@ environment and then sets an R option pointing to it. By default,
 the option name is constructed as \code{"phgv2_<bin>_path"}.
 }
 \details{
-This function calls \code{\link{validateBinary}} to ensure the binary
+This function calls \code{validateBinary} to ensure the binary
 exists. Then it constructs an option name (\code{"phgv2_<bin>_path"})
 and sets its value to the binary's path. If \code{verbose} is
 \code{TRUE}, a status message is shown.

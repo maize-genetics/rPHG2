@@ -17,7 +17,7 @@
 #' Defaults to \code{TRUE}.
 #'
 #' @details
-#' This function calls \code{\link{validateBinary}} to ensure the binary
+#' This function calls \code{validateBinary} to ensure the binary
 #' exists. Then it constructs an option name (\code{"phgv2_<bin>_path"})
 #' and sets its value to the binary's path. If \code{verbose} is
 #' \code{TRUE}, a status message is shown.
@@ -45,7 +45,7 @@ linkCondaBin <- function(
 
     binPath <- file.path(condaPath, "envs", envName, "bin", bin)
 
-    do.call(options, setNames(list(binPath), optionName))
+    do.call(options, stats::setNames(list(binPath), optionName))
 
     if (verbose) {
         msg <- paste0("Binary: '", bin, "' in Conda environment '", envName, "' added to options(", optionName, ")")

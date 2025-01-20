@@ -402,7 +402,7 @@ setMethod(
 #' An integer value for padding around the sequence region. Defaults to `0`.
 #'
 #' @details
-#' This method calls [readSequenceFromPds()] to retrieve the
+#' This method calls \code{readSequenceFromPds()} to retrieve the
 #' sequence data. Additional arguments may be used to refine
 #' the range.
 #'

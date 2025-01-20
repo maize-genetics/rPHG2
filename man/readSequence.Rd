@@ -35,7 +35,7 @@ The method takes optional parameters to specify read range IDs
 or haplotype IDs, and an optional \code{pad} value.
 }
 \details{
-This method calls \code{\link[=readSequenceFromPds]{readSequenceFromPds()}} to retrieve the
+This method calls \code{readSequenceFromPds()} to retrieve the
 sequence data. Additional arguments may be used to refine
 the range.
 }

@@ -28,7 +28,7 @@ readSequenceFromPds <- function(pds, rrId = NULL, hapId = NULL, pad = 0) {
 
     result <- vapply(
         ids[!is.na(ids)],
-        function(id) rPHG2:::genHapIdAgcQuery(pds, h = id, pad = pad),
+        function(id) genHapIdAgcQuery(pds, h = id, pad = pad),
         FUN.VALUE = character(1)
     )
 

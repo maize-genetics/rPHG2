@@ -95,18 +95,18 @@ downloadJavaLibraries(phgLibDir)
 
 
 ## AGC retrieval and setup ----
-createMockCondaInstallation(
+rPHG2:::createMockCondaInstallation(
     baseDir      = file.path(phgLibDir, "mock_conda"),
     condaEnvName = "phgv2-conda",
     verbose      = TRUE
 )
-downloadAgcBinary(phgLibDir)
+rPHG2:::downloadAgcBinary(phgLibDir)
 file.copy(
     from = file.path(phgLibDir, "agc_bin", "agc"),
     to   = file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", "agc")
 )
 options("phgv2_agc_path" = file.path(phgLibDir, "agc_bin", "agc"))
-makeAgc(
+rPHG2:::makeAgc(
     fastas = list.files(
         path    = system.file("extdata", "fasta", package = "rPHG2"),
         pattern = "\\.fa$",
@@ -155,12 +155,12 @@ testthat::test_that("JVM init checker works", {
 
 ## Test AGC retrieval and setup ----
 testthat::test_that("AGC retrieval and setup works", {
-    expect_true(dir.exists(file.path(phgLibDir, "mock_conda")))
-    expect_true(dir.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda")))
-    expect_true(dir.exists(file.path(phgLibDir, "agc_bin")))
-    expect_true(file.exists(file.path(phgLibDir, "agc_bin", "agc")))
-    expect_true(file.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", "agc")))
-    expect_true(file.exists(file.path(phgLibDir, "assemblies.agc")))
+    testthat::expect_true(dir.exists(file.path(phgLibDir, "mock_conda")))
+    testthat::expect_true(dir.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda")))
+    testthat::expect_true(dir.exists(file.path(phgLibDir, "agc_bin")))
+    testthat::expect_true(file.exists(file.path(phgLibDir, "agc_bin", "agc")))
+    testthat::expect_true(file.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", "agc")))
+    testthat::expect_true(file.exists(file.path(phgLibDir, "assemblies.agc")))
 })
 
 
