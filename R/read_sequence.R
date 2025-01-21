@@ -35,10 +35,13 @@ readSequenceFromPds <- function(pds, rrId = NULL, hapId = NULL, pad = 0) {
     agcQuery <- paste(result, collapse = " ")
 
     return(
-        agcCore(
-            pds |> host() |> file.path("assemblies.agc"),
-            "getctg", agcQuery
-        ) |> rawFastaToBioString()
+        rawFastaToBioString(
+            agcCore(
+                file.path(host(pds), "assemblies.agc"),
+                "getctg",
+                agcQuery
+            )
+        )
     )
 }
 
