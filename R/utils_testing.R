@@ -79,7 +79,7 @@ downloadAgcBinary <- function(
 ) {
     # Pre-check platform → suffix mapping
     fileMap <- list(
-        "windows_x86_64" = "_x64_windows.zip",
+        "windows_x86-64" = "_x64_windows.zip",
         "linux_x86_64"   = "_x64_linux.tar.gz",
         "linux_aarch64"  = "_arm_linux.tar.gz",
         "darwin_arm64"   = "_m1_mac.tar.gz",
