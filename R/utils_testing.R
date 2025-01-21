@@ -79,16 +79,17 @@ downloadAgcBinary <- function(
 ) {
     # Pre-check platform → suffix mapping
     fileMap <- list(
-        "win_x86_64"    = "_x64_windows.zip",
-        "linux_x86_64"  = "_x64_linux.tar.gz",
-        "linux_aarch64" = "_arm_linux.tar.gz",
-        "darwin_arm64"  = "_m1_mac.tar.gz",
-        "darwin_x86_64" = "_x64_mac.tar.gz"
+        "windows_x86_64" = "_x64_windows.zip",
+        "linux_x86_64"   = "_x64_linux.tar.gz",
+        "linux_aarch64"  = "_arm_linux.tar.gz",
+        "darwin_arm64"   = "_m1_mac.tar.gz",
+        "darwin_x86_64"  = "_x64_mac.tar.gz"
     )
     osCpu  <- paste(osName, machine, sep = "_")
     suffix <- fileMap[[osCpu]]
     if (is.null(suffix)) {
-        rlang::abort("Unsupported chip architecture for this OS: ", osCpu)
+        errMsg <- paste("Unsupported chip architecture for this OS:", osCpu)
+        rlang::abort(errMsg)
     }
 
     # Normalize the destination directory
