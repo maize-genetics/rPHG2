@@ -97,12 +97,6 @@ buildHaplotypeGraph <- function(
         rlang::abort("phgLocalCon object is not of type PHGLocalCon")
     }
 
-    # if (!is.na(host(phgLocalCon))) {
-    #     rlang::abort("TileDB retrieval methods currently not implemented")
-    # } else {
-    #     jvmGraph <- hapGraphConstructor(hVcfFiles(phgLocalCon))
-    # }
-
     jvmGraph <- hapGraphConstructor(hVcfFiles(phgLocalCon))
 
     pointer <- gsub(".*@", "", rJava::.jstrVal(jvmGraph))
