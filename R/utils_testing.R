@@ -169,13 +169,11 @@ makeAgc <- function(fastas, agcId) {
     # Build arguments for system2
     agcArgs <- c(
         "create",
-        paste(fastas, collapse = " "),
-        ">",
-        agcId
+        paste(fastas, collapse = " ")
     )
 
     # Run the AGC command
-    system2(agcBinPath, agcArgs)
+    system2(agcBinPath, agcArgs, stdout = agcId)
 }
 
 

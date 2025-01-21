@@ -101,11 +101,16 @@ rPHG2:::createMockCondaInstallation(
     verbose      = TRUE
 )
 rPHG2:::downloadAgcBinary(phgLibDir)
-file.copy(
-    from = file.path(phgLibDir, "agc_bin", "agc"),
-    to   = file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", "agc")
+agcBinId <- ifelse(
+    test = tolower(Sys.info()[["sysname"]]) == "windows",
+    yes  = "agc.exe",
+    no   = "agc"
 )
-options("phgv2_agc_path" = file.path(phgLibDir, "agc_bin", "agc"))
+file.copy(
+    from = file.path(phgLibDir, "agc_bin", agcBinId),
+    to   = file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", agcBinId)
+)
+options("phgv2_agc_path" = file.path(phgLibDir, "agc_bin", agcBinId))
 rPHG2:::makeAgc(
     fastas = list.files(
         path    = system.file("extdata", "fasta", package = "rPHG2"),
@@ -116,7 +121,7 @@ rPHG2:::makeAgc(
 )
 options("phgv2_agc_path" = NULL)
 agcCondaPath   <- file.path(phgLibDir, "mock_conda")
-agcVanillaPath <- file.path(phgLibDir, "agc_bin", "agc")
+agcVanillaPath <- file.path(phgLibDir, "agc_bin", agcBinId)
 agcFilePath    <- file.path(phgLibDir, "assemblies.agc")
 
 
@@ -158,8 +163,8 @@ testthat::test_that("AGC retrieval and setup works", {
     testthat::expect_true(dir.exists(file.path(phgLibDir, "mock_conda")))
     testthat::expect_true(dir.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda")))
     testthat::expect_true(dir.exists(file.path(phgLibDir, "agc_bin")))
-    testthat::expect_true(file.exists(file.path(phgLibDir, "agc_bin", "agc")))
-    testthat::expect_true(file.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", "agc")))
+    testthat::expect_true(file.exists(file.path(phgLibDir, "agc_bin", agcBinId)))
+    testthat::expect_true(file.exists(file.path(phgLibDir, "mock_conda", "envs", "phgv2-conda", "bin", agcBinId)))
     testthat::expect_true(file.exists(file.path(phgLibDir, "assemblies.agc")))
 })
 

@@ -235,6 +235,10 @@ validateBinary <- function(condaPath, envName = "phgv2-conda", bin = "agc") {
 
     validateCondaEnv(condaPath, envName)
 
+    if (tolower(Sys.info()[["sysname"]]) == "windows") {
+        bin <- paste0(bin, ".exe")
+    }
+
     if (!file.exists(file.path(condaPath, "envs", envName, "bin", bin))) {
         rlang::abort(paste0("Binary '", bin, "' does not exist in Conda environment: ", envName))
     }
