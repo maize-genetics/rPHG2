@@ -5,7 +5,18 @@
   + Now returns "warning" message instead of low-level `stop()` procedure
 * Modified the `PHGLocalCon()` constructor to now take in either files or a
   directory path
+  + Future plans for integrating TileDB and this release's AGC interface
 * Fixed plotting bug in `plotHaploCounts()` `geom` parameter
+* Added new `read*` function, `readSequence()`
+  + Returns memory-efficient sequence data from an AGC instance as a 
+    `Biostrings::DNAString` object
+  + Can return singlular haplotype sequences or entire reference
+    ranges of sequence data
+  + Allows for upstream and downstream padding via the `pad` parameter
+  + This function suite also provides methods of linking a PHGv2
+    Conda environment to your global R options via the `linkCondaBin()`
+    function
+
 
 
 ## rPHG2 0.7
