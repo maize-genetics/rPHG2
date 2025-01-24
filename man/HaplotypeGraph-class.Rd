@@ -27,9 +27,11 @@ class to the console
 
 \item{\code{nSamples}}{Number of samples}
 
-\item{\code{jHapGraph}}{An \code{rJava} \code{jobjRef} object representing a
-\code{HaplotypeGraph} class in the PHG API}
+\item{\code{jHapGraph}}{An \code{rJava} \code{jobjRef} object representing a \code{HaplotypeGraph}
+class in the PHG API}
 
 \item{\code{jMemAddress}}{An identifier string to the JVM memory space}
+
+\item{\code{dbUri}}{A character representation of the PHGv2 DB instance}
 }}
 

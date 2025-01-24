@@ -4,12 +4,15 @@
 \alias{PHGLocalCon}
 \title{Helper function to construct a \code{PHGLocalCon} object}
 \usage{
-PHGLocalCon(hVcfFiles)
+PHGLocalCon(hVcfFiles = NULL, dbUri = NULL)
 }
 \arguments{
 \item{hVcfFiles}{A path to a directory or file containing valid \href{https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md}{hVCF}
 files (ending in either \code{.h.vcf} or \code{.h.vcf.gz}) as a
 \code{character} vector}
+
+\item{dbUri}{A path to a PHGv2 database containing hVCF and gVCF TileDB instances and
+the compressed genome sequence file (i.e., \code{assemblies.agc})}
 }
 \description{
 Creates a \code{\linkS4class{PHGLocalCon}} object to be used to read PHG

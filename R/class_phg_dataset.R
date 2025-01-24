@@ -23,6 +23,8 @@
 #' A `tibble` object containing metadata associated with haplotype identifiers.
 #' @slot hapIdMetaPos
 #' A `tibble` object containing positional metadata for haplotype identifiers.
+#' @slot dbUri
+#' A character representation of the PHGv2 DB instance
 #'
 #'
 #' @name PHGDataSet-class
@@ -35,14 +37,16 @@ setClass(
         refRanges    = "GRanges",
         hapIds       = "matrix",
         hapIdMeta    = "tbl_df",
-        hapIdMetaPos = "tbl_df"
+        hapIdMetaPos = "tbl_df",
+        dbUri        = "character"
     ),
     prototype = list(
         samples      = character(),
         refRanges    = GenomicRanges::GRanges(),
         hapIds       = matrix(character()),
         hapIdMeta    = tibble::tibble(),
-        hapIdMetaPos = tibble::tibble()
+        hapIdMetaPos = tibble::tibble(),
+        dbUri        = NA_character_
     )
 )
 
@@ -53,13 +57,21 @@ setClass(
 #' @description
 #' \code{PHGDataSet} is the primary container for housing hVCF data.
 #'
-#' @param samples Sample IDs
-#' @param refRanges What type of PHG connection is this?
-#' @param hapIds Haplotype sequence IDs
-#' @param hapIdMeta Metadata for haplotype IDs
-#' @param hapIdMetaPos Positional metadata for haplotype IDs
+#' @param samples
+#' Sample IDs
+#' @param refRanges
+#' What type of PHG connection is this?
+#' @param hapIds
+#' Haplotype sequence IDs
+#' @param hapIdMeta
+#' Metadata for haplotype IDs
+#' @param hapIdMetaPos
+#' Positional metadata for haplotype IDs
+#' @param dbUri
+#' PHGv2 DB path
 #'
-#' @return A \code{PHGDataSet} object.
+#' @return
+#' A \code{PHGDataSet} object.
 #'
 #' @export
 PHGDataSet <- function(
@@ -67,7 +79,8 @@ PHGDataSet <- function(
         hapIds,
         refRanges,
         hapIdMeta,
-        hapIdMetaPos
+        hapIdMetaPos,
+        dbUri
 ) {
     methods::new(
         Class        = "PHGDataSet",
@@ -75,7 +88,8 @@ PHGDataSet <- function(
         hapIds       = hapIds,
         refRanges    = refRanges,
         hapIdMeta    = hapIdMeta,
-        hapIdMetaPos = hapIdMetaPos
+        hapIdMetaPos = hapIdMetaPos,
+        dbUri        = dbUri
     )
 }
 
@@ -144,6 +158,18 @@ setMethod(
     signature = signature(object = "PHGDataSet"),
     definition = function(object, sampleIds) {
         filterSamplesFromPhgDataSet(object, sampleIds)
+    }
+)
+
+
+## ----
+#' @rdname host
+#' @export
+setMethod(
+    f = "host",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object) {
+        object@dbUri
     }
 )
 
@@ -251,7 +277,8 @@ setMethod(
 #' \code{ggplot2} for visualization, and different geometries can be selected
 #' via the \code{geom} parameter.
 #'
-#' @return A \code{ggplot} object visualizing the haplotype counts. When
+#' @return
+#' A \code{ggplot} object visualizing the haplotype counts. When
 #' \code{gr} is \code{NULL}, the plot shows the number of unique haplotypes
 #' across reference positions. When \code{gr} is provided, the plot is filtered
 #' to display haplotype counts within the specified range.
@@ -353,6 +380,50 @@ setMethod(
     signature = signature(object = "PHGDataSet"),
     definition = function(object) {
         return(object@hapIdMetaPos)
+    }
+)
+
+
+## ----
+#' @description
+#' This S4 method reads sequence data from a `PHGDataSet` object.
+#' It is linked to the `AGC` CLI program for sequence retrieval.
+#' The method takes optional parameters to specify read range IDs
+#' or haplotype IDs, and an optional `pad` value.
+#'
+#' @param object
+#' A `PHGDataSet` object.
+#' @param rrId
+#' An reference range ID. Defaults to `NULL`. If specified, this will return
+#' all haplotype sequences for each sample in a given reference range.
+#' @param hapId
+#' A haplotype ID. Defaults to `NULL`.
+#' @param pad
+#' An integer value for padding around the sequence region. Defaults to `0`.
+#'
+#' @details
+#' This method calls \code{readSequenceFromPds()} to retrieve the
+#' sequence data. Additional arguments may be used to refine
+#' the range.
+#'
+#' @return Returns sequence data corresponding to the specified
+#'   parameters.
+#'
+#' @examples
+#' \dontrun{
+#' myPds <- PHGDataSet()
+#' readSequence(myPds, rrId = 1, hapId = "hapA", pad = 100)
+#' }
+#'
+#' @rdname readSequence
+#' @docType methods
+#' @aliases readSequence,PHGDataSet-method
+#' @export
+setMethod(
+    f = "readSequence",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, rrId = NULL, hapId = NULL, pad = 0) {
+        return(readSequenceFromPds(object, rrId, hapId, pad))
     }
 )
 

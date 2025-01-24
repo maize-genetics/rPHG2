@@ -1,6 +1,6 @@
 Package: rPHG2
 Title: R interface to PHGv2
-Version: 0.7.1
+Version: 0.8.0
 Authors@R:
     person(
         given = "Brandon",
@@ -29,6 +29,7 @@ RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.1.0)
 Imports:
+    Biostrings,
     cli,
     curl,
     GenomicRanges,

@@ -15,10 +15,11 @@ custHapTheme <- function() {
 ## ----
 # Helper function to construct the geometry based on the 'geom' parameter
 selectGeom <- function(geom) {
-    switch(geom,
-           "l" = ggplot2::geom_line(ggplot2::aes(group = 1)),
-           "b" = ggplot2::geom_bar(stat = "identity"),
-           "p" = ggplot2::geom_point()
+    switch(
+        EXPR = geom,
+        "l"  = ggplot2::geom_line(ggplot2::aes(group = 1)),
+        "b"  = ggplot2::geom_bar(stat = "identity"),
+        "p"  = ggplot2::geom_point()
     )
 }
 
@@ -78,7 +79,7 @@ plotHaploFromPhgDataSet <- function(object, gr = NULL, geom = "l") {
                     y = !!rlang::sym("n_haplo"),
                     alpha = 0.01
                 ) +
-                selectGeom("p") +
+                selectGeom(geom) +
                 ggplot2::scale_y_continuous(
                     breaks = seq_len(max(nHaplo$n_haplo)),
                     limits = c(1, max(nHaplo$n_haplo))

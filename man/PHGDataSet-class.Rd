@@ -38,5 +38,7 @@ genomic ranges.}
 \item{\code{hapIdMeta}}{A \code{tibble} object containing metadata associated with haplotype identifiers.}
 
 \item{\code{hapIdMetaPos}}{A \code{tibble} object containing positional metadata for haplotype identifiers.}
+
+\item{\code{dbUri}}{A character representation of the PHGv2 DB instance}
 }}
 
