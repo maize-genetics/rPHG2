@@ -40,6 +40,7 @@
 <url><loc>https://rphg2.maizegenetics.net/reference/javaVersion.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/jvmMemStats.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/jvmStats.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/linkCondaBin.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsIds.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsMetaData.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/metricsTable.html</loc></url>
@@ -61,6 +62,7 @@
 <url><loc>https://rphg2.maizegenetics.net/reference/readPhgDataSet.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/readRefRanges.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/readSamples.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/readSequence.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/seqnames-PHGMetrics-method.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/seqnames-set-PHGMetrics-method.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/serverInfo.html</loc></url>

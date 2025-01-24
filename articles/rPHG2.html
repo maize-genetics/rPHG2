@@ -11,8 +11,8 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Barlow-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Roboto_Mono-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Oswald-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Introduction to rPHG2">
 <meta name="description" content="Learn how to get started with the basics of rPHG2.
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -223,7 +223,7 @@ input:</p>
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="va">localCon</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">graph</span></span></code></pre></div>
-<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">16c069df</span></span></span>
+<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">2e32ccc5</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of chromosomes...: <span style="font-weight: bold;">2</span></span></span></code></pre>
@@ -233,7 +233,7 @@ class that contains a pointer object where we can direct data from Java
 to R:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/javaRefObj.html">javaRefObj</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@16c069df}"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@2e32ccc5}"</span></span></code></pre>
 <div class="section level3">
 <h3 id="returning-version-and-memory-values">Returning version and memory values<a class="anchor" aria-label="anchor" href="#returning-version-and-memory-values"></a>
 </h3>
@@ -247,15 +247,15 @@ a instance of a <code>JvmStats</code> object.</p>
 <span></span>
 <span><span class="va">javaStats</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="font-weight: bold;">General Stats:</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of JARs......: <span style="font-weight: bold;">227</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Java version...: <span style="font-weight: bold;">17.0.12</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> PHG version....: <span style="font-weight: bold;">2.4.16.171</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of JARs......: <span style="font-weight: bold;">228</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> Java version...: <span style="font-weight: bold;">17.0.13</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> PHG version....: <span style="font-weight: bold;">2.4.39.194</span></span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="font-weight: bold;">Memory Stats (GB):</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> Max............: <span style="font-weight: bold;">0.5</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> Total..........: <span style="font-weight: bold;">0.246</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Free...........: <span style="font-weight: bold;">0.227</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Allocated......: <span style="font-weight: bold;">0.019</span></span></span></code></pre>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> Free...........: <span style="font-weight: bold;">0.223</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> Allocated......: <span style="font-weight: bold;">0.023</span></span></span></code></pre>
 <p>This object contains several values:</p>
 <ul>
 <li>Total number of PHGv2 JAR files added to the class path</li>
@@ -628,6 +628,206 @@ across the genome, we can us the function
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotHaploDist.html">plotHaploDist</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="rPHG2_files/figure-html/unnamed-chunk-28-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="returning-sequence-data">Returning sequence data<a class="anchor" aria-label="anchor" href="#returning-sequence-data"></a>
+</h2>
+<p>We can also return haplotype sequence information via the
+<code><a href="../reference/readSequence.html">readSequence()</a></code> command with PHG data sets (i.e.,
+<code>PHGDataSet</code> objects) pointed to <a href="https://phg.maizegenetics.net/build_and_load/#compress-fasta-files" class="external-link">PHGv2
+databases containing compressed assemblies information</a>.</p>
+<p>In order to perform sequence retrieval, we must perform a couple of
+steps:</p>
+<ol style="list-style-type: decimal">
+<li>Add <code>host</code> information to a <code>PHGLocalCon</code>
+object</li>
+<li>Add an AGC path to the global options (i.e., the
+<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> function)</li>
+</ol>
+<div class="section level3">
+<h3 id="setup---add-host-information">Setup - add host information<a class="anchor" aria-label="anchor" href="#setup---add-host-information"></a>
+</h3>
+<p>For <strong>step 1</strong>, during the the construction of a
+<code>PHGLocalCon</code> object using the <code><a href="../reference/PHGLocalCon.html">PHGLocalCon()</a></code>
+function, add the path to a <a href="https://phg.maizegenetics.net/build_and_load/#initialize-tiledb-instances" class="external-link">PHGv2
+database</a> containing a compressed sequence file:</p>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dbPath</span> <span class="op">&lt;-</span> <span class="st">"/my/phgv2/db_path/"</span></span>
+<span></span>
+<span><span class="co"># using 'hVcfFiles' variable from earlier steps</span></span>
+<span><span class="va">localCon</span> <span class="op">&lt;-</span> <span class="va">hVcfFiles</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/PHGLocalCon.html">PHGLocalCon</a></span><span class="op">(</span>dbUri <span class="op">=</span> <span class="va">dbPath</span><span class="op">)</span></span></code></pre></div>
+<p>If you are unsure what this path is, it should be the directory that
+was created during the PHGv2 building and loading steps and contains
+files and sub-directories that looks like the following:</p>
+<pre><code>phg_v2_example/
+├── data
+│   ├── anchors.gff
+│   ├── annotation_keyfile.txt
+│   ├── Ref-v5.fa
+│   ├── LineA-final-01.fa
+│   └── LineB-final-04.fa
+├── output
+│   └── updated_assemblies
+│       ├── Ref.fa
+│       ├── LineA.fa
+│       └── LineB.fa
+└── vcf_dbs
+    ├── assemblies.agc *
+    ├── gvcf_dataset/
+    ├── hvcf_dataset/
+    └── temp/</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In order for this to work, this directory/database
+<strong>must</strong> contain a compressed sequence file. By default,
+this file will be called <code>assemblies.agc</code>. This is a
+compressed file generated by the <a href="https://github.com/refresh-bio/agc" class="external-link">Assembled Genomes
+Compressor</a>.</p>
+</blockquote>
+</div>
+<div class="section level3">
+<h3 id="setup---add-agc-path">Setup - add AGC path<a class="anchor" aria-label="anchor" href="#setup---add-agc-path"></a>
+</h3>
+<p>For <strong>step 2</strong>, we must also have a working AGC
+application for our operating system and environment. This can be
+established in a couple of ways:</p>
+<div class="section level4">
+<h4 id="option-1---conda">Option 1 - Conda<a class="anchor" aria-label="anchor" href="#option-1---conda"></a>
+</h4>
+<p>If you went through the steps of setting up a PHG database on your
+working machine, we can <em>assume</em> that you have:</p>
+<ul>
+<li>A working <a href="https://anaconda.org/anaconda/conda" class="external-link">Conda</a>
+installation</li>
+<li>A working PHGv2 Conda environment. This by <a href="https://phg.maizegenetics.net/build_and_load/#set-up-conda-environment" class="external-link">default</a>
+will be called <code>phgv2-conda</code>.</li>
+</ul>
+<p>If this is the case, you will, by default, have AGC already set up on
+your machine since this is a necessary application for several crucial
+PHGv2 steps. You can verify AGC is present in your PHGv2 environment by
+running the following command within a terminal:</p>
+<pre><code>conda run -n phgv2-conda agc</code></pre>
+<p>If present, this will output a series of commands used by the
+<code>agc</code> program. For example:</p>
+<pre><code>$ conda run -n phgv2-conda agc
+
+AGC (Assembled Genomes Compressor) v. 3.1.0 [build 20240312.1]
+Usage: agc &lt;command&gt; [options]
+Command:
+   create   - create archive from FASTA files
+   append   - add FASTA files to existing archive
+   getcol   - extract all samples from archive
+   getset   - extract sample from archive
+   getctg   - extract contig from archive
+   listref  - list reference sample name in archive
+   listset  - list sample names in archive
+   listctg  - list sample and contig names in archive
+   info     - show some statistics of the compressed data
+Note: run agc &lt;command&gt; to see command-specific options</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>If you have changed the name of your environment, the value given
+with the <code>-n</code> flag will have to change!</p>
+</blockquote>
+<p>If your machine matches the prior criteria, you may use the rPHG2
+function <code><a href="../reference/linkCondaBin.html">linkCondaBin()</a></code> to <em>link</em> your Conda
+environment’s AGC application path to R’s global options:</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/linkCondaBin.html">linkCondaBin</a></span><span class="op">(</span>condaPath <span class="op">=</span> <span class="st">"/path/to/my/conda/installation"</span><span class="op">)</span></span></code></pre></div>
+<p>This function will assume your environment name is called
+<code>phgv2-conda</code>. If you have a different, you can add the
+modified id to the <code>envName</code> parameter.</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/linkCondaBin.html">linkCondaBin</a></span><span class="op">(</span></span>
+<span>    condaPath <span class="op">=</span> <span class="st">"/path/to/my/conda/installation"</span>,</span>
+<span>    envName   <span class="op">=</span> <span class="st">"phgv2-sorghum"</span> <span class="co"># example Conda environment name</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="option-2---manual-agc-path">Option 2 - manual AGC path<a class="anchor" aria-label="anchor" href="#option-2---manual-agc-path"></a>
+</h4>
+<p>If you do not have Conda installed or no PHGv2 instance,
+<strong>but</strong> have AGC <a href="https://github.com/refresh-bio/agc/releases" class="external-link">installed on your
+machine</a>, you can manually set the path using R’s
+<code>option()</code> function. In order for rPHG2 to correctly identify
+the correct path, you must make a new key in the global options called
+<code>phgv2_agc_path</code>:</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"phgv2_agc_path"</span> <span class="op">=</span> <span class="st">"/path/to/my/agc/application/bin/agc"</span><span class="op">)</span></span></code></pre></div>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>This must be the path to the AGC binary (i.e., the file named
+<code>agc</code>) found in the release.</p>
+</blockquote>
+</div>
+</div>
+<div class="section level3">
+<h3 id="setup---build-phgdataset-object">Setup - build <code>PHGDataset</code> object<a class="anchor" aria-label="anchor" href="#setup---build-phgdataset-object"></a>
+</h3>
+<p>Now that all prerequisites are completed, we can finish building the
+<code>PHGDataSet</code> object using conventional rPHG2 syntax:</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">&lt;-</span> <span class="va">localCon</span></span>
+<span>    <span class="fu"><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/readPhgDataSet.html">readPhgDataSet</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span></span></code></pre></div>
+<pre><code><span><span class="co">## A <span style="font-weight: bold;">PHGDataSet</span> object</span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of hap IDs.......: <span style="font-weight: bold;">76</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of asm regions...: <span style="font-weight: bold;">76</span></span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="using-readsequence">Using <code>readSequence()</code><a class="anchor" aria-label="anchor" href="#using-readsequence"></a>
+</h3>
+<p>Now that we have our <code>PHGDataSet</code> object created, we can
+return specific sequence information relating to an individual haplotype
+or a collection of haplotypes using a haplotype or reference range
+identifier, respectively. Similar to other syntax, we can simply pipe
+our <code>PHGDataSet</code> object into the <code><a href="../reference/readSequence.html">readSequence()</a></code>
+method.</p>
+<p>For starters, I will return a single haplotype sequence using the
+<code>hapId</code> parameter:</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Return first haplotype ID in matrix (example)</span></span>
+<span><span class="va">hapId</span> <span class="op">&lt;-</span> <span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readHapIds.html">readHapIds</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="va">_</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readSequence.html">readSequence</a></span><span class="op">(</span>hapId <span class="op">=</span> <span class="va">hapId</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## DNAStringSet object of length 1:</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]  1000 <span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GGGG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #AFFFAF;">CCC</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span>...<span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">GGG</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span> 1 sampleName=Line...</span></span></code></pre>
+<p>The data object that is returned from <code>readsequence()</code> is
+a <code>dnastringset</code> object which is from the <a href="https://bioconductor.org/packages/release/bioc/html/biostrings.html" class="external-link"><code>Biostrings</code>
+package</a> found on bioconductor. you can think of this object a list
+of <code>dnastringset</code> objects which are memory-efficient
+representations of biological sequences (e.g., dna). this will allow
+users the ability to access all <code>Biostrings</code>-related methods
+for objects of type <code>dnastring</code>. For more information about
+how to use these objects, take a look at the <a href="https://bioconductor.org/packages/release/bioc/vignettes/Biostrings/inst/doc/BiostringsQuickOverview.pdf" class="external-link">“Quick
+Overview” documentation</a> found in the <code>Biostrings</code>
+package.</p>
+<p>If we are interested in returning haplotype sequence data from an
+entire reference range, we can specify a reference range ID using the
+<code>rrId</code> parameter. This identifier will be a
+<code>character</code> object containing the following pattern:</p>
+<pre><code>&lt;chromosome_id&gt;:&lt;start_bp&gt;-&lt;end_bp&gt;</code></pre>
+<p>For example, this identifier will look like the following “first”
+reference range found in our example hVCF data:</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Return first reference range in matrix (example)</span></span>
+<span><span class="va">rrId</span> <span class="op">&lt;-</span> <span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readHapIds.html">readHapIds</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="va">_</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">rrId</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "1:1-1000"</span></span></code></pre>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/readSequence.html">readSequence</a></span><span class="op">(</span>rrId <span class="op">=</span> <span class="va">rrId</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## DNAStringSet object of length 2:</span></span>
+<span><span class="co">##     width seq                                               names               </span></span>
+<span><span class="co">## [1]  1000 <span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GGGG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #AFFFAF;">CCC</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span>...<span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">GGG</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span> 1 sampleName=Line...</span></span>
+<span><span class="co">## [2]  1000 <span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GGGG</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFD7AF;">T</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">AAA</span><span style="color: #000000; background-color: #AFFFAF;">CCC</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span>...<span style="color: #000000; background-color: #AFFFAF;">CC</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">G</span><span style="color: #000000; background-color: #FFAFAF;">A</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #FFD7AF;">T</span><span style="color: #000000; background-color: #FFAFAF;">AA</span><span style="color: #000000; background-color: #AFFFAF;">C</span><span style="color: #000000; background-color: #AFFFFF;">GG</span><span style="color: #000000; background-color: #AFFFAF;">C</span> 1 sampleName=Line...</span></span></code></pre>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
