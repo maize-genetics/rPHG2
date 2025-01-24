@@ -1,3 +1,16 @@
+## rPHG2 0.9
+
+### Todos
+[ ] Sanitize hVCF inputs for `PHGLocalCon` construction
+[ ] Sanitize edge-case sequence retrieval
+[ ] Enhance AGC identification
+[ ] Add `GRanges` for ref range filtering
+[ ] Create initial methods for connecting to TileDB interface
+[ ] Connect filter commands for TileDB
+[ ] **End-goal**: TileDB to `PHGDataSet` object
+
+
+
 ## rPHG2 0.8
 * Fixed missing IDs returned in `readHapIds()` method calls:
   + missing values (i.e., `"null"`) now return as `NA`s in the matrix object

@@ -1,6 +1,6 @@
 Package: rPHG2
 Title: R interface to PHGv2
-Version: 0.8.0
+Version: 0.8.1
 Authors@R:
     person(
         given = "Brandon",
@@ -45,6 +45,7 @@ Imports:
     S4Vectors,
     scales,
     tibble,
+    tiledb,
     tools,
     utils
 VignetteBuilder: knitr
