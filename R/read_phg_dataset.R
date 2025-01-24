@@ -3,11 +3,13 @@
 #
 # @param jvmGraph A JVM graph object
 phgDataSetFromJvmGraph <- function(jvmGraph, nThreads) {
-    samples          <- samplesFromJvmGraph(jvmGraph)
-    refRanges        <- refRangesFromJvmGraph(jvmGraph)
-    hapIds           <- hapIdsFromJvmGraph(jvmGraph, nThreads)
-    hapIdMetaData    <- hapIdMetaDataFromJvmGraph(jvmGraph)
-    hapIdPosMetaData <- hapIdPosMetaDataFromJvmGraph(jvmGraph)
+    jobjRef <- javaRefObj(jvmGraph)
+
+    samples          <- samplesFromJvmGraph(jobjRef)
+    refRanges        <- refRangesFromJvmGraph(jobjRef)
+    hapIds           <- hapIdsFromJvmGraph(jobjRef, nThreads)
+    hapIdMetaData    <- hapIdMetaDataFromJvmGraph(jobjRef)
+    hapIdPosMetaData <- hapIdPosMetaDataFromJvmGraph(jobjRef)
 
     return(
         PHGDataSet(
@@ -15,7 +17,8 @@ phgDataSetFromJvmGraph <- function(jvmGraph, nThreads) {
             refRanges    = refRanges,
             hapIds       = hapIds,
             hapIdMeta    = hapIdMetaData,
-            hapIdMetaPos = hapIdPosMetaData
+            hapIdMetaPos = hapIdPosMetaData,
+            dbUri        = host(jvmGraph)
         )
     )
 }

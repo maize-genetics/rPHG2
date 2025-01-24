@@ -15,11 +15,6 @@ test_that("HaplotypeGraph class construction tests", {
         regexp = "phgLocalCon object is not of type PHGLocalCon"
     )
 
-    locConBad <- locCon
-    locConBad@host <- "1"
-
-    expect_error(buildHaplotypeGraph(locConBad))
-
     graph <- buildHaplotypeGraph(locCon)
     locConOutput <- utils::capture.output(graph)
 

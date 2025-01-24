@@ -57,12 +57,16 @@ setValidity("PHGLocalCon", function(object) {
 #' A path to a directory or file containing valid \href{https://github.com/maize-genetics/phg_v2/blob/main/docs/hvcf_specifications.md}{hVCF}
 #' files (ending in either \code{.h.vcf} or \code{.h.vcf.gz}) as a
 #' \code{character} vector
+#' @param dbUri
+#' A path to a PHGv2 database containing hVCF and gVCF TileDB instances and
+#' the compressed genome sequence file (i.e., \code{assemblies.agc})
 #'
 #' @export
-PHGLocalCon <- function(hVcfFiles) {
+PHGLocalCon <- function(hVcfFiles = NULL, dbUri = NULL) {
     # TODO - This is probably overkill right now, but will revisit once the TileDB
     #        C API is better integrated in PHGv2...
 
+    ## hVCF file path checking
     # Initial type checking
     if (!is.vector(hVcfFiles) || !is.character(hVcfFiles)) {
         rlang::abort("Input is not a valid 'character' vector")
@@ -90,10 +94,35 @@ PHGLocalCon <- function(hVcfFiles) {
         rlang::abort("The input path is neither a valid directory nor a valid file")
     }
 
+    ## DB URI checking
+    if (is.null(dbUri)) {
+        dbUri <- NA_character_
+    } else {
+        if (!dir.exists(dbUri)) {
+            rlang::abort("DB path does not exist")
+        } else {
+            tdbGvcf <- file.path(dbUri, "gvcf_dataset")
+            tdbHvcf <- file.path(dbUri, "hvcf_dataset")
+            agcPath <- file.path(dbUri, "assemblies.agc")
+
+            if (!any(dir.exists(c(tdbGvcf, tdbHvcf)))) {
+                rlang::abort("PHGv2 DB is missing hVCF and gVCF DB directories")
+            }
+
+            if (!file.exists(agcPath)) {
+                rlang::abort("PHGv2 DB is missing 'assemlbies.agc' file")
+            }
+        }
+    }
+
+    if (!is.na(dbUri)) {
+        dbUri <- normalizePath(dbUri)
+    }
+
     methods::new(
         Class     = "PHGLocalCon",
         phgType   = "local",
-        host      = NA_character_, # making this NA for now
+        host      = dbUri, # making this NA for now
         hVcfFiles = normalizePath(procFiles)
     )
 }

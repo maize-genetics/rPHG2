@@ -30,7 +30,8 @@ filterRefRangesFromPhgDataSet <- function(object, gRanges) {
             hapIds       = fHapIds,
             refRanges    = fRefRanges,
             hapIdMeta    = hapIdMeta[hapIdMeta$hap_id %in% fHapIds, ],
-            hapIdMetaPos = hapIdPosMeta[hapIdPosMeta$hap_id %in% fHapIds, ]
+            hapIdMetaPos = hapIdPosMeta[hapIdPosMeta$hap_id %in% fHapIds, ],
+            dbUri        = host(object)
         )
     )
 }

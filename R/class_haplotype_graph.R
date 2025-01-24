@@ -5,12 +5,19 @@
 #' Class \code{HaplotypeGraph} defines a \code{rPHG} Class for storing
 #' a \code{HaplotypeGraph} object defined in the PHG API
 #'
-#' @slot nChrom Number of chromosomes
-#' @slot nRefRanges Number of reference ranges
-#' @slot nSamples Number of samples
-#' @slot jHapGraph An \code{rJava} \code{jobjRef} object representing a
-#'    \code{HaplotypeGraph} class in the PHG API
-#' @slot jMemAddress An identifier string to the JVM memory space
+#' @slot nChrom
+#' Number of chromosomes
+#' @slot nRefRanges
+#' Number of reference ranges
+#' @slot nSamples
+#' Number of samples
+#' @slot jHapGraph
+#' An \code{rJava} \code{jobjRef} object representing a \code{HaplotypeGraph}
+#' class in the PHG API
+#' @slot jMemAddress
+#' An identifier string to the JVM memory space
+#' @slot dbUri
+#' A character representation of the PHGv2 DB instance
 #'
 #' @name HaplotypeGraph-class
 #' @rdname HaplotypeGraph-class
@@ -22,14 +29,16 @@ setClass(
         nRefRanges  = "integer",
         nSamples    = "integer",
         jHapGraph   = "jobjRef",
-        jMemAddress = "character"
+        jMemAddress = "character",
+        dbUri       = "character"
     ),
     prototype = list(
         nChrom      = NA_integer_,
         nRefRanges  = NA_integer_,
         nSamples    = NA_integer_,
         jHapGraph   = rJava::.jnull(),
-        jMemAddress = NA_character_
+        jMemAddress = NA_character_,
+        dbUri       = NA_character_
     )
 )
 
@@ -88,11 +97,7 @@ buildHaplotypeGraph <- function(
         rlang::abort("phgLocalCon object is not of type PHGLocalCon")
     }
 
-    if (!is.na(host(phgLocalCon))) {
-        rlang::abort("TileDB retrieval methods currently not implemented")
-    } else {
-        jvmGraph <- hapGraphConstructor(hVcfFiles(phgLocalCon))
-    }
+    jvmGraph <- hapGraphConstructor(hVcfFiles(phgLocalCon))
 
     pointer <- gsub(".*@", "", rJava::.jstrVal(jvmGraph))
 
@@ -102,7 +107,8 @@ buildHaplotypeGraph <- function(
         nRefRanges  = jvmGraph$numberOfRanges(),
         nSamples    = jvmGraph$numberOfSamples(),
         jHapGraph   = jvmGraph,
-        jMemAddress = pointer
+        jMemAddress = pointer,
+        dbUri       = host(phgLocalCon)
     )
 }
 
@@ -145,6 +151,18 @@ setMethod(
 
 
 # /// Methods (general) /////////////////////////////////////////////
+
+## ----
+#' @rdname host
+#' @export
+setMethod(
+    f = "host",
+    signature = signature(object = "HaplotypeGraph"),
+    definition = function(object) {
+        return(object@dbUri)
+    }
+)
+
 
 ## ----
 #' @rdname javaMemoryAddress
@@ -255,7 +273,7 @@ setMethod(
     f = "readPhgDataSet",
     signature = signature(object = "HaplotypeGraph"),
     definition = function(object, nThreads = 2) {
-        return(phgDataSetFromJvmGraph(javaRefObj(object), nThreads))
+        return(phgDataSetFromJvmGraph(object, nThreads))
     }
 )
 

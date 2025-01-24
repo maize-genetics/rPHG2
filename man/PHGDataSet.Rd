@@ -4,7 +4,7 @@
 \alias{PHGDataSet}
 \title{PHGDataSet object constructor}
 \usage{
-PHGDataSet(samples, hapIds, refRanges, hapIdMeta, hapIdMetaPos)
+PHGDataSet(samples, hapIds, refRanges, hapIdMeta, hapIdMetaPos, dbUri)
 }
 \arguments{
 \item{samples}{Sample IDs}
@@ -16,6 +16,8 @@ PHGDataSet(samples, hapIds, refRanges, hapIdMeta, hapIdMetaPos)
 \item{hapIdMeta}{Metadata for haplotype IDs}
 
 \item{hapIdMetaPos}{Positional metadata for haplotype IDs}
+
+\item{dbUri}{PHGv2 DB path}
 }
 \value{
 A \code{PHGDataSet} object.
