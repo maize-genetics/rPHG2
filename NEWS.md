@@ -1,13 +1,13 @@
 ## rPHG2 0.9
 
 ### Todos
-[ ] Sanitize hVCF inputs for `PHGLocalCon` construction
-[ ] Sanitize edge-case sequence retrieval
-[ ] Enhance AGC identification
-[ ] Add `GRanges` for ref range filtering
-[ ] Create initial methods for connecting to TileDB interface
-[ ] Connect filter commands for TileDB
-[ ] **End-goal**: TileDB to `PHGDataSet` object
+- [ ] Sanitize hVCF inputs for `PHGLocalCon` construction
+- [ ] Sanitize edge-case sequence retrieval
+- [ ] Enhance AGC identification
+- [ ] Add `GRanges` for ref range filtering
+- [ ] Create initial methods for connecting to TileDB interface
+- [ ] Connect filter commands for TileDB
+- [ ] **End-goal**: TileDB to `PHGDataSet` object
 
 
 
