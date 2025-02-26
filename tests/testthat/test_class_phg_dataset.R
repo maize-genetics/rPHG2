@@ -125,15 +125,3 @@ test_that("findTaxaByHaplotype() general tests", {
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
