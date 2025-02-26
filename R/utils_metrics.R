@@ -326,3 +326,51 @@ readMetricFiles <- function(metricFiles) {
 }
 
 
+## ----
+# Core method for finding taxa by haplotype ID queries
+#
+# @param hapIds
+# A collection of unique haplotype IDs to query.
+# @param returnType
+# How do you want to results returned? Options are:
+# \itemize{
+#  \item \code{"list"} for a list of haplotype ID keys and \code{character}
+#        vectors of taxa IDs,
+#  \item \code{"tibble"} for a \code{tibble} dataframe object that contains
+#        haplotype ID, taxa IDs, and the number of taxa found for each
+#        queried haplotype ID
+# }
+findTaxaByHaplotypeFromPds <- function(pds, hapIds, returnType = c("list", "tibble")) {
+
+    hapMat <- readHapIds(pds)
+
+    rlang::arg_match(returnType)
+
+    # TODO
+    # rlang::warn("Unique haplotype IDs found")
+    # hapIds <- unique(hapIds)
+
+    res <- switch (returnType,
+        "list" = {
+            stats::setNames(lapply(hapIds, function(it) {
+                rownames(hapMat)[rowSums(hapMat == it) > 0]
+            }), hapIds)
+        },
+        "tibble" = {
+            hData <- lapply(hapIds, function(it) {
+                taxaFound <- rownames(hapMat)[rowSums(mat == it) > 0]
+                list(taxa = taxaFound, n = length(taxaFound))
+            })
+            tDf <- tibble::tibble(
+                hap_id = hapIds,
+                taxa   = lapply(hData, `[[`, "taxa"),  # Extract taxa list
+                n      = vapply(hData, `[[`, integer(1), "n")  # Type-safe extraction
+            )
+            return(tDf)
+        }
+    )
+
+    return(res)
+}
+
+

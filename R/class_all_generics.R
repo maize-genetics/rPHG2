@@ -69,6 +69,21 @@ setGeneric("filterSamples", function(object, ...) standardGeneric("filterSamples
 
 
 ## ----
+#' @title Find taxa by haplotype IDs
+#'
+#' @description
+#' Return taxa IDs that contain a provided haplotype ID in \code{rPHG2}-related
+#' datasets.
+#'
+#' @param object an \code{rPHG2} dataset
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname findTaxaByHaplotype
+#' @export
+setGeneric("findTaxaByHaplotype", function(object, ...) standardGeneric("findTaxaByHaplotype"))
+
+
+## ----
 #' @title Return host data
 #'
 #' @description

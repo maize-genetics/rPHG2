@@ -163,6 +163,32 @@ setMethod(
 
 
 ## ----
+#' @param hapIds
+#' A collection of unique haplotype IDs to query.
+#' @param returnType
+#' How do you want to results returned? Options are:
+#' \itemize{
+#   \item \code{"list"} for a list of haplotype ID keys and \code{character}
+#         vectors of taxa IDs,
+#   \item \code{"tibble"} for a \code{tibble} dataframe object that contains
+#         haplotype ID, taxa IDs, and the number of taxa found for each
+#         queried haplotype ID
+#  }
+#'
+#' @rdname findTaxaByHaplotype
+#' @docType methods
+#' @aliases findTaxabyHaplotype,PHGDataSet-method
+#' @export
+setMethod(
+    f = "findTaxaByHaplotype",
+    signature = signature(object = "PHGDataSet"),
+    definition = function(object, hapIds = NULL, returnType = c("list", "tibble")) {
+        return(findTaxaByHaplotypeFromPds(object, rrId, hapId, pad))
+    }
+)
+
+
+## ----
 #' @rdname host
 #' @export
 setMethod(

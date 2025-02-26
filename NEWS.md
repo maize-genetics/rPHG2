@@ -1,3 +1,9 @@
+## rPHG2 0.9
+* Added new generic function, `findTaxaByHaplotype()`
+  + Using `PHGDataSet` objects, users can return all given taxa from a
+    provided collection of haplotype IDs.
+
+
 ## rPHG2 0.8
 * Fixed missing IDs returned in `readHapIds()` method calls:
   + missing values (i.e., `"null"`) now return as `NA`s in the matrix object
