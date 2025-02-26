@@ -340,25 +340,29 @@ readMetricFiles <- function(metricFiles) {
 #        haplotype ID, taxa IDs, and the number of taxa found for each
 #        queried haplotype ID
 # }
-findTaxaByHaplotypeFromPds <- function(pds, hapIds, returnType = c("list", "tibble")) {
-
+findSamplesByHaplotypeFromPds <- function(pds, hapIds, returnType) {
     hapMat <- readHapIds(pds)
 
-    rlang::arg_match(returnType)
-
-    # TODO
-    # rlang::warn("Unique haplotype IDs found")
-    # hapIds <- unique(hapIds)
+    if (anyDuplicated(hapIds) != 0) {
+        rlang::warn("Duplicate haplotype IDs found")
+        hapIds <- unique(hapIds)
+    }
 
     res <- switch (returnType,
         "list" = {
-            stats::setNames(lapply(hapIds, function(it) {
+            lDf <- stats::setNames(lapply(hapIds, function(it) {
                 rownames(hapMat)[rowSums(hapMat == it) > 0]
             }), hapIds)
+
+            if (length(lDf) == 1 && length(lDf[[1]]) == 0) {
+                lDf <- NULL
+            }
+
+            return(lDf)
         },
         "tibble" = {
             hData <- lapply(hapIds, function(it) {
-                taxaFound <- rownames(hapMat)[rowSums(mat == it) > 0]
+                taxaFound <- rownames(hapMat)[rowSums(hapMat == it) > 0]
                 list(taxa = taxaFound, n = length(taxaFound))
             })
             tDf <- tibble::tibble(
@@ -366,6 +370,11 @@ findTaxaByHaplotypeFromPds <- function(pds, hapIds, returnType = c("list", "tibb
                 taxa   = lapply(hData, `[[`, "taxa"),  # Extract taxa list
                 n      = vapply(hData, `[[`, integer(1), "n")  # Type-safe extraction
             )
+
+            if (nrow(tDf) == 1 && length(tDf$taxa[[1]]) == 0) {
+                tDf <- NULL
+            }
+
             return(tDf)
         }
     )

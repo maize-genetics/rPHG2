@@ -164,26 +164,34 @@ setMethod(
 
 ## ----
 #' @param hapIds
-#' A collection of unique haplotype IDs to query.
+#' A collection of unique haplotype IDs to query. If more than one haplotype
+#' ID is to be queried, please use a \code{character} vector.
 #' @param returnType
 #' How do you want to results returned? Options are:
 #' \itemize{
-#   \item \code{"list"} for a list of haplotype ID keys and \code{character}
-#         vectors of taxa IDs,
-#   \item \code{"tibble"} for a \code{tibble} dataframe object that contains
-#         haplotype ID, taxa IDs, and the number of taxa found for each
-#         queried haplotype ID
-#  }
+#'   \item \code{"list"} for a list of haplotype ID keys and \code{character}
+#'         vectors of taxa IDs,
+#'   \item \code{"tibble"} for a \code{tibble} dataframe object that contains
+#'         haplotype ID, taxa IDs, and the number of taxa found for each
+#'         queried haplotype ID
+#' }
 #'
-#' @rdname findTaxaByHaplotype
+#' @rdname findSamplesByHaplotype
 #' @docType methods
 #' @aliases findTaxabyHaplotype,PHGDataSet-method
 #' @export
 setMethod(
-    f = "findTaxaByHaplotype",
+    f = "findSamplesByHaplotype",
     signature = signature(object = "PHGDataSet"),
     definition = function(object, hapIds = NULL, returnType = c("list", "tibble")) {
-        return(findTaxaByHaplotypeFromPds(object, rrId, hapId, pad))
+        returnType <- rlang::arg_match(returnType)
+        res <- findSamplesByHaplotypeFromPds(object, hapIds, returnType)
+
+        if (is.null(res)) {
+            rlang::warn("No results found for given query")
+        }
+
+        return(res)
     }
 )
 

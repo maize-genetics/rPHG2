@@ -78,9 +78,9 @@ setGeneric("filterSamples", function(object, ...) standardGeneric("filterSamples
 #' @param object an \code{rPHG2} dataset
 #' @param ... Additional arguments, for use in specific methods
 #'
-#' @rdname findTaxaByHaplotype
+#' @rdname findSamplesByHaplotype
 #' @export
-setGeneric("findTaxaByHaplotype", function(object, ...) standardGeneric("findTaxaByHaplotype"))
+setGeneric("findSamplesByHaplotype", function(object, ...) standardGeneric("findSamplesByHaplotype"))
 
 
 ## ----
@@ -519,15 +519,5 @@ setGeneric("readSequence", function(object, ...) standardGeneric("readSequence")
 #' @rdname serverInfo
 #' @export
 setGeneric("serverInfo", function(object, ...) standardGeneric("serverInfo"))
-
-
-## ----
-#' @importFrom GenomeInfoDb seqnames
-NULL
-
-
-## ----
-#' @importFrom GenomeInfoDb seqnames<-
-NULL
 
 

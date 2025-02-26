@@ -18,11 +18,7 @@ test_that("Ref range reading tests from JVM object", {
 
 
 test_that("Ref range reading tests from PHGDataSet", {
-    hVcfFileDir <- system.file("extdata", package = "rPHG2")
-    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
-    locCon      <- PHGLocalCon(hVcfFiles)
-    graph       <- buildHaplotypeGraph(locCon)
-    pds         <- readPhgDataSet(graph)
+    pds <- makeExamplePds()
 
     obsRefRanges <- readRefRanges(pds)
     obsRefRangesDf <- as.data.frame(obsRefRanges, char)

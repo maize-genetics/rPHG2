@@ -1,6 +1,6 @@
 ## rPHG2 0.9
-* Added new generic function, `findTaxaByHaplotype()`
-  + Using `PHGDataSet` objects, users can return all given taxa from a
+* Added new generic function, `findSamplesByHaplotype()`
+  + Using `PHGDataSet` objects, users can return all given samples from a
     provided collection of haplotype IDs.
 
 

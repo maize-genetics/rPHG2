@@ -724,8 +724,9 @@ setMethod(
 #' A \code{PHGMetrics} object
 #'
 #' @return A vector of unique contig IDs
+#' @importFrom GenomeInfoDb seqnames
 #' @importMethodsFrom GenomeInfoDb seqnames
-#' @export
+#' @exportMethod seqnames
 setMethod(
     f = "seqnames",
     signature = signature(x = "PHGMetrics"),
@@ -787,8 +788,9 @@ setMethod(
 #'   seqnames(met) <- newIds
 #' }
 #'
+#' @importFrom GenomeInfoDb seqnames<-
 #' @importMethodsFrom GenomeInfoDb seqnames<-
-#' @export
+#' @exportMethod seqnames<-
 setMethod(
     f = "seqnames<-",
     signature = signature(x = "PHGMetrics"),

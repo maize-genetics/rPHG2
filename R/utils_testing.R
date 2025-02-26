@@ -177,3 +177,20 @@ makeAgc <- function(fastas, agcId) {
 }
 
 
+## ----
+# Make example PHGDataSet object
+#
+# @param dbUri
+# Should a DB URI be added to local connection constructor?
+makeExamplePds <- function(dbUri = NULL) {
+    hVcfFileDir <- system.file("extdata", package = "rPHG2")
+    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
+    locCon      <- PHGLocalCon(hVcfFiles, dbUri = dbUri)
+
+    graph <- buildHaplotypeGraph(locCon)
+    pds   <- readPhgDataSet(graph)
+
+    return(pds)
+}
+
+
