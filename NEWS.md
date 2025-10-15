@@ -2,6 +2,9 @@
 * Added new generic function, `findSamplesByHaplotype()`
   + Using `PHGDataSet` objects, users can return all given samples from a
     provided collection of haplotype IDs.
+* Update `seqnames()` generic to `seqNames()`:
+  + This is to avoid naming collisions in `GenomeInfoDb`
+* Fixes to possible errors related to `ggplot2` v4.0
 
 
 ## rPHG2 0.8

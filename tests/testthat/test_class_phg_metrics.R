@@ -120,7 +120,7 @@ test_that("PHGMetrics general metric ID return and update tests", {
 
     # seqnames
     expect_equal(
-        object = seqnames(metBase),
+        object = seqNames(metBase),
         expected = c(
             "1", "2", "3",
             "Vu01", "Vu02", "Vu03", "Vu04", "Vu05",
@@ -130,13 +130,13 @@ test_that("PHGMetrics general metric ID return and update tests", {
     )
 
     metTest <- metBase
-    expect_error(object = seqnames(metTest) <- data.frame(old_id = "error"))
-    expect_error(object = seqnames(metTest) <- c("another", "error"))
-    seqnames(metTest) <- data.frame(
+    expect_error(object = seqNames(metTest) <- data.frame(old_id = "error"))
+    expect_error(object = seqNames(metTest) <- c("another", "error"))
+    seqNames(metTest) <- data.frame(
         old_id = c("Vu01", "Vu03", "1"),
         new_id = c("CHR_NEW_01", "CHR_NEW_03", "ALGN_CHR_01")
     )
-    expect_true(all(c("CHR_NEW_01", "CHR_NEW_03", "ALGN_CHR_01") %in% seqnames(metTest)))
+    expect_true(all(c("CHR_NEW_01", "CHR_NEW_03", "ALGN_CHR_01") %in% seqNames(metTest)))
 })
 
 

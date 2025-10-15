@@ -724,14 +724,12 @@ setMethod(
 #' A \code{PHGMetrics} object
 #'
 #' @return A vector of unique contig IDs
-#' @importFrom GenomeInfoDb seqnames
-#' @importMethodsFrom GenomeInfoDb seqnames
-#' @exportMethod seqnames
+#' @exportMethod seqNames
 setMethod(
-    f = "seqnames",
-    signature = signature(x = "PHGMetrics"),
-    definition = function(x) {
-        tables <- metricsTable(x)
+    f = "seqNames",
+    signature = signature(object = "PHGMetrics"),
+    definition = function(object) {
+        tables <- metricsTable(object)
 
         seqIds <- unlist(
             lapply(tables, function(df) {
@@ -785,46 +783,43 @@ setMethod(
 #'   )
 #'
 #'   # Assume 'met' is a PHGMetrics object
-#'   seqnames(met) <- newIds
+#'   seqNames(met) <- newIds
 #' }
 #'
-#' @importFrom GenomeInfoDb seqnames<-
-#' @importMethodsFrom GenomeInfoDb seqnames<-
-#' @exportMethod seqnames<-
+#' @exportMethod seqNames<-
 setMethod(
-    f = "seqnames<-",
-    signature = signature(x = "PHGMetrics"),
-    definition = function(x, value) {
-        if (is(value, "data.frame")) {
-            validIds <- c("old_id", "new_id")
-            if (any(!validIds %in% colnames(value))) {
-                rlang::abort("'data.frame' object does not contain correct IDs ('old_id', 'new_id')")
-            }
-        } else {
-            rlang::abort("Only 'data.frame' objects are currently allowed")
+    "seqNames<-",
+    signature(object = "PHGMetrics", value = "data.frame"),
+    function(object, value) {
+        # validate input
+        need <- c("old_id", "new_id")
+        if (any(!need %in% colnames(value))) {
+            rlang::abort("'value' must have columns 'old_id' and 'new_id'")
         }
 
-        # Helper function to replace IDs
-        replaceIds <- function(x, slot_name, field, value) {
-            metrics <- methods::slot(x, slot_name)
-            if (is.null(metrics) || length(metrics) == 0) return()
-            len <- if (is(metrics, "data.frame")) 1 else length(metrics)
-            for (i in seq_len(len)) {
-                oldIds <- as.character(metrics[[i]][[field]])
-                replacements <- stats::setNames(value$new_id, value$old_id)
-                newIds <- ifelse(oldIds %in% names(replacements), replacements[oldIds], oldIds)
-                metrics[[i]][[field]] <- newIds
+        repl <- stats::setNames(as.character(value$new_id), as.character(value$old_id))
+
+        # map helper for a data.frame or list of data.frames
+        mapIds <- function(obj, field) {
+            if (is.null(obj) || length(obj) == 0) return(obj)
+            if (is.data.frame(obj)) {
+                cur <- as.character(obj[[field]])
+                obj[[field]] <- ifelse(cur %in% names(repl), repl[cur], cur)
+                return(obj)
+            } else {
+                for (i in seq_along(obj)) {
+                    cur <- as.character(obj[[i]][[field]])
+                    obj[[i]][[field]] <- ifelse(cur %in% names(repl), repl[cur], cur)
+                }
+                return(obj)
             }
-            methods::slot(x, slot_name) <<- metrics
         }
 
-        # Replace IDs in metricAlign if it's not NULL
-        replaceIds(x, "metricAlign", "query_chr", value)
+        # update slots (no superassignment)
+        object@metricAlign <- mapIds(object@metricAlign, "query_chr")
+        object@metricGvcf  <- mapIds(object@metricGvcf,  "chrom")
 
-        # Replace IDs in metricGvcf if it's not NULL
-        replaceIds(x, "metricGvcf", "chrom", value)
-
-        return(x)
+        object
     }
 )
 
