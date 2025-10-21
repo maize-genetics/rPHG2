@@ -720,7 +720,7 @@ setMethod(
 #' @title
 #' Return all contig IDs from metrics object
 #'
-#' @param x
+#' @param object
 #' A \code{PHGMetrics} object
 #'
 #' @return A vector of unique contig IDs
@@ -760,7 +760,7 @@ setMethod(
 #' It ensures that both `metricAlign` and `metricGvcf` fields are updated
 #' with the new sequence names provided in the `value` data frame.
 #'
-#' @param x
+#' @param object
 #' A `PHGMetrics` object.
 #' @param value
 #' A \code{data.frame} object containing `old_id` and `new_id` columns for ID

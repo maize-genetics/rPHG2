@@ -13,7 +13,9 @@ seqNames(object, ...) <- value
 \item{object}{an \code{rPHG2} data object}
 
 \item{...}{Additional arguments, for use in specific methods}
+
+\item{value}{New sequence IDs}
 }
 \description{
-Get reference range data from a rPHG dataset
+Returns sequence names from an \code{rPHG2} data object
 }

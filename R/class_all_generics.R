@@ -525,9 +525,10 @@ setGeneric("serverInfo", function(object, ...) standardGeneric("serverInfo"))
 #' @title Return sequence IDs
 #'
 #' @description
-#' Get reference range data from a rPHG dataset
+#' Returns sequence names from an \code{rPHG2} data object
 #'
 #' @param object an \code{rPHG2} data object
+#' @param value New sequence IDs
 #' @param ... Additional arguments, for use in specific methods
 #'
 #' @rdname seqNames
@@ -536,5 +537,5 @@ setGeneric("seqNames", function(object, ...) standardGeneric("seqNames"))
 
 #' @rdname seqNames
 #' @export
-setGeneric("seqNames<-", function(object, value, ...) standardGeneric("seqNames<-"))
+setGeneric("seqNames<-", function(object, ..., value) standardGeneric("seqNames<-"))
 

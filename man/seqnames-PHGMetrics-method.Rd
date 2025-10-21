@@ -7,7 +7,7 @@
 \S4method{seqNames}{PHGMetrics}(object)
 }
 \arguments{
-\item{x}{A \code{PHGMetrics} object}
+\item{object}{A \code{PHGMetrics} object}
 }
 \value{
 A vector of unique contig IDs
