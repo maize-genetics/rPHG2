@@ -130,10 +130,16 @@ Since this is a connection to a server, a URL path instead of a local file
 path will be needed. We will use the `PHGServerCon()` constructor function
 to create a `PHGServerCon` object:
 
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval=FALSE, echo=TRUE}
 srvCon <- "phg.maizegdb.org" |> PHGServerCon()
 
 srvCon
+```
+
+```
+## A PHGServerCon connection object
+##  ❯ Host............: phg.maizegdb.org
+##  ❯ Server Status...: 200 (OK)
 ```
 
 In the above example, we have made the assumptions that this URL:
