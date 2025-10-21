@@ -5,6 +5,7 @@
 * Update `seqnames()` generic to `seqNames()`:
   + This is to avoid naming collisions in `GenomeInfoDb`
 * Fixes to possible errors related to `ggplot2` v4.0
+  + More info can be found [here](https://tidyverse.org/blog/2025/09/ggplot2-4-0-0/#adopting-s7).
 
 
 ## rPHG2 0.8
