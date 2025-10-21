@@ -147,7 +147,7 @@ testthat::test_that("JVM init checker works", {
 
 
 ## Initialize JVM and add PHGv2 JARs to classpath ----
-initPhg(phgLibPath)
+rPHG2::initPhg(phgLibPath)
 
 
 ## Test *POST*-JVM-initialization ----

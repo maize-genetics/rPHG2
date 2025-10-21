@@ -69,6 +69,21 @@ setGeneric("filterSamples", function(object, ...) standardGeneric("filterSamples
 
 
 ## ----
+#' @title Find taxa by haplotype IDs
+#'
+#' @description
+#' Return taxa IDs that contain a provided haplotype ID in \code{rPHG2}-related
+#' datasets.
+#'
+#' @param object an \code{rPHG2} dataset
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname findSamplesByHaplotype
+#' @export
+setGeneric("findSamplesByHaplotype", function(object, ...) standardGeneric("findSamplesByHaplotype"))
+
+
+## ----
 #' @title Return host data
 #'
 #' @description
@@ -507,12 +522,20 @@ setGeneric("serverInfo", function(object, ...) standardGeneric("serverInfo"))
 
 
 ## ----
-#' @importFrom GenomeInfoDb seqnames
-NULL
+#' @title Return sequence IDs
+#'
+#' @description
+#' Returns sequence names from an \code{rPHG2} data object
+#'
+#' @param object an \code{rPHG2} data object
+#' @param value New sequence IDs
+#' @param ... Additional arguments, for use in specific methods
+#'
+#' @rdname seqNames
+#' @export
+setGeneric("seqNames", function(object, ...) standardGeneric("seqNames"))
 
-
-## ----
-#' @importFrom GenomeInfoDb seqnames<-
-NULL
-
+#' @rdname seqNames
+#' @export
+setGeneric("seqNames<-", function(object, ..., value) standardGeneric("seqNames<-"))
 

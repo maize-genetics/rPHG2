@@ -1,10 +1,5 @@
 test_that("PHGDataSet class construction tests", {
-    hVcfFileDir <- system.file("extdata", package = "rPHG2")
-    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
-    locCon      <- PHGLocalCon(hVcfFiles)
-
-    graph <- buildHaplotypeGraph(locCon)
-    pds   <- readPhgDataSet(graph)
+    pds <- makeExamplePds()
     locConOutput <- utils::capture.output(pds)
 
     expect_equal(length(locConOutput), 6)
@@ -93,6 +88,40 @@ test_that("PHGDataSet class construction tests", {
     expect_error(plotHaploCounts(pds, gr = mtcars))
     expect_error(plotHaploCounts(pds, gr = grQueryError))
     expect_error(plotHaploCounts(pds, geom = "x"))
+})
+
+
+test_that("findTaxaByHaplotype() general tests", {
+    pds <- rPHG2:::makeExamplePds()
+
+    q1 <- "8f2731708b30e1c402c6d6a69a983fe4"
+    q2 <- c(
+        "8f2731708b30e1c402c6d6a69a983fe4",
+        "a593b1c67f90cd58523762c11773dce3",
+        "50044914d5111c5b5ec58c9d720e3b2d"
+    )
+    q3 <- c(
+        "8f2731708b30e1c402c6d6a69a983fe4",
+        "a593b1c67f90cd58523762c11773dce3",
+        "50044914d5111c5b5ec58c9d720e3b2d",
+        "x"
+    )
+    q4 <- "x"
+
+    expect_true(is(findSamplesByHaplotype(pds, q1), "list"))
+    expect_true(is(findSamplesByHaplotype(pds, q1, "tibble"), "tbl_df"))
+    expect_equal(length(findSamplesByHaplotype(pds, q1)), 1)
+    expect_equal(nrow(findSamplesByHaplotype(pds, q1, "tibble")), 1)
+    expect_equal(length(findSamplesByHaplotype(pds, q2)), 3)
+    expect_equal(nrow(findSamplesByHaplotype(pds, q2, "tibble")), 3)
+    expect_equal(length(findSamplesByHaplotype(pds, q3)), 4)
+    expect_equal(nrow(findSamplesByHaplotype(pds, q3, "tibble")), 4)
+    expect_warning(findSamplesByHaplotype(pds, q4))
+    expect_true(is.null(suppressWarnings(findSamplesByHaplotype(pds, q4))))
+    expect_warning(findSamplesByHaplotype(pds, q4, "tibble"))
+    expect_true(is.null(suppressWarnings(findSamplesByHaplotype(pds, q4, "tibble"))))
+
+    expect_equal(findSamplesByHaplotype(pds, q3, "tibble")$n, c(1, 1, 1, 0))
 })
 
 

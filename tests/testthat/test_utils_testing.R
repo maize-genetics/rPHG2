@@ -28,6 +28,11 @@ test_that("createMockCondaInstallation creates expected structure", {
     expect_true(dir.exists(file.path(testEnvDir, "lib")))
     expect_true(dir.exists(file.path(testEnvDir, "include")))
     expect_true(dir.exists(file.path(testEnvDir, "share")))
+
+    # Check that makeExamplePds returns correct type
+    expect_true(is(makeExamplePds(), "PHGDataSet"))
+    pdsDb <- makeExamplePds(phgLibDir)
+    expect_equal(host(pdsDb), normalizePath(phgLibDir))
 })
 
 

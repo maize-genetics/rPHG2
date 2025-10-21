@@ -1,11 +1,8 @@
 test_that("readSequenceFromPds works as expected", {
-    hVcfFileDir <- system.file("extdata", package = "rPHG2")
-    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
-    locCon      <- PHGLocalCon(hVcfFiles, dbUri = phgLibDir)
-    graph       <- buildHaplotypeGraph(locCon)
-    pds         <- readPhgDataSet(graph)
-    hapIds      <- readHapIds(pds)
+    pds    <- makeExamplePds(phgLibDir)
+    hapIds <- readHapIds(pds)
 
+    message("AGC Path: ", agcVanillaPath)
     options("phgv2_agc_path" = agcVanillaPath)
 
     testRefRange <- colnames(hapIds)[1]

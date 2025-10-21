@@ -110,18 +110,14 @@ test_that("agcCore works as expected", {
 
 
 test_that("genHapIdAgcQuery works as expected", {
-    hVcfFileDir <- system.file("extdata", package = "rPHG2")
-    hVcfFiles   <- list.files(hVcfFileDir, pattern = ".h.vcf$", full.names = TRUE)
-    locCon      <- PHGLocalCon(hVcfFiles)
-    graph       <- buildHaplotypeGraph(locCon)
-    pds         <- readPhgDataSet(graph)
-    hapIds      <- readHapIds(pds)
-    hQuery      <- hapIds[1, 1]
-    hSample     <- gsub("_G1", "", rownames(hapIds)[1])
-    hRefRng     <- colnames(hapIds)[1]
-    hContig     <- gsub(":.*$", "", hRefRng)
-    hStart      <- as.numeric(gsub("^.:|-.*$", "", hRefRng))
-    hEnd        <- as.numeric(gsub("^.*-", "", hRefRng))
+    pds     <- makeExamplePds()
+    hapIds  <- readHapIds(pds)
+    hQuery  <- hapIds[1, 1]
+    hSample <- gsub("_G1", "", rownames(hapIds)[1])
+    hRefRng <- colnames(hapIds)[1]
+    hContig <- gsub(":.*$", "", hRefRng)
+    hStart  <- as.numeric(gsub("^.:|-.*$", "", hRefRng))
+    hEnd    <- as.numeric(gsub("^.*-", "", hRefRng))
 
     expRes <- paste0(hContig, "@", hSample, ":", hStart - 1, "-", hEnd - 1)
     obsRes <- rPHG2:::genHapIdAgcQuery(pds, hQuery)

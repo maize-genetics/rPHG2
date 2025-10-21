@@ -181,7 +181,7 @@ metData |> metricsIds()
 
 ### Update chromosome IDs
 To update pre-existing chromosome IDs found within a `PHGMetrics` object, we
-can use the `seqnames()` in conjunction with the assignment (`<-`) operator
+can use the `seqNames()` in conjunction with the assignment (`<-`) operator
 by passing a `data.frame` object that contains two columns:
 
 * `old_id` - old chromosome IDs already present in the object
@@ -194,11 +194,11 @@ object:
 # Make copy for example purposes
 metNew <- metData
 
-metNew |> seqnames()
+metNew |> seqNames()
 ```
 
 To update, simply pass the `data.frame` object with the old and new ID maps
-to the `seqnames()` function:
+to the `seqNames()` function:
 
 ```{r, echo=TRUE, eval=TRUE}
 keyFile <- data.frame(
@@ -206,9 +206,9 @@ keyFile <- data.frame(
     new_id = c("CHR_01", "CHR_03")
 )
 
-seqnames(metNew) <- keyFile
+seqNames(metNew) <- keyFile
 
-metNew |> seqnames()
+metNew |> seqNames()
 ```
 
 As you can see, all instances of `"Vu01"` and `"Vu03"` have been globally
