@@ -8,9 +8,9 @@
 <title>Load and visualize PHG metrics • rPHG2</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Barlow-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Roboto_Mono-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Oswald-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Barlow-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Roboto_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Oswald-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -335,7 +335,7 @@ vector:</p>
 <h3 id="update-chromosome-ids">Update chromosome IDs<a class="anchor" aria-label="anchor" href="#update-chromosome-ids"></a>
 </h3>
 <p>To update pre-existing chromosome IDs found within a
-<code>PHGMetrics</code> object, we can use the <code>seqnames()</code>
+<code>PHGMetrics</code> object, we can use the <code><a href="../reference/seqNames.html">seqNames()</a></code>
 in conjunction with the assignment (<code>&lt;-</code>) operator by
 passing a <code>data.frame</code> object that contains two columns:</p>
 <ul>
@@ -351,22 +351,22 @@ from the object:</p>
 <code class="sourceCode R"><span><span class="co"># Make copy for example purposes</span></span>
 <span><span class="va">metNew</span> <span class="op">&lt;-</span> <span class="va">metData</span></span>
 <span></span>
-<span><span class="va">metNew</span> <span class="op">|&gt;</span> <span class="fu">seqnames</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">metNew</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/seqNames.html">seqNames</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "1"          "2"          "3"          "Vu01"       "Vu02"      </span></span>
 <span><span class="co">##  [6] "Vu03"       "Vu04"       "Vu05"       "Vu06"       "Vu07"      </span></span>
 <span><span class="co">## [11] "Vu08"       "Vu09"       "Vu10"       "Vu11"       "contig_206"</span></span>
 <span><span class="co">## [16] "contig_178"</span></span></code></pre>
 <p>To update, simply pass the <code>data.frame</code> object with the
-old and new ID maps to the <code>seqnames()</code> function:</p>
+old and new ID maps to the <code><a href="../reference/seqNames.html">seqNames()</a></code> function:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">keyFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    old_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vu01"</span>, <span class="st">"Vu03"</span><span class="op">)</span>,</span>
 <span>    new_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CHR_01"</span>, <span class="st">"CHR_03"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">seqnames</span><span class="op">(</span><span class="va">metNew</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">keyFile</span></span>
+<span><span class="fu"><a href="../reference/seqNames.html">seqNames</a></span><span class="op">(</span><span class="va">metNew</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">keyFile</span></span>
 <span></span>
-<span><span class="va">metNew</span> <span class="op">|&gt;</span> <span class="fu">seqnames</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">metNew</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/seqNames.html">seqNames</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "1"          "2"          "3"          "CHR_01"     "Vu02"      </span></span>
 <span><span class="co">##  [6] "CHR_03"     "Vu04"       "Vu05"       "Vu06"       "Vu07"      </span></span>
 <span><span class="co">## [11] "Vu08"       "Vu09"       "Vu10"       "Vu11"       "contig_206"</span></span>
@@ -729,12 +729,44 @@ one specified color, you can use the <code>colorOverride</code>
 parameter:</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metData</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotGvcf.html">plotGvcf</a></span><span class="op">(</span>colorOverride <span class="op">=</span> <span class="st">"#73beff"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span></code></pre>
 <p><img src="metrics_files/figure-html/unnamed-chunk-28-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This parameter can also accept R’s default color IDs (i.e., values
 from the <code>grDevices</code> <code><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colors()</a></code> /
 <code><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colours()</a></code> function):</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metData</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotGvcf.html">plotGvcf</a></span><span class="op">(</span>colorOverride <span class="op">=</span> <span class="st">"forestgreen"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span>
+<span><span class="co">## Ignoring unknown labels:</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">fill</span> : <span style="color: #0000BB;">"Sample"</span></span></span></code></pre>
 <p><img src="metrics_files/figure-html/unnamed-chunk-29-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
@@ -748,7 +780,7 @@ the internal sample order is defined as follows:</p>
 <p>…if I want to reorder this (e.g., <code>Xb03</code>,
 <code>Xb01</code>, <code>Xb02</code>), I can use the following
 example:</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newOrder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Xb03"</span>, <span class="st">"Xb01"</span>, <span class="st">"Xb02"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">metData</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotGvcf.html">plotGvcf</a></span><span class="op">(</span>sampleOrder <span class="op">=</span> <span class="va">newOrder</span><span class="op">)</span></span></code></pre></div>
@@ -757,7 +789,7 @@ example:</p>
 If I want to subset the plot to only show values for samples
 <code>Xb03</code> and <code>Xb01</code> and keep them in that order, I
 can specify the vector as follows:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newOrder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Xb03"</span>, <span class="st">"Xb01"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">metData</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plotGvcf.html">plotGvcf</a></span><span class="op">(</span>sampleOrder <span class="op">=</span> <span class="va">newOrder</span><span class="op">)</span></span></code></pre></div>
@@ -776,7 +808,7 @@ can specify the vector as follows:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

@@ -29,6 +29,7 @@
 <url><loc>https://rphg2.maizegenetics.net/reference/dot-DollarNames.PHGMetrics.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/filterRefRanges.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/filterSamples.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/findSamplesByHaplotype.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/grapes-T-grapes.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/hVcfFiles.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/host.html</loc></url>
@@ -63,8 +64,9 @@
 <url><loc>https://rphg2.maizegenetics.net/reference/readRefRanges.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/readSamples.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/readSequence.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/seqNames-set-PHGMetrics-data.frame-method.html</loc></url>
+<url><loc>https://rphg2.maizegenetics.net/reference/seqNames.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/seqnames-PHGMetrics-method.html</loc></url>
-<url><loc>https://rphg2.maizegenetics.net/reference/seqnames-set-PHGMetrics-method.html</loc></url>
 <url><loc>https://rphg2.maizegenetics.net/reference/serverInfo.html</loc></url>
 </urlset>
 

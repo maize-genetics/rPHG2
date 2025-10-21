@@ -8,9 +8,9 @@
 <title>Introduction to rPHG2 • rPHG2</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Barlow-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Roboto_Mono-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Oswald-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Barlow-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Roboto_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Oswald-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rPHG2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,9 +168,9 @@ function to create a <code>PHGServerCon</code> object:</p>
 <code class="sourceCode R"><span><span class="va">srvCon</span> <span class="op">&lt;-</span> <span class="st">"phg.maizegdb.org"</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/PHGServerCon.html">PHGServerCon</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">srvCon</span></span></code></pre></div>
-<pre><code><span><span class="co">## A <span style="font-weight: bold;">PHGServerCon</span> connection object</span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Host............: phg.maizegdb.org</span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Server Status...: 200 (<span style="color: #00BB00; font-weight: bold;">OK</span>)</span></span></code></pre>
+<pre><code><span><span class="co">## A PHGServerCon connection object</span></span>
+<span><span class="co">##  ❯ Host............: phg.maizegdb.org</span></span>
+<span><span class="co">##  ❯ Server Status...: 200 (OK)</span></span></code></pre>
 <p>In the above example, we have made the assumptions that this URL:</p>
 <ol style="list-style-type: decimal">
 <li>Uses a secure transfer protocol (<a href="https://en.wikipedia.org/wiki/HTTPS" class="external-link"><code>https</code></a>)</li>
@@ -223,7 +223,7 @@ input:</p>
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="va">localCon</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/buildHaplotypeGraph.html">buildHaplotypeGraph</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">graph</span></span></code></pre></div>
-<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">2e32ccc5</span></span></span>
+<pre><code><span><span class="co">## A <span style="font-weight: bold;">HaplotypeGraph</span> object @ <span style="color: #0000BB; font-weight: bold;">68f4865</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of ref ranges....: <span style="font-weight: bold;">38</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of samples.......: <span style="font-weight: bold;">2</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of chromosomes...: <span style="font-weight: bold;">2</span></span></span></code></pre>
@@ -233,7 +233,7 @@ class that contains a pointer object where we can direct data from Java
 to R:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/javaRefObj.html">javaRefObj</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@2e32ccc5}"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "Java-Object{net.maizegenetics.phgv2.api.HaplotypeGraph@68f4865}"</span></span></code></pre>
 <div class="section level3">
 <h3 id="returning-version-and-memory-values">Returning version and memory values<a class="anchor" aria-label="anchor" href="#returning-version-and-memory-values"></a>
 </h3>
@@ -247,15 +247,15 @@ a instance of a <code>JvmStats</code> object.</p>
 <span></span>
 <span><span class="va">javaStats</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="font-weight: bold;">General Stats:</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of JARs......: <span style="font-weight: bold;">228</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Java version...: <span style="font-weight: bold;">17.0.13</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> PHG version....: <span style="font-weight: bold;">2.4.39.194</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> # of JARs......: <span style="font-weight: bold;">205</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> Java version...: <span style="font-weight: bold;">21.0.8</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> PHG version....: <span style="font-weight: bold;">2.4.70.225</span></span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="font-weight: bold;">Memory Stats (GB):</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> Max............: <span style="font-weight: bold;">0.5</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> Total..........: <span style="font-weight: bold;">0.246</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Free...........: <span style="font-weight: bold;">0.223</span></span></span>
-<span><span class="co">##  <span style="color: #00BB00;">❯</span> Allocated......: <span style="font-weight: bold;">0.023</span></span></span></code></pre>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> Free...........: <span style="font-weight: bold;">0.202</span></span></span>
+<span><span class="co">##  <span style="color: #00BB00;">❯</span> Allocated......: <span style="font-weight: bold;">0.044</span></span></span></code></pre>
 <p>This object contains several values:</p>
 <ul>
 <li>Total number of PHGv2 JAR files added to the class path</li>
@@ -424,7 +424,7 @@ specific reference range and/or sample(s). We can
 <span><span class="co">## ---</span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of hap IDs.......: <span style="font-weight: bold;">76</span></span></span>
 <span><span class="co">##  <span style="color: #00BB00;">❯</span> # of asm regions...: <span style="font-weight: bold;">76</span></span></span></code></pre>
-<p><img src="img%2Ffiltering%2Fmat_01.svg" fig.align="center"></p>
+<p><img src="img/filtering/mat_01.svg" fig.align="center"></p>
 <p>…where each individual colored cell is a haplotype ID.</p>
 <div class="section level3">
 <h3 id="filter-by-sample">Filter by sample<a class="anchor" aria-label="anchor" href="#filter-by-sample"></a>
@@ -442,7 +442,7 @@ following:</p>
 </ul>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/filterSamples.html">filterSamples</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B73"</span>, <span class="st">"Ky21"</span>, <span class="st">"Mo17"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="img%2Ffiltering%2Fmat_02.svg" fig.align="center"></p>
+<p><img src="img/filtering/mat_02.svg" fig.align="center"></p>
 <p><strong>Note</strong>: If samples are added to the filter collection,
 but are not present in the data, they will be discarded. If
 <strong>no</strong> samples are found, an exception will be thrown
@@ -489,7 +489,7 @@ to the filter method:</p>
 <span></span>
 <span></span>
 <span><span class="va">phgDs</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/filterRefRanges.html">filterRefRanges</a></span><span class="op">(</span><span class="va">gr</span><span class="op">)</span></span></code></pre></div>
-<p><img src="img%2Ffiltering%2Fmat_03.svg"></p>
+<p><img src="img/filtering/mat_03.svg"></p>
 </div>
 <div class="section level3">
 <h3 id="chaining-methods">Chaining methods<a class="anchor" aria-label="anchor" href="#chaining-methods"></a>
@@ -508,7 +508,7 @@ to the filter method:</p>
 <span><span class="va">phgDs</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/filterSamples.html">filterSamples</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B73"</span>, <span class="st">"Ky21"</span>, <span class="st">"Mo17"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/filterRefRanges.html">filterRefRanges</a></span><span class="op">(</span><span class="va">gr</span><span class="op">)</span></span></code></pre></div>
-<p><img src="img%2Ffiltering%2Fmat_04.svg"></p>
+<p><img src="img/filtering/mat_04.svg"></p>
 </div>
 </div>
 <div class="section level2">
@@ -841,7 +841,7 @@ reference range found in our example hVCF data:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
